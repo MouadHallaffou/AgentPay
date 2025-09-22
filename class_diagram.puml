@@ -1,0 +1,96 @@
+@startuml
+
+' =====================
+' ENUMS
+' =====================
+enum TypeAgent {
+  OUVRIER
+  RESPONSABLE_DEPARTEMENT
+  DIRECTEUR
+  STAGIAIRE
+}
+
+enum TypePaiement {
+  SALAIRE
+  PRIME
+  BONUS
+  INDEMNITE
+}
+
+' =====================
+' CLASSES
+' =====================
+abstract class Personne {
+  - nom : String
+  - prenom : String
+  - email : String
+  - motDePasse : String
+
+  + authentifier() : boolean
+  + getContact() : String
+}
+
+class Agent extends Personne {
+  - idAgent : Long
+  - typeAgent : TypeAgent
+  - departement : Departement
+  - paiements : List<Paiement>
+
+  + ajouterPaiement(p : Paiement) : void
+  + getHistorique() : List<Paiement>
+  + totalPaiements() : BigDecimal
+  + filtrerPaiements(...) : List<Paiement>
+}
+
+class Departement {
+  - idDepartement : Long
+  - nom : String
+  - responsable : Agent
+  - agents : List<Agent>
+
+  + ajouterAgent(a : Agent) : void
+  + supprimerAgent(id : Long) : void
+  + totalDepartement() : BigDecimal
+  + moyenneSalaire() : BigDecimal
+}
+
+abstract class Paiement {
+  - idPaiement : Long
+  - type : TypePaiement
+  - montant : BigDecimal
+  - date : LocalDateTime
+  - motif : String
+  - agent : Agent
+
+  + isValide() : boolean
+  + toSumary() : String
+}
+
+class PaiementBonus extends Paiement {
+  - conditionValidee : boolean
+}
+
+class PaiementIndemnite extends Paiement {
+  - conditionValidee : boolean
+}
+
+' =====================
+' RELATIONS
+' =====================
+
+' Un département contient plusieurs agents
+Departement "1" -- "0..*" Agent : contient >
+
+' Un agent appartient à exactement 1 département
+Agent "1" -- "1" Departement : appartient à >
+
+' Un agent a plusieurs paiements
+Agent "1" -- "0..*" Paiement : reçoit >
+
+' Un paiement appartient à un seul agent
+Paiement "1" -- "1" Agent : lié à >
+
+' Un département a exactement 1 responsable
+Departement "1" -- "1" Agent : responsable >
+
+@enduml
