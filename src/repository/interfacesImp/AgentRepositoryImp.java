@@ -2,6 +2,7 @@ package repository.interfacesImp;
 
 import model.Agent;
 import repository.interfaces.AgentRepository;
+import utils.SQLQueries;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,14 +12,15 @@ import config.ConfigConnection;
 
 public class AgentRepositoryImp implements AgentRepository {
     private final Connection connection;
+    
     public AgentRepositoryImp() {
         this.connection = ConfigConnection.getConnection();
     }
 
     @Override
     public Optional<Agent> findByEmail(String email) {
-        String query = "SELECT * FROM agent WHERE email = ?";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        // String query = "SELECT * FROM agent WHERE email = ?";
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.FIND_AGENT_BY_EMAIL)) {
             statement.setString(1, email);
             var resultSet = statement.executeQuery();
             if (resultSet.next()) {
@@ -41,7 +43,7 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public void save(Agent agent) {
+    public void insert(Agent agent) {
 
     }
 
