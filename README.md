@@ -45,6 +45,6 @@ src/
  │    ├─ DepartementView.java
  │    └─ PaiementView.java
  │
- └─ dao/
+ └─ config/
       └─ DBConnection.java  # Connexion JDBC 
 ```

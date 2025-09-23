@@ -2,7 +2,7 @@ package repository.interfaces;
 
 import model.Agent;
 
-public interface IDepartement {
+public interface DepartementRepository {
     void ajouteAgent(Agent agent);
     void supprimmeAgent(Agent agentID);
     int totalDepartement();

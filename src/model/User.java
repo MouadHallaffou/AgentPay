@@ -1,16 +1,16 @@
 package model;
 
-public abstract class Personne {
+public abstract class User {
     protected int userID;
     protected String firstName;
     protected String lastName;
     protected String email;
     protected String password;
 
-    public Personne() {
+    public User() {
     }
 
-    public Personne(int userID, String firstName, String lastName, String email, String password) {
+    public User(int userID, String firstName, String lastName, String email, String password) {
         this.userID = userID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -58,4 +58,20 @@ public abstract class Personne {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "userID=" + userID +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    public abstract boolean authentifier(String email, String password);
+
+    public String getContact(){
+        return firstName + " " + lastName + " | " + email;
+    }
 }
