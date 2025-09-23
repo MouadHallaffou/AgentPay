@@ -69,7 +69,7 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public List<Agent> findByDepartement(Long idDepartement) {
+    public List<Agent> findByDepartement(int departementID) {
         return List.of();
     }
 }

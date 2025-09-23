@@ -1,4 +1,4 @@
-package service;
+package service.menu;
 
 import model.Agent;
 
