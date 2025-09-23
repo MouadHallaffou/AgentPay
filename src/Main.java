@@ -1,4 +1,7 @@
 import config.ConfigConnection;
+import controller.AuthController;
+import repository.interfaces.AgentRepository;
+import repository.interfacesImp.AgentRepositoryImp;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,6 +22,12 @@ public class Main {
         } catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
         }
+
+        AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
+        AuthController authController = new AuthController(new service.AuthService(agentRepositoryImp));
+        authController.authenticate("","");
+
+        
 
     }
 }

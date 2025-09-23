@@ -36,23 +36,23 @@ public class ConfigConnection {
         }
     }
 
-    public Connection getConnection(){
-        return connection;
+    public static Connection getConnection(){
+        return instance.connection;
     }
 
     public static ConfigConnection getInstance() throws SQLException {
         if (instance == null){
             instance = new ConfigConnection();
-        } else if (instance.getConnection().isClosed()) {
+        } else if (instance.connection.isClosed()) {
             instance = new ConfigConnection();
         }
         return instance;
     }
 
     public static void closeConnection(){
-        if (instance != null && instance.getConnection() != null){
+        if (instance != null && instance.connection != null){
             try {
-                instance.getConnection().close();
+                instance.connection.close();
                 System.out.println("connexion ferme !");
             } catch (SQLException e) {
                 System.out.println("erreur lors de la fermeture de connexion" + e.getMessage());
