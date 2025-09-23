@@ -1,10 +1,13 @@
 package repository.interfaces;
 
-import model.Agent;
+import model.Departement;
+import java.util.List;
+import java.util.Optional;
 
 public interface DepartementRepository {
-    void ajouteAgent(Agent agent);
-    void supprimmeAgent(Agent agentID);
-    int totalDepartement();
-    double moyenneSalaire();
+    boolean create(Departement departement);
+    boolean update(Departement departement);
+    boolean delete(int idDepartement);
+    Optional<Departement> findById(int idDepartement);
+    List<Departement> findAll();
 }

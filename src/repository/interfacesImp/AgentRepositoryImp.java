@@ -6,6 +6,7 @@ import utils.SQLQueries;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.List;
 import java.util.Optional;
 
 import config.ConfigConnection;
@@ -60,5 +61,15 @@ public class AgentRepositoryImp implements AgentRepository {
     @Override
     public void delete(int id) {
 
+    }
+
+    @Override
+    public List<Agent> findAll() {
+        return List.of();
+    }
+
+    @Override
+    public List<Agent> findByDepartement(Long idDepartement) {
+        return List.of();
     }
 }
