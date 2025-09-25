@@ -1,7 +1,6 @@
 package service;
 
 import java.util.Scanner;
-
 import model.Agent;
 import model.enums.TypeAgent;
 import repository.interfaces.AgentRepository;
@@ -22,7 +21,7 @@ public class AgentService {
         String email = scanner.nextLine();
         System.out.println("Enter Client Password: ");
         String password = scanner.nextLine();
-        System.out.println("Enter Client Type (AGENT/CLIENT): ");
+        System.out.println("Enter Agent Type (OUVRIER/RESPONSBALE/STAGAIRE): ");
         String type = scanner.nextLine();
 
         Agent newAgent = new Agent();

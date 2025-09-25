@@ -9,7 +9,7 @@ public class MenuService {
     public int afficherMenu(Agent agent) {
         switch(agent.getTypeAgent()) {
             case DIRECTEUR -> afficherMenuDirecteur();
-            case RESPONSABLE_DEPARTEMENT -> afficherMenuResponsable();
+            case RESPONSABLE -> afficherMenuResponsable();
             case OUVRIER, STAGIAIRE -> afficherMenuAgent();
         }
         System.out.print("Votre choix : ");

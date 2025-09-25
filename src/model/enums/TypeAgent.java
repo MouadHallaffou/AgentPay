@@ -2,7 +2,7 @@ package model.enums;
 
 public enum TypeAgent {
     OUVRIER,
-    RESPONSABLE_DEPARTEMENT,
+    RESPONSABLE,
     DIRECTEUR,
     STAGIAIRE
 }

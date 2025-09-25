@@ -12,7 +12,7 @@ CREATE TABLE agents (
     password VARCHAR(255) NOT NULL,
     type_agent ENUM(
         'OUVRIER',
-        'RESPONSABLE_DEPARTEMENT',
+        'RESPONSABLE',
         'DIRECTEUR',
         'STAGIAIRE'
     ) NOT NULL

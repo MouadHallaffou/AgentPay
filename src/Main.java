@@ -1,8 +1,8 @@
 import config.ConfigConnection;
-import controller.AgentController;
-import controller.AuthController;
+import controller.ControllerHandler;
 import repository.interfacesImp.AgentRepositoryImp;
 import service.menu.MenuService;
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -11,9 +11,9 @@ import java.sql.SQLException;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        System.out.println("╔═══════════════════════════════════════════╗");
-        System.out.println("║   Welcome to AgentPay Management System   ║");
-        System.out.println("╚═══════════════════════════════════════════╝");
+//        System.out.println("╔═══════════════════════════════════════════╗");
+//        System.out.println("║   Welcome to AgentPay Management System   ║");
+//        System.out.println("╚═══════════════════════════════════════════╝");
 
         try {
             ConfigConnection.getInstance();
@@ -26,10 +26,11 @@ public class Main {
         }
 
         AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
-        AuthController authController = new AuthController(new service.AuthService(agentRepositoryImp));
+        ControllerHandler authController = new ControllerHandler(new service.AuthService(agentRepositoryImp));
         //authController.authenticate("mouad@gmail.com","1234");
+
         new view.Login(authController).displayLogin();
 
-        
+
     }
 }

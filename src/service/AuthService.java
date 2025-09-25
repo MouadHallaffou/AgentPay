@@ -1,7 +1,6 @@
 package service;
 
 import java.util.Optional;
-
 import model.Agent;
 import repository.interfaces.AgentRepository;
 

@@ -1,16 +1,19 @@
 package view;
 
-import controller.AuthController;
+import controller.ControllerHandler;
 import java.util.Scanner;
 
 public class Login {
-    private final AuthController authController;
+    private final ControllerHandler authController;
 
-    public Login(AuthController authController) {
+    public Login(ControllerHandler authController) {
         this.authController = authController;
     }
 
     public void displayLogin() {
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║           LOGIN             ║");
+        System.out.println("╚═════════════════════════════╝");
         Scanner scanner = new Scanner(System.in);
         System.out.print("Email: ");
         String email = scanner.nextLine();
