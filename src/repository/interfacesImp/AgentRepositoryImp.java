@@ -14,7 +14,7 @@ import config.ConfigConnection;
 
 public class AgentRepositoryImp implements AgentRepository {
     private final Connection connection;
-    
+
     public AgentRepositoryImp() {
         this.connection = ConfigConnection.getConnection();
     }
@@ -44,30 +44,63 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public void insert(Agent agent) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.insertInto("agents", "firstName", "lastName", "email", "password", "type_agent"))) {
+    public boolean insert(Agent agent) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                SQLQueries.insertInto("agents", "firstName", "lastName", "email", "password", "type_agent"))) {
             preparedStatement.setString(1, agent.getFirstName());
             preparedStatement.setString(2, agent.getLastName());
             preparedStatement.setString(3, agent.getEmail());
             preparedStatement.setString(4, agent.getPassword());
             preparedStatement.setString(5, agent.getTypeAgent().name());
-            preparedStatement.executeUpdate();
+            int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Agent inserted successfully");
+            return rowsAffected > 0;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Error inserting agent");
+            return false;
         }
     }
 
-
     @Override
     public Optional<Agent> findById(int id) {
-        return Optional.empty();
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectByField("agents", "agentID"))) {
+            statement.setInt(1, id);
+            var resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Agent agent = new Agent();
+                agent.setUserID(resultSet.getInt("agentID"));
+                agent.setFirstName(resultSet.getString("firstName"));
+                agent.setLastName(resultSet.getString("lastName"));
+                agent.setEmail(resultSet.getString("email"));
+                agent.setPassword(resultSet.getString("password"));
+                agent.setTypeAgent(model.enums.TypeAgent.valueOf(resultSet.getString("type_agent")));
+                return Optional.of(agent);
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
     }
 
     @Override
-    public void update(Agent agent) {
-
+    public boolean update(Agent agent) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "UPDATE agents SET firstName = ?, lastName = ?, email = ?, password = ?, type_agent = ? WHERE agentID = ?")) {
+            preparedStatement.setString(1, agent.getFirstName());
+            preparedStatement.setString(2, agent.getLastName());
+            preparedStatement.setString(3, agent.getEmail());
+            preparedStatement.setString(4, agent.getPassword());
+            preparedStatement.setString(5, agent.getTypeAgent().name());
+            preparedStatement.setInt(6, agent.getUserID());
+            int rowsAffected = preparedStatement.executeUpdate();
+            System.out.println("Agent updated successfully");
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -75,18 +108,35 @@ public class AgentRepositoryImp implements AgentRepository {
         String query = "DELETE FROM agents WHERE agentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
-            statement.executeUpdate();
+            int rowsAffected = statement.executeUpdate();
             System.out.println("Agent deleted successfully");
-            return true;
+            return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error deleting agent");
+            return false;
         }
     }
 
     @Override
     public List<Agent> findAll() {
-        return List.of();
+        List<Agent> agents = new java.util.ArrayList<>();
+        String query = "SELECT * FROM agents";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            var resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Agent agent = new Agent();
+                agent.setUserID(resultSet.getInt("agentID"));
+                agent.setFirstName(resultSet.getString("firstName"));
+                agent.setLastName(resultSet.getString("lastName"));
+                agent.setEmail(resultSet.getString("email"));
+                agent.setPassword(resultSet.getString("password"));
+                agent.setTypeAgent(model.enums.TypeAgent.valueOf(resultSet.getString("type_agent")));
+                agents.add(agent);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return agents;
     }
 
     @Override
@@ -94,25 +144,20 @@ public class AgentRepositoryImp implements AgentRepository {
         return List.of();
     }
 
-
-
-
     public static void main(String[] args) throws SQLException {
-        Connection con = ConfigConnection.getInstance().getConnection();
         AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
         Optional<Agent> agentOpt = agentRepositoryImp.findByEmail("anass@gmail.com");
         agentOpt.ifPresentOrElse(
-            agent -> System.out.println("Agent found: " + agent.getFirstName()),
-            () -> System.out.println("Agent not found")
-        );
+                agent -> System.out.println("Agent found: " + agent.getFirstName()),
+                () -> System.out.println("Agent not found"));
 
-//        Agent newAgent = new Agent();
-//        newAgent.setFirstName("Anass");
-//        newAgent.setLastName("Hallaffou");
-//        newAgent.setEmail("anass@gmail.com");
-//        newAgent.setPassword("password123");
-//        newAgent.setTypeAgent(model.enums.TypeAgent.OUVRIER);
-//        agentRepositoryImp.insert(newAgent);
+        // Agent newAgent = new Agent();
+        // newAgent.setFirstName("Anass");
+        // newAgent.setLastName("Hallaffou");
+        // newAgent.setEmail("anass@gmail.com");
+        // newAgent.setPassword("password123");
+        // newAgent.setTypeAgent(model.enums.TypeAgent.OUVRIER);
+        // agentRepositoryImp.insert(newAgent);
 
     }
 

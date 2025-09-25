@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import model.Agent;
 
-public interface AgentRepository {
-    void insert(Agent agent);
-    void update(Agent agent);
-    boolean delete(int agentID);
+public interface AgentRepository extends GenericRepository<Agent> {
+    // Hérite des méthodes génériques: insert, update, delete, findById, findAll
+
     Optional<Agent> findByEmail(String email);
-    Optional<Agent> findById(int agentID);
-    List<Agent> findAll();
+
     List<Agent> findByDepartement(int departementID);
 }
