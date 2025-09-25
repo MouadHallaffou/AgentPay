@@ -1,20 +1,33 @@
 package utils;
 
 public class SQLQueries {
-    public static final String FIND_AGENT_BY_EMAIL =
-        "SELECT * FROM agent WHERE email = ?";
+    public static String selectAll(String tableName) {
+        return "SELECT * FROM " + tableName;
+    }
 
-    public static final String FIND_AGENT_BY_ID =
-        "SELECT * FROM agent WHERE id_agent = ?";
+    public static String selectByField(String tableName, String fieldName) {
+        return "SELECT * FROM " + tableName + " WHERE " + fieldName + " = ?";
+    }
 
-    public static final String INSERT_AGENT =
-        "INSERT INTO agent(nom, prenom, email, mot_de_passe, type_agent) VALUES (?, ?, ?, ?, ?)";
+    public static String deleteById(String tableName, Integer idField) {
+        return "DELETE FROM " + tableName + " WHERE " + idField + " = ?";
+    }
 
-    public static final String UPDATE_AGENT =
-        "UPDATE agent SET nom=?, prenom=?, email=?, mot_de_passe=?, type_agent=? WHERE id_agent=?";
-    
-    public static final String DELETE_AGENT =
-        "DELETE FROM agent WHERE id_agent=?";
+    public static String insertInto(String tableName, String... columns) {
+        StringBuilder query = new StringBuilder("INSERT INTO " + tableName + "(");
+        query.append(String.join(", ", columns));
+        query.append(") VALUES (");
+        query.append("?, ".repeat(columns.length - 1)).append("?)");
+        return query.toString();
+    }
+
+    public static String updateQuery(String tableName, String idField, String... columns) {
+        StringBuilder query = new StringBuilder("UPDATE " + tableName + " SET ");
+        for (int i = 0; i < columns.length; i++) {
+            query.append(columns[i]).append("=?");
+            if (i < columns.length - 1) query.append(", ");
+        }
+        query.append(" WHERE ").append(idField).append("=?");
+        return query.toString();
+    }
 }
-
-

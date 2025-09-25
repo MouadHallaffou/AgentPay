@@ -4,7 +4,7 @@ CREATE DATABASE agent_pay;
 
 USE agent_pay;
 
-CREATE TABLE agent (
+CREATE TABLE agents (
     agentID BIGINT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(100) NOT NULL,
     lastName VARCHAR(100) NOT NULL,
@@ -18,14 +18,14 @@ CREATE TABLE agent (
     ) NOT NULL
 );
 
-CREATE TABLE departement (
+CREATE TABLE departements (
     departementID BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     responsableID BIGINT UNIQUE,
-    CONSTRAINT fk_responsable FOREIGN KEY (responsableID) REFERENCES agent (agentID)
+    CONSTRAINT fk_responsable FOREIGN KEY (responsableID) REFERENCES agents (agentID)
 );
 
-CREATE TABLE paiement (
+CREATE TABLE paiements (
     paiementID BIGINT AUTO_INCREMENT PRIMARY KEY,
     type_paiement ENUM(
         'SALAIRE',
@@ -41,10 +41,11 @@ CREATE TABLE paiement (
     CONSTRAINT fk_agent FOREIGN KEY (agentID) REFERENCES agent (agentID)
 );
 
--- Ajout de la colonne departementID à la table agent
-ALTER TABLE agent ADD COLUMN departementID BIGINT NULL,
-ADD CONSTRAINT fk_departement FOREIGN KEY (departementID) REFERENCES departement (departementID);
+-- Ajout de la colonne departementID à la table agents
+ALTER TABLE agents ADD COLUMN departementID BIGINT NULL,
+ADD CONSTRAINT fk_departement FOREIGN KEY (departementID) REFERENCES departements (departementID);
+ALTER TABLE agents ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
 
 -- INSERTION DU DIRECTEUR PAR DEFAUT
-INSERT INTO agent (firstName, lastName, email, password, type_agent)
+INSERT INTO agents (firstName, lastName, email, password, type_agent)
 VALUES ('Mouad', 'Hallaffou', 'mouad@gmail.com', '1234', 'DIRECTEUR');

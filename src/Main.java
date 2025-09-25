@@ -1,7 +1,8 @@
 import config.ConfigConnection;
+import controller.AgentController;
 import controller.AuthController;
-import repository.interfaces.AgentRepository;
 import repository.interfacesImp.AgentRepositoryImp;
+import service.menu.MenuService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,7 +16,8 @@ public class Main {
         System.out.println("╚═══════════════════════════════════════════╝");
 
         try {
-            Connection connection = ConfigConnection.getInstance().getConnection();
+            ConfigConnection.getInstance();
+            Connection connection = ConfigConnection.getConnection();
             System.out.println("Connected to the database successfully!");
         } catch (SQLException e) {
             System.err.println("Database connection failed: " + e.getMessage());
@@ -25,9 +27,9 @@ public class Main {
 
         AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
         AuthController authController = new AuthController(new service.AuthService(agentRepositoryImp));
-        authController.authenticate("","");
+        //authController.authenticate("mouad@gmail.com","1234");
+        new view.Login(authController).displayLogin();
 
         
-
     }
 }

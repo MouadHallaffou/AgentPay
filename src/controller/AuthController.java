@@ -13,13 +13,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    public Optional<Agent> authenticate(String email, String password) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Email: ");
-        email = scanner.nextLine();
-        System.out.print("Password: ");
-        password = scanner.nextLine();
-
+    public Optional<Agent> authenticate (String email, String password) {
         Optional<Agent> agentOpt = authService.getLogedAgent(email,password);
         if (agentOpt.isPresent()){
             System.out.println("conexion reussit!");
