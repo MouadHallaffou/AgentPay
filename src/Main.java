@@ -1,8 +1,9 @@
 import config.ConfigConnection;
 import controller.ControllerHandler;
+import model.Agent;
+import model.enums.TypeAgent;
 import repository.interfacesImp.AgentRepositoryImp;
-import service.menu.MenuService;
-
+import service.AuthService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,12 +26,30 @@ public class Main {
             System.err.println("An error occurred: " + e.getMessage());
         }
 
-        AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
-        ControllerHandler authController = new ControllerHandler(new service.AuthService(agentRepositoryImp));
-        //authController.authenticate("mouad@gmail.com","1234");
+        try {
+            // 1. Créer un agent responsable pour tester
+            Agent responsable = new Agent();
+            responsable.setFirstName("Manager");
+            responsable.setLastName("Test");
+            responsable.setEmail("manager@test.com");
+            responsable.setPassword("password");
+            responsable.setTypeAgent(TypeAgent.RESPONSABLE);
 
-        new view.Login(authController).displayLogin();
+            // 2. Initialiser le controller
+            AuthService authService = new AuthService(new AgentRepositoryImp());
+            ControllerHandler controller = new ControllerHandler(authService);
 
+            // 3. Simuler la connexion du responsable et accéder au menu
+            System.out.println("=== TEST DE LA FONCTION CREATE AGENT ===");
+            System.out.println("Simuler la connexion d'un responsable...");
+
+            // Le responsable se connecte et accède au menu
+            controller.handleMenu(responsable);
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors du test: " + e.getMessage());
+            e.printStackTrace();
+        }
 
     }
 }

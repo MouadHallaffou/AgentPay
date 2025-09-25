@@ -71,8 +71,17 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public void delete(int id) {
-
+    public boolean delete(int id) {
+        String query = "DELETE FROM agents WHERE agentID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            System.out.println("Agent deleted successfully");
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error deleting agent");
+        }
     }
 
     @Override

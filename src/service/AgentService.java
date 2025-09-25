@@ -4,32 +4,49 @@ import java.util.Scanner;
 import model.Agent;
 import model.enums.TypeAgent;
 import repository.interfaces.AgentRepository;
+import utils.Validation;
+
+import java.util.Optional;
 
 public class AgentService {
     private final AgentRepository agentRepository;
-    private Scanner scanner;
 
     public AgentService(AgentRepository agentRepository) {
         this.agentRepository = agentRepository;
-        this.scanner = new Scanner(System.in);
     }
 
-    public void registerAgent(Agent agent) {
-        System.out.println("Enter Client name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter Client Email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter Client Password: ");
-        String password = scanner.nextLine();
-        System.out.println("Enter Agent Type (OUVRIER/RESPONSBALE/STAGAIRE): ");
-        String type = scanner.nextLine();
+    // CRÉER UN AGENT
+    public boolean createAgent(Agent agent) {
+        try {
+            if (!isValidAgent(agent)) {
+                return false;
+            }
 
-        Agent newAgent = new Agent();
-        newAgent.setFirstName(name);
-        newAgent.setEmail(email);
-        newAgent.setPassword(password);
-        newAgent.setTypeAgent(TypeAgent.valueOf(type.toUpperCase()));
+            // 2. Vérifier si l'email existe déjà
+            Optional<Agent> existingAgent = agentRepository.findByEmail(agent.getEmail());
+            if (existingAgent.isPresent()) {
+                throw new RuntimeException("Un agent avec cet email existe déjà!");
+            }
 
-        agentRepository.insert(newAgent);
+            // 3. Appeler le repository pour insérer
+            agentRepository.insert(agent);
+            return true;
+
+        } catch (Exception e) {
+            System.err.println("Erreur lors de la création de l'agent: " + e.getMessage());
+            return false;
+        }
     }
+
+    // MÉTHODE DE VALIDATION
+    private boolean isValidAgent(Agent agent) {
+        return agent != null &&
+               Validation.isValidEmail(agent.getEmail()) &&
+               Validation.isValidPassword(agent.getPassword()) &&
+               Validation.isValideName(agent.getFirstName()) &&
+               Validation.isValideName(agent.getLastName()) &&
+               agent.getTypeAgent() != null;
+    }
+
+    
 }

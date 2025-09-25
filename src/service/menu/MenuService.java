@@ -41,4 +41,5 @@ public class MenuService {
         System.out.println("3. Total paiements");
         System.out.println("0. Quitter");
     }
+
 }

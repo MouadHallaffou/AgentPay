@@ -65,14 +65,15 @@ public class DepartementRepositoryImp implements DepartementRepository {
     }
 
     public static void main(String[] args) throws SQLException {
-        Connection con = ConfigConnection.getInstance().getConnection();
+        ConfigConnection.getInstance();
+        Connection con = ConfigConnection.getConnection();
         DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp(con);
         Departement departement = new Departement();
         // departement.setName("Informatique");
         // departementRepositoryImp.create(departement);
         // System.out.println("Departement created successfully");
         departement.setDepartementID(1);
-        departement.setName("Informatique");
+        departement.setName("DATA");
         departementRepositoryImp.update(departement);
         System.out.println("Departement " + departement.getName() + " updated successfully");
     }
