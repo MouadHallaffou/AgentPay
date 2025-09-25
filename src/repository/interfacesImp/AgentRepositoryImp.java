@@ -105,9 +105,8 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM agents WHERE agentID = ?";
+        String query = SQLQueries.deleteById("agents", id);
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, id);
             int rowsAffected = statement.executeUpdate();
             System.out.println("Agent deleted successfully");
             return rowsAffected > 0;
@@ -120,7 +119,7 @@ public class AgentRepositoryImp implements AgentRepository {
     @Override
     public List<Agent> findAll() {
         List<Agent> agents = new java.util.ArrayList<>();
-        String query = "SELECT * FROM agents";
+        String query = SQLQueries.selectAll("agents");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             var resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -142,6 +141,11 @@ public class AgentRepositoryImp implements AgentRepository {
     @Override
     public List<Agent> findByDepartement(int departementID) {
         return List.of();
+    }
+
+    @Override
+    public boolean desactiveAgent(int agentID) {
+        return false;
     }
 
     public static void main(String[] args) throws SQLException {

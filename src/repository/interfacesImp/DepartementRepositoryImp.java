@@ -37,7 +37,7 @@ public class DepartementRepositoryImp implements DepartementRepository {
     @Override
     public boolean update(Departement departement) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "UPDATE departements SET name = ? WHERE departementID = ?")) {
+            SQLQueries.updateQuery("departements", "departementID", "name"))) {
             preparedStatement.setString(1, departement.getName());
             preparedStatement.setInt(2, departement.getDepartementID());
             int rowsAffected = preparedStatement.executeUpdate();
@@ -50,63 +50,36 @@ public class DepartementRepositoryImp implements DepartementRepository {
 
     @Override
     public boolean delete(int departementID) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "DELETE FROM departements WHERE departementID = ?")) {
-            preparedStatement.setInt(1, departementID);
-            int rowsAffected = preparedStatement.executeUpdate();
-            return rowsAffected > 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        return false;
     }
 
     @Override
     public Optional<Departement> findById(int departementID) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM departements WHERE departementID = ?")) {
-            statement.setInt(1, departementID);
-            var resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                Departement departement = new Departement();
-                departement.setDepartementID(resultSet.getInt("departementID"));
-                departement.setName(resultSet.getString("name"));
-                return Optional.of(departement);
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Optional.empty();
-        }
+        return Optional.empty();
     }
 
     @Override
     public List<Departement> findAll() {
-        List<Departement> departements = new java.util.ArrayList<>();
-        String query = "SELECT * FROM departements";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            var resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                Departement departement = new Departement();
-                departement.setDepartementID(resultSet.getInt("departementID"));
-                departement.setName(resultSet.getString("name"));
-                departements.add(departement);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return departements;
+        return List.of();
     }
 
     public static void main(String[] args) throws SQLException {
+        try {
+            ConfigConnection.getInstance();
+            Connection connection = ConfigConnection.getConnection();
+            System.out.println("Connected to the database successfully!");
+        } catch (SQLException e) {
+            System.err.println("Database connection failed: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        }
         DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
         Departement departement = new Departement();
         // departement.setName("Informatique");
         // departementRepositoryImp.insert(departement);
         // System.out.println("Departement created successfully");
         departement.setDepartementID(1);
-        departement.setName("DATA");
+        departement.setName("Informatique et Reseau");
         departementRepositoryImp.update(departement);
         System.out.println("Departement " + departement.getName() + " updated successfully");
     }

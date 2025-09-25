@@ -10,4 +10,6 @@ public interface AgentRepository extends GenericRepository<Agent> {
     Optional<Agent> findByEmail(String email);
 
     List<Agent> findByDepartement(int departementID);
+
+    boolean desactiveAgent(int agentID);
 }
