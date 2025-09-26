@@ -4,7 +4,7 @@ import java.util.Optional;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.service.AuthService;
 import main.java.com.agentpay.service.AgentService;
-import main.java.com.agentpay.view.MenuService;
+import main.java.com.agentpay.view.Menus;
 import main.java.com.agentpay.view.AgentView;
 import main.java.com.agentpay.repository.interfacesImp.AgentRepositoryImp;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
@@ -29,13 +29,13 @@ public class ControllerHandler {
             Agent agent = agentOpt.get();
             switch (agent.getTypeAgent()) {
                 case DIRECTEUR:
-                    MenuService.afficherMenuDirecteur();
+                    Menus.afficherMenuDirecteur();
                     break;
                 case RESPONSABLE:
-                    MenuService.afficherMenuResponsable();
+                    Menus.afficherMenuResponsable();
                     break;
                 case OUVRIER:
-                    MenuService.afficherMenuAgent();
+                    Menus.afficherMenuAgent();
                     break;
                 default:
                     System.out.println("Type d'agent inconnu !");

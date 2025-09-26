@@ -1,6 +1,6 @@
 package main.java.com.agentpay.view;
 
-public class MenuService {
+public class Menus {
 
     public static void afficherMenuDirecteur() {
         System.out.println("\n=== Menu Directeur ===");

@@ -183,50 +183,49 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
 
-    public static void main(String[] args) throws SQLException {
-        try {
-            ConfigConnection.getInstance();
-            System.out.println("Connected to the database successfully!");
-        } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
-        }
-
-        // test all methods
-        AgentRepositoryImp agentRepository = new AgentRepositoryImp();
-        // Insert a new agent
-        Agent agent = new Agent();
-        agent.setFirstName("test");
-        agent.setLastName("test");
-        agent.setEmail("test@example.com");
-        agent.setPassword("1234");
-        agent.setTypeAgent(TypeAgent.OUVRIER);
+//    public static void main(String[] args) throws SQLException {
+//        try {
+//            ConfigConnection.getInstance();
+//            System.out.println("Connected to the database successfully!");
+//        } catch (Exception e) {
+//            System.err.println("An error occurred: " + e.getMessage());
+//        }
+//
+//        // test all methods
+//        AgentRepositoryImp agentRepository = new AgentRepositoryImp();
+//        // Insert a new agent
+//        Agent agent = new Agent();
+//        agent.setFirstName("test");
+//        agent.setLastName("test");
+//        agent.setEmail("test@example.com");
+//        agent.setPassword("1234");
+//        agent.setTypeAgent(TypeAgent.OUVRIER);
 //        agentRepository.insert(agent);
-
-        // Find agent by email
-        Optional<Agent> foundAgent = agentRepository.findByEmail("test@example.com");
+//
+//        // Find agent by email
+//        Optional<Agent> foundAgent = agentRepository.findByEmail("test@example.com");
 //        foundAgent.ifPresent(a -> System.out.println("Found agent: " + a.getFirstName()));
-        // Update agent
+//        // Update agent
 //        foundAgent.ifPresent(a -> {
 //            a.setLastName("Smith");
 //            agentRepository.update(a);
 //        });
-        // Delete agent
+//        // Delete agent
 //        foundAgent.ifPresent(a -> agentRepository.delete(a.getUserID()));
-        // Verify deletion
-        Optional<Agent> deletedAgent = agentRepository.findByEmail("test@example.com");
-        deletedAgent.ifPresent(a -> System.out.println("Deleted agent: " + a.getFirstName()));
-        // find all agents
-        List<Agent> agents = agentRepository.findAll();
+//        // Verify deletion
+//        Optional<Agent> deletedAgent = agentRepository.findByEmail("test@example.com");
+//        deletedAgent.ifPresent(a -> System.out.println("Deleted agent: " + a.getFirstName()));
+//        // find all agents
+//        List<Agent> agents = agentRepository.findAll();
 //        agents.forEach(a -> System.out.println("Found agent: " + a.getFirstName()));
-        // desactive agent
-        if (!agents.isEmpty()) {
-            Agent firstAgent = agents.get(0);
-            agentRepository.setAgentAccountStatus(firstAgent.getUserID(), false);
-        }
-
-        List<Agent> agentslsit = agentRepository.findByDepartement("Informatique");
-        agentslsit.forEach(a -> System.out.println("agents :" + a.getFirstName()));
-
-    }
+//        // desactive agent
+//        if (!agents.isEmpty()) {
+//            Agent firstAgent = agents.get(0);
+//            agentRepository.setAgentAccountStatus(firstAgent.getUserID(), false);
+//        }
+//        List<Agent> agentslsit = agentRepository.findByDepartement("Informatique");
+//        agentslsit.forEach(a -> System.out.println("agents :" + a.getFirstName()));
+//
+//    }
 
 }

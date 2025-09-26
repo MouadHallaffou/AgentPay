@@ -116,18 +116,18 @@ public class DepartementRepositoryImp implements DepartementRepository {
 
 
 
-    public static void main(String[] args) throws SQLException {
-        try {
-            ConfigConnection.getInstance();
-            Connection connection = ConfigConnection.getConnection();
-            System.out.println("Connected to the database successfully!");
-        } catch (SQLException e) {
-            System.err.println("Database connection failed: " + e.getMessage());
-        } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
-        }
-        DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
-        Departement departement = new Departement();
+//    public static void main(String[] args) throws SQLException {
+//        try {
+//            ConfigConnection.getInstance();
+//            Connection connection = ConfigConnection.getConnection();
+//            System.out.println("Connected to the database successfully!");
+//        } catch (SQLException e) {
+//            System.err.println("Database connection failed: " + e.getMessage());
+//        } catch (Exception e) {
+//            System.err.println("An error occurred: " + e.getMessage());
+//        }
+//        DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
+//        Departement departement = new Departement();
 //        departement.setName("Informatique");
 //        departementRepositoryImp.insert(departement);
 //        System.out.println("Departement created successfully");
@@ -138,5 +138,6 @@ public class DepartementRepositoryImp implements DepartementRepository {
 //        }else {
 //            System.out.println("nout exist");
 //        }
-    }
+//    }
+//
 }
