@@ -20,9 +20,9 @@ CREATE TABLE agents (
 
 CREATE TABLE departements (
     departementID BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    responsableID BIGINT UNIQUE,
-    CONSTRAINT fk_responsable FOREIGN KEY (responsableID) REFERENCES agents (agentID)
+    name VARCHAR(100) NOT NULL
+#     responsableID BIGINT UNIQUE,
+#     CONSTRAINT fk_responsable FOREIGN KEY (responsableID) REFERENCES agents (agentID)
 );
 
 CREATE TABLE paiements (

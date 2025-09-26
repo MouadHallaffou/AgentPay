@@ -1,12 +1,14 @@
 package repository.interfacesImp;
 
 import model.Agent;
+import model.enums.TypeAgent;
 import repository.interfaces.AgentRepository;
 import utils.SQLQueries;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,18 +23,17 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public Optional<Agent> findByEmail(String email) {
-        // String query = "SELECT * FROM agent WHERE email = ?";
         try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectByField("agents", "email"))) {
             statement.setString(1, email);
-            var resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
                 Agent agent = new Agent();
-                agent.setUserID(resultSet.getInt("agentID"));
-                agent.setFirstName(resultSet.getString("firstName"));
-                agent.setLastName(resultSet.getString("lastName"));
-                agent.setEmail(resultSet.getString("email"));
-                agent.setPassword(resultSet.getString("password"));
-                agent.setTypeAgent(model.enums.TypeAgent.valueOf(resultSet.getString("type_agent")));
+                agent.setUserID(rs.getInt("agentID"));
+                agent.setFirstName(rs.getString("firstName"));
+                agent.setLastName(rs.getString("lastName"));
+                agent.setEmail(rs.getString("email"));
+                agent.setPassword(rs.getString("password"));
+                agent.setTypeAgent(model.enums.TypeAgent.valueOf(rs.getString("type_agent")));
                 return Optional.of(agent);
             } else {
                 return Optional.empty();
@@ -62,18 +63,18 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public Optional<Agent> findById(int id) {
+    public Optional<Agent> findById(int agentID) {
         try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectByField("agents", "agentID"))) {
-            statement.setInt(1, id);
-            var resultSet = statement.executeQuery();
-            if (resultSet.next()) {
+            statement.setInt(1, agentID);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
                 Agent agent = new Agent();
-                agent.setUserID(resultSet.getInt("agentID"));
-                agent.setFirstName(resultSet.getString("firstName"));
-                agent.setLastName(resultSet.getString("lastName"));
-                agent.setEmail(resultSet.getString("email"));
-                agent.setPassword(resultSet.getString("password"));
-                agent.setTypeAgent(model.enums.TypeAgent.valueOf(resultSet.getString("type_agent")));
+                agent.setUserID(rs.getInt("agentID"));
+                agent.setFirstName(rs.getString("firstName"));
+                agent.setLastName(rs.getString("lastName"));
+                agent.setEmail(rs.getString("email"));
+                agent.setPassword(rs.getString("password"));
+                agent.setTypeAgent(model.enums.TypeAgent.valueOf(rs.getString("type_agent")));
                 return Optional.of(agent);
             } else {
                 return Optional.empty();
@@ -86,8 +87,7 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean update(Agent agent) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "UPDATE agents SET firstName = ?, lastName = ?, email = ?, password = ?, type_agent = ? WHERE agentID = ?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.updateQuery("agents","agentID","firstName", "lastName", "email", "password", "type_agent"))) {
             preparedStatement.setString(1, agent.getFirstName());
             preparedStatement.setString(2, agent.getLastName());
             preparedStatement.setString(3, agent.getEmail());
@@ -104,8 +104,8 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public boolean delete(int id) {
-        String query = SQLQueries.deleteById("agents", id);
+    public boolean delete(int agentID) {
+        String query = SQLQueries.deleteById("agents", agentID);
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             int rowsAffected = statement.executeUpdate();
             System.out.println("Agent deleted successfully");
@@ -118,18 +118,18 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public List<Agent> findAll() {
-        List<Agent> agents = new java.util.ArrayList<>();
+        List<Agent> agents = new ArrayList<>();
         String query = SQLQueries.selectAll("agents");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            var resultSet = statement.executeQuery();
-            while (resultSet.next()) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
                 Agent agent = new Agent();
-                agent.setUserID(resultSet.getInt("agentID"));
-                agent.setFirstName(resultSet.getString("firstName"));
-                agent.setLastName(resultSet.getString("lastName"));
-                agent.setEmail(resultSet.getString("email"));
-                agent.setPassword(resultSet.getString("password"));
-                agent.setTypeAgent(model.enums.TypeAgent.valueOf(resultSet.getString("type_agent")));
+                agent.setUserID(rs.getInt("agentID"));
+                agent.setFirstName(rs.getString("firstName"));
+                agent.setLastName(rs.getString("lastName"));
+                agent.setEmail(rs.getString("email"));
+                agent.setPassword(rs.getString("password"));
+                agent.setTypeAgent(TypeAgent.valueOf(rs.getString("type_agent")));
                 agents.add(agent);
             }
         } catch (Exception e) {
@@ -139,29 +139,92 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public List<Agent> findByDepartement(int departementID) {
-        return List.of();
+    public List<Agent> findByDepartement(String departementName) {
+        List<Agent> agents = new ArrayList<>();
+        String query = "SELECT a.agentID, a.firstName, a.lastName, a.email, a.password, a.type_agent " +
+                "FROM agents a JOIN departements d ON a.departementID = d.departementID " +
+                "WHERE d.name = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, departementName);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()) {
+                Agent agent = new Agent();
+                agent.setUserID(rs.getInt("agentID"));
+                agent.setFirstName(rs.getString("firstName"));
+                agent.setLastName(rs.getString("lastName"));
+                agent.setEmail(rs.getString("email"));
+                agent.setPassword(rs.getString("password"));
+                agent.setTypeAgent(TypeAgent.valueOf(rs.getString("type_agent")));
+                
+                agents.add(agent);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return agents;
     }
 
     @Override
-    public boolean desactiveAgent(int agentID) {
-        return false;
+    public boolean setAgentAccountStatus(int agentID, boolean isActive) {
+        String query = "UPDATE agents SET is_active = ? WHERE agentID = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setBoolean(1, isActive);
+            statement.setInt(2, agentID);
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public static void main(String[] args) throws SQLException {
-        AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
-        Optional<Agent> agentOpt = agentRepositoryImp.findByEmail("anass@gmail.com");
-        agentOpt.ifPresentOrElse(
-                agent -> System.out.println("Agent found: " + agent.getFirstName()),
-                () -> System.out.println("Agent not found"));
 
-        // Agent newAgent = new Agent();
-        // newAgent.setFirstName("Anass");
-        // newAgent.setLastName("Hallaffou");
-        // newAgent.setEmail("anass@gmail.com");
-        // newAgent.setPassword("password123");
-        // newAgent.setTypeAgent(model.enums.TypeAgent.OUVRIER);
-        // agentRepositoryImp.insert(newAgent);
+    public static void main(String[] args) throws SQLException {
+        try {
+            ConfigConnection.getInstance();
+            System.out.println("Connected to the database successfully!");
+        } catch (Exception e) {
+            System.err.println("An error occurred: " + e.getMessage());
+        }
+
+        // test all methods
+        AgentRepositoryImp agentRepository = new AgentRepositoryImp();
+        // Insert a new agent
+        Agent agent = new Agent();
+        agent.setFirstName("test");
+        agent.setLastName("test");
+        agent.setEmail("test@example.com");
+        agent.setPassword("1234");
+        agent.setTypeAgent(TypeAgent.OUVRIER);
+//        agentRepository.insert(agent);
+
+        // Find agent by email
+        Optional<Agent> foundAgent = agentRepository.findByEmail("test@example.com");
+//        foundAgent.ifPresent(a -> System.out.println("Found agent: " + a.getFirstName()));
+        // Update agent
+//        foundAgent.ifPresent(a -> {
+//            a.setLastName("Smith");
+//            agentRepository.update(a);
+//        });
+        // Delete agent
+//        foundAgent.ifPresent(a -> agentRepository.delete(a.getUserID()));
+        // Verify deletion
+        Optional<Agent> deletedAgent = agentRepository.findByEmail("test@example.com");
+        deletedAgent.ifPresent(a -> System.out.println("Deleted agent: " + a.getFirstName()));
+        // find all agents
+        List<Agent> agents = agentRepository.findAll();
+//        agents.forEach(a -> System.out.println("Found agent: " + a.getFirstName()));
+        // desactive agent
+        if (!agents.isEmpty()) {
+            Agent firstAgent = agents.get(0);
+            agentRepository.setAgentAccountStatus(firstAgent.getUserID(), false);
+        }
+
+        List<Agent> agentslsit = agentRepository.findByDepartement("Informatique");
+        agentslsit.forEach(a -> System.out.println("agents :" + a.getFirstName()));
 
     }
 

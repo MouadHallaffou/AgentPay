@@ -6,7 +6,9 @@ import repository.interfaces.DepartementRepository;
 import utils.SQLQueries;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +37,25 @@ public class DepartementRepositoryImp implements DepartementRepository {
     }
 
     @Override
+    public Optional<Departement> findById(int departementID) {
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectByField("departements", "departementID"))){
+            statement.setInt(1, departementID);
+            var resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                Departement departement = new Departement();
+                departement.setDepartementID(resultSet.getInt("departementID"));
+                departement.setName(resultSet.getString("name"));
+                return Optional.of(departement);
+            }else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public boolean update(Departement departement) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
             SQLQueries.updateQuery("departements", "departementID", "name"))) {
@@ -50,18 +71,50 @@ public class DepartementRepositoryImp implements DepartementRepository {
 
     @Override
     public boolean delete(int departementID) {
-        return false;
-    }
-
-    @Override
-    public Optional<Departement> findById(int departementID) {
-        return Optional.empty();
+        String query = SQLQueries.deleteById("departements", departementID);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            int affectedRow = statement.executeUpdate();
+            return affectedRow > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+            return  false;
+        }
     }
 
     @Override
     public List<Departement> findAll() {
-        return List.of();
+        List<Departement> departementList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectAll("departements"))){
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Departement departement = new Departement();
+                departement.setDepartementID(resultSet.getInt("departementID"));
+                departement.setName(resultSet.getString("name"));
+                departementList.add(departement);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return departementList;
     }
+
+    @Override
+    public boolean findByName(String name){
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectByField("departements","name"))){
+            statement.setString(1, name);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()){
+                Departement departement = new Departement();
+                departement.setName((resultSet.getString("name")));
+                return true;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+
 
     public static void main(String[] args) throws SQLException {
         try {
@@ -75,12 +128,15 @@ public class DepartementRepositoryImp implements DepartementRepository {
         }
         DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
         Departement departement = new Departement();
-        // departement.setName("Informatique");
-        // departementRepositoryImp.insert(departement);
-        // System.out.println("Departement created successfully");
-        departement.setDepartementID(1);
-        departement.setName("Informatique et Reseau");
-        departementRepositoryImp.update(departement);
-        System.out.println("Departement " + departement.getName() + " updated successfully");
+//        departement.setName("Informatique");
+//        departementRepositoryImp.insert(departement);
+//        System.out.println("Departement created successfully");
+//        System.out.println(departementRepositoryImp.findAll());
+//        System.out.println(departementRepositoryImp.findById(3));
+//        if(departementRepositoryImp.findByName("data")){
+//            System.out.println(" existe ");
+//        }else {
+//            System.out.println("nout exist");
+//        }
     }
 }

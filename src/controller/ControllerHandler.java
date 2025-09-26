@@ -24,24 +24,25 @@ public class ControllerHandler {
     public Optional<Agent> authenticate(String email, String password) {
         Optional<Agent> agentOpt = authService.getLogedAgent(email, password);
         if (agentOpt.isPresent()) {
-            System.out.println("conexion reussit!");
-            return agentOpt;
-        } else {
-            System.out.println("email ou mot de pass incorect!");
-            return Optional.empty();
-        }
-    }
-
-    public void handleMenu(Agent agent) {
-        boolean running = true;
-        while (running) {
-            int choice = menuService.afficherMenu(agent);
-
+            Agent agent = agentOpt.get();
             switch (agent.getTypeAgent()) {
-                case DIRECTEUR -> running = handleDirecteur(choice);
-                case RESPONSABLE -> running = handleResponsable(choice);
-                case OUVRIER, STAGIAIRE -> running = handleSimpleAgent(choice);
+                case DIRECTEUR:
+                    MenuService.afficherMenuDirecteur();
+                    break;
+                case RESPONSABLE:
+                    MenuService.afficherMenuResponsable();
+                    break;
+                case OUVRIER:
+                    MenuService.afficherMenuAgent();
+                    break;
+                default:
+                    System.out.println("Type d'agent inconnu !");
+                    return Optional.empty();
             }
+            return Optional.of(agent);
+        } else {
+            System.out.println("Email ou mot de passe incorrect !");
+            return Optional.empty();
         }
     }
 
@@ -98,18 +99,18 @@ public class ControllerHandler {
         };
     }
 
-    // MÉTHODE POUR GÉRER LA CRÉATION D'UN AGENT
+    // methode pour gerer la creation d'un agent:
     private void handleCreateAgent() {
         try {
             Agent newAgent = agentView.getAgentInput();
             boolean success = agentService.createAgent(newAgent);
             if (success) {
-                agentView.showMessage("✅ Agent créé avec succès!");
+                agentView.showMessage("Agent créé avec succès!");
             } else {
-                agentView.showMessage("❌ Erreur lors de la création de l'agent.");
+                agentView.showMessage("Erreur lors de la création de l'agent.");
             }
         } catch (Exception e) {
-            agentView.showMessage("❌ Erreur: " + e.getMessage());
+            agentView.showMessage("Erreur: " + e.getMessage());
         }
     }
 

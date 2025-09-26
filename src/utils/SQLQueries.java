@@ -30,4 +30,5 @@ public class SQLQueries {
         query.append(" WHERE ").append(idField).append("=?");
         return query.toString();
     }
+
 }

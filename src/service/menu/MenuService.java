@@ -1,22 +1,8 @@
 package service.menu;
 
-import model.Agent;
-import java.util.Scanner;
-
 public class MenuService {
-    private final Scanner scanner = new Scanner(System.in);
 
-    public int afficherMenu(Agent agent) {
-        switch(agent.getTypeAgent()) {
-            case DIRECTEUR -> afficherMenuDirecteur();
-            case RESPONSABLE -> afficherMenuResponsable();
-            case OUVRIER, STAGIAIRE -> afficherMenuAgent();
-        }
-        System.out.print("Votre choix : ");
-        return Integer.parseInt(scanner.nextLine());
-    }
-
-    private void afficherMenuDirecteur() {
+    public static void afficherMenuDirecteur() {
         System.out.println("\n=== Menu Directeur ===");
         System.out.println("1. Créer un département");
         System.out.println("2. Assigner responsable");
@@ -25,7 +11,7 @@ public class MenuService {
         System.out.println("0. Quitter");
     }
 
-    private void afficherMenuResponsable() {
+    public static void afficherMenuResponsable() {
         System.out.println("\n=== Menu Responsable ===");
         System.out.println("1. Ajouter un agent");
         System.out.println("2. Modifier un agent");
@@ -34,7 +20,7 @@ public class MenuService {
         System.out.println("0. Quitter");
     }
 
-    private void afficherMenuAgent() {
+    public static void afficherMenuAgent() {
         System.out.println("\n=== Menu Agent ===");
         System.out.println("1. Consulter mes informations");
         System.out.println("2. Historique paiements");
