@@ -4,6 +4,7 @@ import model.Agent;
 import model.enums.TypeAgent;
 import repository.interfaces.AgentRepository;
 import utils.SQLQueries;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,7 +88,7 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean update(Agent agent) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.updateQuery("agents","agentID","firstName", "lastName", "email", "password", "type_agent"))) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.updateQuery("agents", "agentID", "firstName", "lastName", "email", "password", "type_agent"))) {
             preparedStatement.setString(1, agent.getFirstName());
             preparedStatement.setString(2, agent.getLastName());
             preparedStatement.setString(3, agent.getEmail());
@@ -157,7 +158,7 @@ public class AgentRepositoryImp implements AgentRepository {
                 agent.setEmail(rs.getString("email"));
                 agent.setPassword(rs.getString("password"));
                 agent.setTypeAgent(TypeAgent.valueOf(rs.getString("type_agent")));
-                
+
                 agents.add(agent);
             }
         } catch (SQLException e) {

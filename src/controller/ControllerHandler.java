@@ -4,21 +4,23 @@ import java.util.Optional;
 import model.Agent;
 import service.AuthService;
 import service.AgentService;
-import service.menu.MenuService;
+import view.MenuService;
 import view.AgentView;
 import repository.interfacesImp.AgentRepositoryImp;
+import repository.interfacesImp.DepartementRepositoryImp;
+import service.DepartementService;
 
 public class ControllerHandler {
     private final AuthService authService;
-    private final MenuService menuService;
     private final AgentService agentService;
     private final AgentView agentView;
+    private final DepartementService departementService;
 
     public ControllerHandler(AuthService authService) {
         this.authService = authService;
-        this.menuService = new MenuService();
         this.agentService = new AgentService(new AgentRepositoryImp());
         this.agentView = new AgentView();
+        this.departementService = new DepartementService(new DepartementRepositoryImp());
     }
 
     public Optional<Agent> authenticate(String email, String password) {

@@ -1,4 +1,4 @@
-package service.menu;
+package view;
 
 public class MenuService {
 
