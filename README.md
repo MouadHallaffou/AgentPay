@@ -2,7 +2,7 @@
 
 ```md
 src/
- ├─ model/                
+ ├─ main.java.AgentPay.model/                
  │    ├─ Personne.java
  │    ├─ Agent.java
  │    ├─ Departement.java
@@ -12,17 +12,17 @@ src/
  │    ├─ enums/
  │    │     ├─ TypeAgent.java
  │    │     └─ TypePaiement.java
- │    └─ exceptions/
+ │    └─ main.java.AgentPay.exceptions/
  │          ├─ AgentIntrouvableException.java
  │          ├─ DepartementIntrouvableException.java
  │          └─ PaiementInvalideException.java
  │
- ├─ repository/            
+ ├─ main.java.AgentPay.repository/            
  │    ├─ AgentRepository.java
  │    ├─ DepartementRepository.java
  │    └─ PaiementRepository.java
  │
- ├─ service/               
+ ├─ main.java.AgentPay.service/               
  │    ├─ interfaces/
  │    │     ├─ AgentServiceInterface.java
  │    │     ├─ DepartementServiceInterface.java
@@ -31,20 +31,20 @@ src/
  │    ├─ DepartementService.java
  │    └─ PaiementService.java
  │
- ├─ controller/           
+ ├─ main.java.AgentPay.controller/           
  │    ├─ AgentController.java
  │    ├─ DepartementController.java
  │    └─ PaiementController.java
  │
- ├─ utils/           
+ ├─ main.java.AgentPay.utils/           
  │    └─ Validation.java
  │
- ├─ view/                  
+ ├─ main.java.AgentPay.view/                  
  │    ├─ MainMenu.java
  │    ├─ AgentView.java
  │    ├─ DepartementView.java
  │    └─ PaiementView.java
  │
- └─ config/
+ └─ main.java.AgentPay.config/
       └─ DBConnection.java  # Connexion JDBC 
 ```
