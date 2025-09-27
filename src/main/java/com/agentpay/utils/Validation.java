@@ -1,19 +1,19 @@
 package main.java.com.agentpay.utils;
 
 public class Validation {
-    
+
     public static boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-        return email.matches(emailRegex);
+        return email != null && email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
     public static boolean isValideName(String name) {
-        String nameRegex = "^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$";
-        return name.matches(nameRegex);
+        return name != null && !name.trim().isEmpty() &&
+                name.matches("^[a-zA-ZÀ-ÿ '-]+$") &&
+                name.length() >= 2;
     }
 
     public static boolean isValidPassword(String password) {
-        return password.length() >= 8;
+        return password != null && password.length() >= 8;
     }
 
 }
