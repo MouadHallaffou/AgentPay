@@ -1,25 +1,42 @@
 package main.java.com.agentpay.view;
 
 import main.java.com.agentpay.controller.ControllerHandler;
+import main.java.com.agentpay.model.Agent;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Login {
     private final ControllerHandler authController;
+    private final Scanner scanner;
 
     public Login(ControllerHandler authController) {
         this.authController = authController;
+        this.scanner = new Scanner(System.in);
     }
 
     public void displayLogin() {
         System.out.println("╔═════════════════════════════╗");
         System.out.println("║           LOGIN             ║");
         System.out.println("╚═════════════════════════════╝");
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
-        System.out.print("Password: ");
-        String password = scanner.nextLine();
-        authController.authenticate(email, password);
+        boolean loginSuccessful = false;
+        while (!loginSuccessful) {
+            System.out.print("Email: ");
+            String email = scanner.nextLine().trim();
+            System.out.print("Password: ");
+            String password = scanner.nextLine().trim();
+
+            if (email.isEmpty() || password.isEmpty()) {
+                System.out.println("Email and password are required!");
+                continue;
+            }
+            Optional<Agent> agentOpt = authController.authenticate(email, password);
+            if (agentOpt.isPresent()) {
+                loginSuccessful = true;
+                String fullName = agentOpt.get().getFirstName() + " " + agentOpt.get().getLastName();
+                System.out.println("WELCOME " + fullName + "!");
+
+                authController.handleMenu(agentOpt.get());
+            }
+        }
     }
-    
 }

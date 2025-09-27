@@ -16,21 +16,14 @@ public class AgentView {
         System.out.println(message);
     }
 
-    // INPUT POUR CRÉER UN AGENT
+    // CREER UN AGENT
     public Agent getAgentInput() {
         System.out.println("\n=== Create New Agent ===");
 
-        System.out.print("First Name: ");
-        String firstName = scanner.nextLine();
-
-        System.out.print("Last Name: ");
-        String lastName = scanner.nextLine();
-
-        System.out.print("Email: ");
-        String email = scanner.nextLine();
-
-        System.out.print("Password: ");
-        String password = scanner.nextLine();
+        String firstName = getInput("First Name");
+        String lastName = getInput("Last Name");
+        String email = getInput("Email");
+        String password = getInput("Password");
 
         System.out.println("Agent Type:");
         System.out.println("1. OUVRIER");
@@ -41,18 +34,10 @@ public class AgentView {
 
         TypeAgent typeAgent;
         switch (typeChoice) {
-            case 1:
-                typeAgent = TypeAgent.OUVRIER;
-                break;
-            case 2:
-                typeAgent = TypeAgent.RESPONSABLE;
-                break;
-            case 3:
-                typeAgent = TypeAgent.STAGIAIRE;
-                break;
-            default:
-                typeAgent = TypeAgent.OUVRIER;
-                break;
+            case 1: typeAgent = TypeAgent.OUVRIER; break;
+            case 2: typeAgent = TypeAgent.RESPONSABLE; break;
+            case 3: typeAgent = TypeAgent.STAGIAIRE; break;
+            default: typeAgent = TypeAgent.OUVRIER; break;
         }
 
         Agent agent = new Agent();
@@ -72,4 +57,5 @@ public class AgentView {
             return -1;
         }
     }
+    
 }

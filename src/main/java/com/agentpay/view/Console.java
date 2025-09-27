@@ -20,15 +20,14 @@ public class Console {
             Connection connection = ConfigConnection.getConnection();
             System.out.println("Connected to the database successfully!");
         } catch (SQLException e) {
-            System.err.println("Database connection failed: " + e.getMessage());
+            System.out.println("Database connection failed: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("An error occurred: " + e.getMessage());
+            System.out.println("An error occurred: " + e.getMessage());
         }
 
         AuthService authService = new AuthService(new AgentRepositoryImp());
         ControllerHandler controllerHandler = new ControllerHandler(authService);
         Login loginView = new Login(controllerHandler);
         loginView.displayLogin();
-        
     }
 }
