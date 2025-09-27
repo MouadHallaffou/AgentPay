@@ -4,7 +4,6 @@ import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.utils.SQLQueries;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import main.java.com.agentpay.config.ConfigConnection;
 
 public class AgentRepositoryImp implements AgentRepository {
@@ -188,7 +186,7 @@ public class AgentRepositoryImp implements AgentRepository {
 //            ConfigConnection.getInstance();
 //            System.out.println("Connected to the database successfully!");
 //        } catch (Exception e) {
-//            System.err.println("An error occurred: " + e.getMessage());
+//            System.out.println("An error occurred: " + e.getMessage());
 //        }
 //
 //        // test all methods

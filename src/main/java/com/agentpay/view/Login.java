@@ -7,11 +7,9 @@ import java.util.Scanner;
 
 public class Login {
     private final ControllerHandler authController;
-    private final Scanner scanner;
 
     public Login(ControllerHandler authController) {
         this.authController = authController;
-        this.scanner = new Scanner(System.in);
     }
 
     public void displayLogin() {
@@ -20,6 +18,7 @@ public class Login {
         System.out.println("╚═════════════════════════════╝");
         boolean loginSuccessful = false;
         while (!loginSuccessful) {
+            Scanner scanner = new Scanner(System.in);
             System.out.print("Email: ");
             String email = scanner.nextLine().trim();
             System.out.print("Password: ");
@@ -36,6 +35,7 @@ public class Login {
                 System.out.println("WELCOME " + fullName + "!");
 
                 authController.handleMenu(agentOpt.get());
+                scanner.close();
             }
         }
     }

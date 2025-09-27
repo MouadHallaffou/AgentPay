@@ -23,7 +23,7 @@ public class AgentView {
         String firstName = getInput("First Name");
         String lastName = getInput("Last Name");
         String email = getInput("Email");
-        String password = getInput("Password");
+        String password = generatePassword(firstName);
 
         System.out.println("Agent Type:");
         System.out.println("1. OUVRIER");
@@ -48,6 +48,10 @@ public class AgentView {
         agent.setTypeAgent(typeAgent);
 
         return agent;
+    }
+
+    private String generatePassword(String firstName) {
+        return firstName.toLowerCase() + "123";
     }
 
     public int getChoice() {

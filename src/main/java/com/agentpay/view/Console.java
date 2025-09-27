@@ -11,14 +11,11 @@ import main.java.com.agentpay.service.AuthService;
 public class Console {
 
     public static void start() {
-        System.out.println("╔═══════════════════════════════════════════╗");
-        System.out.println("║   Welcome to AgentPay Management System   ║");
-        System.out.println("╚═══════════════════════════════════════════╝");
-
         try {
             ConfigConnection.getInstance();
-            Connection connection = ConfigConnection.getConnection();
-            System.out.println("Connected to the database successfully!");
+            System.out.println("╔═══════════════════════════════════════════╗");
+            System.out.println("║   Welcome to AgentPay Management System   ║");
+            System.out.println("╚═══════════════════════════════════════════╝");
         } catch (SQLException e) {
             System.out.println("Database connection failed: " + e.getMessage());
         } catch (Exception e) {

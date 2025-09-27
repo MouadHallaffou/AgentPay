@@ -7,7 +7,6 @@ import main.java.com.agentpay.utils.SQLQueries;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,9 +121,9 @@ public class DepartementRepositoryImp implements DepartementRepository {
 //            Connection connection = ConfigConnection.getConnection();
 //            System.out.println("Connected to the database successfully!");
 //        } catch (SQLException e) {
-//            System.err.println("Database connection failed: " + e.getMessage());
+//            System.out.println("Database connection failed: " + e.getMessage());
 //        } catch (Exception e) {
-//            System.err.println("An error occurred: " + e.getMessage());
+//            System.out.println("An error occurred: " + e.getMessage());
 //        }
 //        DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
 //        Departement departement = new Departement();
