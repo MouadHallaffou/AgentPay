@@ -87,11 +87,11 @@ public class AgentService {
     // validation
     private boolean isValidAgent(Agent agent) {
         if (agent == null ||
-                Validation.isValideName(agent.getFirstName()) ||
-                Validation.isValideName(agent.getLastName()) ||
-                Validation.isValidEmail(agent.getEmail()) ||
-                (Validation.isValidPassword(agent.getPassword()) ||
-                        agent.getTypeAgent() == null)) {
+                !Validation.isValideName(agent.getFirstName()) ||
+                !Validation.isValideName(agent.getLastName()) ||
+                !Validation.isValidEmail(agent.getEmail()) ||
+                !Validation.isValidPassword(agent.getPassword()) ||
+                agent.getTypeAgent() == null) {
             return false;
         }
         return true;

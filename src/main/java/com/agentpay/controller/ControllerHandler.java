@@ -5,6 +5,7 @@ import java.util.Optional;
 import main.java.com.agentpay.config.ConfigConnection;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
+import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.service.AuthService;
 import main.java.com.agentpay.service.AgentService;
 import main.java.com.agentpay.view.Menus;
@@ -48,7 +49,7 @@ public class ControllerHandler {
         boolean running = true;
         while (running) {
             displayMenuForRole(agent);
-            int choice = agentView.getChoice();
+            int choice = AgentView.getChoice();
             running = processChoice(agent, choice);
         }
         System.out.println("Au revoir!");
@@ -185,14 +186,60 @@ public class ControllerHandler {
 
     // MÉTHODES RESPONSABLES (Directeur)
     public void handleCreateResponsable() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            Agent newResponsable = agentView.getAgentInput();
+            boolean success = agentService.createAgent(newResponsable);
+            if (success) {
+                agentView.showMessage("Responsable créé avec succès!");
+            } else {
+                agentView.showMessage("Erreur lors de la création du responsable.");
+            }
+        } catch (Exception e) {
+            agentView.showMessage("Erreur: " + e.getMessage());
+            // e.printStackTrace();
+        }
     }
 
     public void handleUpdateResponsable() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            int id = Integer.parseInt(agentView.getInput("ID du responsable à modifier"));
+            Optional<Agent> existingResponsable = agentService.getAgentById(id);
+            if (existingResponsable.isEmpty() || existingResponsable.get().getTypeAgent() != TypeAgent.RESPONSABLE) {
+                agentView.showMessage("Responsable non trouvé.");
+                return;
+            }
+            Agent updatedResponsable = agentView.getUpdateAgentInput(id);
+            updatedResponsable.setUserID(id); // ID reste le même
+            boolean success = agentService.updateAgent(updatedResponsable);
+            if (success) {
+                agentView.showMessage("Responsable mis à jour avec succès!");
+            } else {
+                agentView.showMessage("Erreur lors de la mise à jour du responsable.");
+            }
+        } catch (NumberFormatException e) {
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur: " + e.getMessage());
+        }
     }
 
     public void handleDeleteResponsable() {
+         try {
+            int id = Integer.parseInt(agentView.getInput("ID du Responsable a supprimer"));
+            boolean success = agentService.deleteAgent(id);
+            if (success) {
+                agentView.showMessage("responsable supprimé avec succès!");
+            } else {
+                agentView.showMessage("Erreur lors de la suppression du responsable avec l'ID: " + id);
+            }
+        } catch (NumberFormatException e) {
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur: " + e.getMessage());
+        }
+    }
+
+    public void handleDesactiveResponsableCompte() {
         agentView.showMessage("Fonctionnalité en développement");
     }
 

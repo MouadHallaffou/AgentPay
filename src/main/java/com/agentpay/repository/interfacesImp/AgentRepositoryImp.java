@@ -109,8 +109,9 @@ public class AgentRepositoryImp implements AgentRepository {
     public boolean delete(int agentID) {
         String query = SQLQueries.deleteById("agents", "agentID");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1,agentID);
             int rowsAffected = statement.executeUpdate();
-            System.out.println("Agent deleted successfully");
+            // System.out.println("Agent deleted successfully");
             return rowsAffected > 0;
         } catch (SQLException e) {
             e.printStackTrace();
