@@ -5,7 +5,7 @@ import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.enums.TypeAgent;
 
 public class AgentView {
-    private final Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public String getInput(String message) {
         System.out.print(message + ": ");
@@ -54,7 +54,7 @@ public class AgentView {
         return firstName.toLowerCase() + "123";
     }
 
-    public int getChoice() {
+    public static int getChoice() {
         try {
             return Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {

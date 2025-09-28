@@ -14,7 +14,7 @@ public class Paiement {
     }
 
     public Paiement(int paiemantID, TypePaiement typePaiement, Date datePaiement, String motif, Agent agent) {
-        paiemantID = paiemantID;
+        this.paiemantID = paiemantID;
         this.typePaiement = typePaiement;
         this.datePaiement = datePaiement;
         this.motif = motif;
@@ -26,7 +26,7 @@ public class Paiement {
     }
 
     public void setPaiemantID(int paiemantID) {
-        paiemantID = paiemantID;
+        this.paiemantID = paiemantID;
     }
 
     public TypePaiement getTypePaiement() {

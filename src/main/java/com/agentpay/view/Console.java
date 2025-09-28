@@ -1,12 +1,10 @@
 package main.java.com.agentpay.view;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-
-import main.java.com.agentpay.config.ConfigConnection;
 import main.java.com.agentpay.controller.ControllerHandler;
 import main.java.com.agentpay.repository.interfacesImp.AgentRepositoryImp;
 import main.java.com.agentpay.service.AuthService;
+import main.java.com.agentpay.config.ConfigConnection;
 
 public class Console {
 

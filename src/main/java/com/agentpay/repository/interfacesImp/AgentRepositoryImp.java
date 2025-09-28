@@ -1,6 +1,7 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.model.Agent;
+import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.utils.SQLQueries;
@@ -46,12 +47,13 @@ public class AgentRepositoryImp implements AgentRepository {
     @Override
     public boolean insert(Agent agent) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                SQLQueries.insertInto("agents", "firstName", "lastName", "email", "password", "type_agent"))) {
+                SQLQueries.insertInto("agents", "firstName", "lastName", "email", "password", "type_agent", "departementID"))) {
             preparedStatement.setString(1, agent.getFirstName());
             preparedStatement.setString(2, agent.getLastName());
             preparedStatement.setString(3, agent.getEmail());
             preparedStatement.setString(4, agent.getPassword());
             preparedStatement.setString(5, agent.getTypeAgent().name());
+            preparedStatement.setInt(6, agent.getDepartement().getDepartementID());
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Agent inserted successfully");
             return rowsAffected > 0;
@@ -86,13 +88,14 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean update(Agent agent) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.updateQuery("agents", "agentID", "firstName", "lastName", "email", "password", "type_agent"))) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.updateQuery("agents", "agentID", "firstName", "lastName", "email", "password", "type_agent", "departementID"))) {
             preparedStatement.setString(1, agent.getFirstName());
             preparedStatement.setString(2, agent.getLastName());
             preparedStatement.setString(3, agent.getEmail());
             preparedStatement.setString(4, agent.getPassword());
             preparedStatement.setString(5, agent.getTypeAgent().name());
-            preparedStatement.setInt(6, agent.getUserID());
+            preparedStatement.setInt(6, agent.getDepartement().getDepartementID());
+            preparedStatement.setInt(7, agent.getUserID());
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Agent updated successfully");
             return rowsAffected > 0;
@@ -168,7 +171,7 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean setAgentAccountStatus(int agentID, boolean isActive) {
-        String query = "UPDATE agents SET is_active = ? WHERE agentID = ?";
+        String query = "UPDATE agents SET isActive = ? WHERE agentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setBoolean(1, isActive);
             statement.setInt(2, agentID);
@@ -193,11 +196,14 @@ public class AgentRepositoryImp implements AgentRepository {
 //        AgentRepositoryImp agentRepository = new AgentRepositoryImp();
 //        // Insert a new agent
 //        Agent agent = new Agent();
-//        agent.setFirstName("test");
-//        agent.setLastName("test");
-//        agent.setEmail("test@example.com");
+//        Departement departement = new Departement();
+//        departement.setDepartementID(1);
+//        agent.setFirstName("Anass");
+//        agent.setLastName("Anass");
+//        agent.setEmail("Anass@example.com");
 //        agent.setPassword("1234");
-//        agent.setTypeAgent(TypeAgent.OUVRIER);
+//        agent.setTypeAgent(TypeAgent.RESPONSABLE);
+//        agent.setDepartement(departement);
 //        agentRepository.insert(agent);
 //
 //        // Find agent by email
@@ -223,7 +229,7 @@ public class AgentRepositoryImp implements AgentRepository {
 //        }
 //        List<Agent> agentslsit = agentRepository.findByDepartement("Informatique");
 //        agentslsit.forEach(a -> System.out.println("agents :" + a.getFirstName()));
-//
+
 //    }
 
 }
