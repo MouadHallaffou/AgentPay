@@ -31,4 +31,10 @@ public class SQLQueries {
         return query.toString();
     }
 
+    public static String selectAllDepartements(String tableName, String joinTable) {
+        return "SELECT * FROM " + tableName + " d"
+                + " JOIN " + joinTable + " a ON a.departementID = d.departementID"
+                + " WHERE a.type_agent = \"RESPONSABLE\"";
+    }
+
 }

@@ -1,7 +1,5 @@
 package main.java.com.agentpay.view;
 
-import main.java.com.agentpay.controller.ControllerHandler;
-import main.java.com.agentpay.model.Agent;
 
 public class Menus {
     
