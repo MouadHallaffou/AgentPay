@@ -107,7 +107,7 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean delete(int agentID) {
-        String query = SQLQueries.deleteById("agents", agentID);
+        String query = SQLQueries.deleteById("agents", "agentID");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             int rowsAffected = statement.executeUpdate();
             System.out.println("Agent deleted successfully");

@@ -26,7 +26,8 @@ public class ControllerHandler {
         this.authService = authService;
         this.agentService = new AgentService(new AgentRepositoryImp());
         this.agentView = new AgentView();
-        this.departementService = new DepartementService(new DepartementRepositoryImp(ConfigConnection.getConnection()));
+        this.departementService = new DepartementService(
+                new DepartementRepositoryImp(ConfigConnection.getConnection()));
         this.menuHandler = new MenuHandler(this);
     }
 
@@ -170,8 +171,11 @@ public class ControllerHandler {
                 agentView.showMessage("Aucun département trouvé.");
             } else {
                 agentView.showMessage("Liste des départements:");
-                for (var departement : departements) {
-                    agentView.showMessage(departement.toString());
+                System.out.printf("%-25s %-25s %-15s%n", "Département", "Responsable", "Total Agents");
+                for (var dep : departements) {
+                    String responsable = dep.getResponsable();
+                    int totalAgents = dep.getTotalAgents();
+                    System.out.printf("%-25s %-25s %-15d%n", dep.getName(), responsable, totalAgents);
                 }
             }
         } catch (Exception e) {

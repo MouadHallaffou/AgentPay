@@ -28,9 +28,7 @@ public class DepartementService {
 
     public boolean updateDepartement(Departement departement) {
         try {
-            DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp(null);
-            Optional<Departement> existingDepartement = departementRepositoryImp
-                    .findById(departement.getDepartementID());
+            Optional<Departement> existingDepartement = departementRepository.findById(departement.getDepartementID());
             if (!existingDepartement.isPresent()) {
                 throw new RuntimeException("Le département avec l'ID spécifié n'existe pas!");
             }

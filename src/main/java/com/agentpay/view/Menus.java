@@ -20,6 +20,7 @@ public class Menus {
         System.out.println("3.➤ Supprimer département");
         System.out.println("4.➤ Voir tous les départements");
         System.out.println("0.➤ Retour");
+        System.out.print("Votre choix: ");
     }
 
     public static void afficherMenuGestionResponsable() {
