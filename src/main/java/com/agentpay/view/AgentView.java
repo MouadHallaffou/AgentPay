@@ -1,8 +1,6 @@
 package main.java.com.agentpay.view;
 
 import java.util.Scanner;
-
-import main.java.com.agentpay.controller.ControllerHandler;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;

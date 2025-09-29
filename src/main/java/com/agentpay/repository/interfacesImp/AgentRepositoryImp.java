@@ -1,7 +1,6 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.model.Agent;
-import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.utils.SQLQueries;
