@@ -171,10 +171,10 @@ public class AgentRepositoryImp implements AgentRepository {
     }
 
     @Override
-    public boolean setAgentAccountStatus(int agentID, boolean isActive) {
+    public boolean setAgentAccountStatus(int agentID) {
         String query = "UPDATE agents SET isActive = ? WHERE agentID = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setBoolean(1, isActive);
+            statement.setBoolean(1, false);
             statement.setInt(2, agentID);
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;

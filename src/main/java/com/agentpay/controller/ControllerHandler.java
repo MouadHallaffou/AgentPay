@@ -240,11 +240,45 @@ public class ControllerHandler {
     }
 
     public void handleDesactiveResponsableCompte() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            int id = Integer.parseInt(agentView.getInput("ID du responsable à désactiver"));
+            Optional<Agent> existingResponsable = agentService.getAgentById(id);
+            if (existingResponsable.isEmpty() || existingResponsable.get().getTypeAgent() != TypeAgent.RESPONSABLE) {
+                agentView.showMessage("Responsable non trouvé.");
+                return;
+            }
+            Agent responsable = existingResponsable.get();
+            responsable.setIsActive(false);
+            boolean success = agentService.setAgentAccountStatus(responsable.getUserID());
+            if (success) {
+                agentView.showMessage("Compte du responsable désactivé avec succès!");
+            } else {
+                agentView.showMessage("Erreur lors de la désactivation du compte du responsable.");
+            }
+        } catch (NumberFormatException e) {
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur: " + e.getMessage());
+        }
     }
 
     public void handleViewAllResponsables() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try{
+            var responsables = agentService.getAllAgents();
+            if (responsables.isEmpty()) {
+                agentView.showMessage("Aucun responsable trouvé.");
+            } else {
+                int index = 1;
+                for(Agent res : responsables) {
+                    if (res.getTypeAgent()==TypeAgent.RESPONSABLE) {
+                        System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
+                        index++;
+                    }
+                }
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void handleManageResponsablePayments() {

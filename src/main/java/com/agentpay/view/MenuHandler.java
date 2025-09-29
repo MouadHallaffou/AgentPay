@@ -117,8 +117,9 @@ public class MenuHandler {
             case 1 -> controller.handleCreateResponsable();
             case 2 -> controller.handleUpdateResponsable();
             case 3 -> controller.handleDeleteResponsable();
-            case 4 -> controller.handleViewAllResponsables();
-            case 5 -> controller.handleManageResponsablePayments();
+            case 4 -> controller.handleDesactiveResponsableCompte();
+            case 5 -> controller.handleViewAllResponsables();
+            case 6 -> controller.handleManageResponsablePayments();
             case 0 -> {
                 return true;
             }

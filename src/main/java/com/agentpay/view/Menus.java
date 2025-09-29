@@ -27,8 +27,9 @@ public class Menus {
         System.out.println("1.➤ Ajouter un responsable");
         System.out.println("2.➤ Modifier un responsable");
         System.out.println("3.➤ Supprimer un responsable");
-        System.out.println("4.➤ Voir tous les responsables");
-        System.out.println("5.➤ Gérer les paiements des responsables");
+        System.out.println("4.➤ Désactiver un responsable");
+        System.out.println("5.➤ Voir tous les responsables");
+        System.out.println("6.➤ Gérer les paiements des responsables");
         System.out.println("0.➤ Retour");
         System.out.print("Votre choix: ");
     }

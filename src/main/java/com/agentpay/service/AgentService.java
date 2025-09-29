@@ -84,6 +84,20 @@ public class AgentService {
         }
     }
 
+    // descative a compte responsbale
+    public boolean setAgentAccountStatus(int userID){
+        try {
+            Optional<Agent> agent = getAgentById(userID);
+            if (agent.isPresent()) {
+                return agentRepository.setAgentAccountStatus(userID);
+            }
+            return false;
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     // validation
     private boolean isValidAgent(Agent agent) {
         if (agent == null ||
