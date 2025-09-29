@@ -70,6 +70,7 @@ public class Menus {
         System.out.println("4.➤ Voir tous les agents du département");
         System.out.println("5.➤ Rechercher un agent");
         System.out.println("0.➤ Retour");
+        System.out.print("Votre choix: ");
     }
 
     public static void afficherMenuGestionPaiementsResponsable() {

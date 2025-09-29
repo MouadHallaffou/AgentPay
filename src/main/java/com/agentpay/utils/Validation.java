@@ -16,4 +16,7 @@ public class Validation {
         return password != null && password.length() >= 8;
     }
 
+    public static boolean salaireValide(double salaire) {
+        return  salaire > 0;
+    }
 }

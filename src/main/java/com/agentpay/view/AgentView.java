@@ -1,6 +1,8 @@
 package main.java.com.agentpay.view;
 
 import java.util.Scanner;
+
+import main.java.com.agentpay.controller.ControllerHandler;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
@@ -10,7 +12,7 @@ public class AgentView {
 
     public String getInput(String message) {
         System.out.print(message + ": ");
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     public void showMessage(String message) {

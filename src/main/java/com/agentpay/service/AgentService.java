@@ -4,6 +4,7 @@ import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.utils.Validation;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
@@ -96,6 +97,19 @@ public class AgentService {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    // fin agents by department:
+    public List<Agent> finAgentByDepartement(String departementName) {
+        try {
+            List<Agent> agents = agentRepository.findByDepartement(departementName);
+            if (agents != null && !agents.isEmpty()) {
+                return List.of(agents.get(0));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return new ArrayList<>();
     }
 
     // validation

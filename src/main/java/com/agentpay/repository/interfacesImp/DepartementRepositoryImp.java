@@ -26,7 +26,7 @@ public class DepartementRepositoryImp implements DepartementRepository {
     public boolean insert(Departement departement) {
         try (PreparedStatement preparedStatement = connection
                 .prepareStatement(SQLQueries.insertInto("departements", "name"))) {
-            preparedStatement.setString(1, departement.getName());
+            preparedStatement.setString(1, departement.getName().toUpperCase());
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class DepartementRepositoryImp implements DepartementRepository {
     public boolean update(Departement departement) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 SQLQueries.updateQuery("departements", "departementID", "name"))) {
-            preparedStatement.setString(1, departement.getName());
+            preparedStatement.setString(1, departement.getName().toUpperCase());
             preparedStatement.setInt(2, departement.getDepartementID());
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;

@@ -33,7 +33,7 @@ public class Login {
                 loginSuccessful = true;
                 String fullName = agentOpt.get().getFirstName() + " " + agentOpt.get().getLastName();
                 System.out.println("╔═════════════════════════════════╗");
-                System.out.println("    Welcome " + fullName + "         ");
+                System.out.println("     Welcome " + fullName + "        ");
                 System.out.println("╚═════════════════════════════════╝");
 
                 authController.handleMenu(agentOpt.get());
