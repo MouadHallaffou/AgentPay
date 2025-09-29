@@ -149,7 +149,7 @@ public class AgentRepositoryImp implements AgentRepository {
                 "WHERE d.name = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, departementName);
+            statement.setString(1, departementName.toLowerCase());
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {

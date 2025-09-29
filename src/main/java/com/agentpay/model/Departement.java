@@ -1,6 +1,5 @@
 package main.java.com.agentpay.model;
 
-import java.util.ArrayList;
 
 public class Departement {
     private int departementID;

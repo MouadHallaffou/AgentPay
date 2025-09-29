@@ -1,5 +1,6 @@
 package main.java.com.agentpay.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import main.java.com.agentpay.config.ConfigConnection;
@@ -339,15 +340,63 @@ public class ControllerHandler {
     }
 
     public void handleUpdateAgent() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            int id = Integer.parseInt(agentView.getInput("ID de l'agent à modifier"));
+            Optional<Agent> existingAgent = agentService.getAgentById(id);
+            if (!existingAgent.isPresent() || existingAgent.get().getTypeAgent() == TypeAgent.RESPONSABLE ) {
+                System.out.println("il faut selectionne un exist agent");
+                return;
+            }
+            Agent updatedAgent = agentView.getUpdateAgentInput(id);
+            updatedAgent.setUserID(id); // ID reste le même
+            System.out.println(updatedAgent);
+            boolean success = agentService.updateAgent(updatedAgent);
+            if (success) {
+                agentView.showMessage("Responsable mis à jour avec succès!");
+            } else {
+                agentView.showMessage("Erreur lors de la mise à jour du responsable.");
+            }
+        } catch (NumberFormatException e) {
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur: " + e.getMessage());
+        }
     }
 
     public void handleDeleteAgent() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            int id = Integer.parseInt(agentView.getInput("ID de l'agent a supprimer"));
+            boolean success = agentService.deleteAgent(id);
+            if (success) {
+                agentView.showMessage("agent supprimé avec succès!");
+            } else {
+                agentView.showMessage("Erreur lors de la suppression de l'agent avec l'ID: " + id);
+            }
+        } catch (NumberFormatException e) {
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur: " + e.getMessage());
+        }
     }
 
     public void handleViewDepartmentAgents() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try{
+            String departementName = agentView.getInput("le name du de partement");
+            List<Agent> agents = agentService.finAgentByDepartement(departementName.trim().toUpperCase());
+            if (agents == null || agents.isEmpty()) {
+                agentView.showMessage("Aucun agent trouvé.");
+            } else {
+                int index = 1;
+                for(Agent res : agents) {
+                    if (res.getTypeAgent()==TypeAgent.OUVRIER || res.getTypeAgent()==TypeAgent.STAGIAIRE) {
+                        System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
+                        index++;
+                    }
+                }
+            }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void handleSearchAgent() {
