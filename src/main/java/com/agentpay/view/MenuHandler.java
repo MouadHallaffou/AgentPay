@@ -13,27 +13,27 @@ public class MenuHandler {
     public boolean handleDirecteurChoice(int choice) {
         switch (choice) {
             case 1 -> {
-                Menus.afficherGestionDepartement();
+                Menu.afficherGestionDepartement();
                 return handleGestionDepartement();
             }
             case 2 -> {
-                Menus.afficherMenuGestionResponsable();
+                Menu.afficherMenuGestionResponsable();
                 return handleGestionResponsable();
             }
             case 3 -> {
-                Menus.afficherMenuAllAgents();
+                Menu.afficherMenuAllAgents();
                 return handleConsultationAgents();
             }
             case 4 -> {
-                Menus.afficherMenuStatistiquesDirecteur();
+                Menu.afficherMenuStatistiquesDirecteur();
                 return handleStatistiquesDirecteur();
             }
             case 0 -> {
-                Menus.logout();
+                Menu.logout();
                 return false;
             }
             default -> {
-                Menus.invalidChoice();
+                Menu.invalidChoice();
                 return true;
             }
         }
@@ -43,23 +43,23 @@ public class MenuHandler {
     public boolean handleResponsableChoice(int choice) {
         switch (choice) {
             case 1 -> {
-                Menus.afficherMenuGestionAgentsResponsable();
+                Menu.afficherMenuGestionAgentsResponsable();
                 return handleGestionAgentsResponsable();
             }
             case 2 -> {
-                Menus.afficherMenuGestionPaiementsResponsable();
+                Menu.afficherMenuGestionPaiementsResponsable();
                 return handleGestionPaiementsResponsable();
             }
             case 3 -> {
-                Menus.afficherMenuStatistiquesResponsable();
+                Menu.afficherMenuStatistiquesResponsable();
                 return handleStatistiquesResponsable();
             }
             case 0 -> {
-                Menus.logout();
+                Menu.logout();
                 return false;
             }
             default -> {
-                Menus.invalidChoice();
+                Menu.invalidChoice();
                 return true;
             }
         }
@@ -77,7 +77,7 @@ public class MenuHandler {
                 return true;
             }
             case 3 -> {
-                Menus.afficherMenuFiltragePaiementsAgent();
+                Menu.afficherMenuFiltragePaiementsAgent();
                 return handleFiltragePaiementsAgent();
             }
             case 4 -> {
@@ -85,11 +85,11 @@ public class MenuHandler {
                 return true;
             }
             case 0 -> {
-                Menus.logout();
+                Menu.logout();
                 return false;
             }
             default -> {
-                Menus.invalidChoice();
+                Menu.invalidChoice();
                 return true;
             }
         }
@@ -106,7 +106,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -123,7 +123,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -138,7 +138,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -154,7 +154,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -171,7 +171,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -188,7 +188,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -203,7 +203,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }
@@ -218,7 +218,7 @@ public class MenuHandler {
             case 0 -> {
                 return true;
             }
-            default -> Menus.invalidChoice();
+            default -> Menu.invalidChoice();
         }
         return true;
     }

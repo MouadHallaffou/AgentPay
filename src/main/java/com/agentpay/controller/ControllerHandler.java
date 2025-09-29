@@ -9,7 +9,7 @@ import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.service.AuthService;
 import main.java.com.agentpay.service.AgentService;
-import main.java.com.agentpay.view.Menus;
+import main.java.com.agentpay.view.Menu;
 import main.java.com.agentpay.view.AgentView;
 import main.java.com.agentpay.view.MenuHandler;
 import main.java.com.agentpay.repository.interfacesImp.AgentRepositoryImp;
@@ -60,14 +60,14 @@ public class ControllerHandler {
     private void displayMenuForRole(Agent agent) {
         switch (agent.getTypeAgent()) {
             case DIRECTEUR:
-                Menus.afficherMenuDirecteur();
+                Menu.afficherMenuDirecteur();
                 break;
             case RESPONSABLE:
-                Menus.afficherMenuResponsable();
+                Menu.afficherMenuResponsable();
                 break;
             case OUVRIER:
             case STAGIAIRE:
-                Menus.afficherMenuAgent();
+                Menu.afficherMenuAgent();
                 break;
             default:
                 System.out.println("Type d'agent inconnu!");

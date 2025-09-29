@@ -1,6 +1,6 @@
 package main.java.com.agentpay.view;
 
-public class Menus {
+public class Menu {
 
     // Méthodes d'affichage des menus
     public static void afficherMenuDirecteur() {

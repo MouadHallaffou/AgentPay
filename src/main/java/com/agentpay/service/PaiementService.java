@@ -13,23 +13,64 @@ public class PaiementService {
         this.paiementRepository = paiementRepository;
     }
 
+    // Enregistrer un paiement
     public boolean enregistrerPaiement(Paiement paiement) {
-        if (Validation.salaireValide(paiement.getMontant())){
-
+        if (paiement.getTypePaiement() == null) {
+            throw new IllegalArgumentException("Type de paiement obligatoire");
+        }
+        if (paiement.getMontant() <= 0) {
+            throw new IllegalArgumentException("Le montant doit être positif");
+        }
+        switch (paiement.getTypePaiement()) {
+            case SALAIRE -> {
+                if (!Validation.salaireValide(paiement.getMontant())) {
+                    throw new IllegalArgumentException("Montant de salaire invalide");
+                }
+            }
+            case BONUS, INDEMNITE, PRIME -> {
+                // 
+            }
         }
         return paiementRepository.insert(paiement);
     }
 
+    // Obtenir un paiement par ID
     public Optional<Paiement> obtenirPaiement(int id) {
+        if (id <= 0)
+            throw new IllegalArgumentException("ID de paiement invalide");
         return paiementRepository.findById(id);
     }
 
+    // Modifier un paiement
     public boolean modifierPaiement(Paiement paiement) {
+        if (paiement.getPaiementID() <= 0) {
+            throw new IllegalArgumentException("ID de paiement invalide");
+        }
+        if (paiement.getTypePaiement() == null) {
+            throw new IllegalArgumentException("Type de paiement obligatoire");
+        }
+        if (paiement.getMontant() <= 0) {
+            throw new IllegalArgumentException("Le montant doit être positif");
+        }
+        // Validation métier selon le type
+        switch (paiement.getTypePaiement()) {
+            case SALAIRE -> {
+                if (!Validation.salaireValide(paiement.getMontant())) {
+                    throw new IllegalArgumentException("Montant de salaire invalide");
+                 }
+            } 
+            case BONUS, INDEMNITE, PRIME -> {
+                //   
+            }
+        }
         return paiementRepository.update(paiement);
     }
 
     public boolean supprimerPaiement(int id) {
+        if (id <= 0)
+            throw new IllegalArgumentException("ID de paiement invalide");
         return paiementRepository.delete(id);
     }
-}
 
+
+}
