@@ -7,6 +7,7 @@ import main.java.com.agentpay.config.ConfigConnection;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
+import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.AuthService;
 import main.java.com.agentpay.service.AgentService;
 import main.java.com.agentpay.service.PaiementService;
@@ -422,7 +423,7 @@ public class ControllerHandler {
     // MÉTHODES PAIEMENTS (Responsable)
     public void handleAddSalary() {
         try {
-            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput());
+            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput(TypePaiement.SALAIRE));
             if (success) {
                 agentView.showMessage("Paiement enregistré avec succès !");
             } else {
@@ -437,7 +438,7 @@ public class ControllerHandler {
 
     public void handleAddPrime() {
         try {
-            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInputPrime());
+            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput(TypePaiement.PRIME));
             if (success) {
                 agentView.showMessage("Paiement enregistré avec succès !");
             } else {
