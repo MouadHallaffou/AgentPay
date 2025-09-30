@@ -19,4 +19,5 @@ public class Validation {
     public static boolean salaireValide(double salaire) {
         return  salaire > 0;
     }
+    
 }
