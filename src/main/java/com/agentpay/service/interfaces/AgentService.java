@@ -5,7 +5,7 @@ import java.util.Optional;
 import main.java.com.agentpay.model.Agent;
 
 public interface AgentService {
-    boolean createAgent(Agent agent);
+    boolean createAgent(Agent agent); 
 
     boolean updateAgent(Agent agent);
 
@@ -14,6 +14,8 @@ public interface AgentService {
     List<Agent> getAllAgents();
 
     Optional<Agent> getAgentById(int id);
+
+    Optional<Agent> findByEmail(String email); 
 
     boolean setAgentAccountStatus(int userID);
 

@@ -1,14 +1,14 @@
 package main.java.com.agentpay.view;
 
-import main.java.com.agentpay.controller.ControllerHandler;
+import main.java.com.agentpay.controller.AuthController;
 import main.java.com.agentpay.model.Agent;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class Login {
-    private final ControllerHandler authController;
+    private final AuthController authController;
 
-    public Login(ControllerHandler authController) {
+    public Login(AuthController authController) {
         this.authController = authController;
     }
 

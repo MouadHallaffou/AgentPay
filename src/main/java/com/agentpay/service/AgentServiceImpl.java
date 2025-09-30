@@ -137,6 +137,17 @@ public class AgentServiceImpl implements AgentService{
         return null;
     }
 
+    // findByEmail
+    @Override
+    public Optional<Agent> findByEmail(String email) {
+        try {
+            return agentRepository.findByEmail(email);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la recherche de l'agent par email: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
     // validation
     private boolean isValidAgent(Agent agent) {
         if (agent == null ||
