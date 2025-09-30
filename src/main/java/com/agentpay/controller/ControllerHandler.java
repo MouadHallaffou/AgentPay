@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import main.java.com.agentpay.config.ConfigConnection;
+import main.java.com.agentpay.exceptions.PaiementInvalideException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
@@ -19,7 +20,6 @@ import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
 import main.java.com.agentpay.repository.interfacesImp.PaiementRepositoryImp;
 import main.java.com.agentpay.service.DepartementServiceImpl;
 import main.java.com.agentpay.utils.Validation;
-import main.java.com.agentpay.exceptions.PaiementValidationException;
 
 public class ControllerHandler {
     private final AuthService authService;
@@ -429,7 +429,7 @@ public class ControllerHandler {
             } else {
                 agentView.showMessage("Erreur lors de l'enregistrement du paiement.");
             }
-        } catch (PaiementValidationException e) {
+        } catch (PaiementInvalideException e) {
             agentView.showMessage("Erreur de validation : " + e.getMessage());
         } catch (Exception e) {
             agentView.showMessage("Erreur : " + e.getMessage());
@@ -444,7 +444,7 @@ public class ControllerHandler {
             } else {
                 agentView.showMessage("Erreur lors de l'enregistrement du paiement.");
             }
-        } catch (PaiementValidationException e) {
+        } catch (PaiementInvalideException e) {
             agentView.showMessage("Erreur de validation : " + e.getMessage());
         } catch (Exception e) {
             agentView.showMessage("Erreur : " + e.getMessage());

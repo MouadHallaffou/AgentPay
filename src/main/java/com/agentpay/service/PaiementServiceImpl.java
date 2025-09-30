@@ -1,6 +1,6 @@
 package main.java.com.agentpay.service;
 
-import main.java.com.agentpay.exceptions.PaiementDatabaseException;
+import main.java.com.agentpay.exceptions.ValidationException;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
 import main.java.com.agentpay.service.interfaces.PaiementService;
@@ -15,7 +15,7 @@ public class PaiementServiceImpl implements PaiementService{
     }
 
     // Enregistrer
-    public boolean enregistrerPaiement(Paiement paiement) throws PaiementDatabaseException {
+    public boolean enregistrerPaiement(Paiement paiement) throws ValidationException {
         if (paiement.getTypePaiement() == null) {
             throw new IllegalArgumentException("Type de paiement obligatoire");
         }
