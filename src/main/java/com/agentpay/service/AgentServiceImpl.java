@@ -2,13 +2,14 @@ package main.java.com.agentpay.service;
 
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
+import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.utils.Validation;
 
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
-public class AgentServiceImp {
+public class AgentServiceImp implements AgentService{
     private final AgentRepository agentRepository;
 
     public AgentServiceImp(AgentRepository agentRepository) {
@@ -21,7 +22,6 @@ public class AgentServiceImp {
             if (!isValidAgent(agent)) {
                 return false;
             }
-            // verifiie si l'email existe deja ou non
             Optional<Agent> existingAgent = agentRepository.findByEmail(agent.getEmail());
             if (existingAgent.isPresent()) {
                 throw new RuntimeException("Un agent avec cet email existe déjà!");
