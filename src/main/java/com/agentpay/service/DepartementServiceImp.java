@@ -6,10 +6,10 @@ import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.repository.interfaces.DepartementRepository;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
 
-public class DepartementService {
+public class DepartementServiceImp {
     private final DepartementRepository departementRepository;
 
-    public DepartementService(DepartementRepository departementRepository) {
+    public DepartementServiceImp(DepartementRepository departementRepository) {
         this.departementRepository = departementRepository;
     }
 

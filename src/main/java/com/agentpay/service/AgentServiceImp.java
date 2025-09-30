@@ -8,10 +8,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
-public class AgentService {
+public class AgentServiceImp {
     private final AgentRepository agentRepository;
 
-    public AgentService(AgentRepository agentRepository) {
+    public AgentServiceImp(AgentRepository agentRepository) {
         this.agentRepository = agentRepository;
     }
 

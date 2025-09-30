@@ -1,6 +1,5 @@
 package main.java.com.agentpay.service;
 
-import main.java.com.agentpay.config.ConfigConnection;
 import main.java.com.agentpay.exceptions.PaiementDatabaseException;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
@@ -8,10 +7,10 @@ import main.java.com.agentpay.utils.Validation;
 
 import java.util.Optional;
 
-public class PaiementService {
+public class PaiementServiceImp {
     private final PaiementRepository paiementRepository;
 
-    public PaiementService(PaiementRepository paiementRepository) {
+    public PaiementServiceImp(PaiementRepository paiementRepository) {
         this.paiementRepository = paiementRepository;
     }
 

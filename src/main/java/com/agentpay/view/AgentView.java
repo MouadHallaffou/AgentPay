@@ -10,13 +10,13 @@ import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
-import main.java.com.agentpay.service.AgentService;
+import main.java.com.agentpay.service.AgentServiceImp;
 
 public class AgentView {
     private static final Scanner scanner = new Scanner(System.in);
-    private final AgentService agentService;
+    private final AgentServiceImp agentService;
 
-    public AgentView(AgentService agentService) {
+    public AgentView(AgentServiceImp agentService) {
         this.agentService = agentService;
     }
 

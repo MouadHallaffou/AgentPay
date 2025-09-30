@@ -1,7 +1,6 @@
 package main.java.com.agentpay.view;
 
 import main.java.com.agentpay.controller.ControllerHandler;
-import main.java.com.agentpay.model.Paiement;
 
 public class MenuHandler {
     private final ControllerHandler controller;

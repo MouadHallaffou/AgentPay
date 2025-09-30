@@ -18,9 +18,11 @@ src/
  │          └─ PaiementInvalideException.java
  │
  ├─ main.java.AgentPay.repository/            
- │    ├─ AgentRepository.java
- │    ├─ DepartementRepository.java
- │    └─ PaiementRepository.java
+ │    ├─ interfaces/
+ │    └─ interfacesimp/
+ │         ├─ AgentRepository.java
+ │         ├─ DepartementRepository.java
+ │         └─ PaiementRepository.java
  │
  ├─ main.java.AgentPay.service/               
  │    ├─ interfaces/
