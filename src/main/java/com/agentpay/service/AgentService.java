@@ -104,12 +104,29 @@ public class AgentService {
         try {
             List<Agent> agents = agentRepository.findByDepartement(departementName);
             if (agents != null && !agents.isEmpty()) {
-                return List.of(agents.get(0));
+                return (agents);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return new ArrayList<>();
+    }
+
+    // Get agent by full full_name
+    public Agent getAgentByFullName(String name) {
+        try {
+            List<Agent> agents = agentRepository.findAll();
+            for (Agent agent : agents) {
+                String fullName = agent.getFirstName() + " " + agent.getLastName();
+                if (fullName.equalsIgnoreCase(name)) {
+                    return agent;
+                }
+            }
+            System.out.println("Agent: " + name + " not found");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // validation

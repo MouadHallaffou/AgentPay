@@ -70,4 +70,15 @@ public class Paiement {
         this.agent = agent;
     }
 
+    @Override
+    public String toString() {
+        return "Paiement{" +
+                "paiementID=" + paiementID +
+                ", typePaiement=" + typePaiement +
+                ", montant=" + montant +
+                ", datePaiement=" + datePaiement +
+                ", motif='" + motif + '\'' +
+                ", agent=" + agent +
+                '}';
+    }
 }

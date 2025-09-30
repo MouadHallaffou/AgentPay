@@ -1,5 +1,7 @@
 package main.java.com.agentpay.service;
 
+import main.java.com.agentpay.config.ConfigConnection;
+import main.java.com.agentpay.exceptions.PaiementDatabaseException;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
 import main.java.com.agentpay.utils.Validation;
@@ -14,7 +16,7 @@ public class PaiementService {
     }
 
     // Enregistrer un paiement
-    public boolean enregistrerPaiement(Paiement paiement) {
+    public boolean enregistrerPaiement(Paiement paiement) throws PaiementDatabaseException {
         if (paiement.getTypePaiement() == null) {
             throw new IllegalArgumentException("Type de paiement obligatoire");
         }
@@ -28,7 +30,7 @@ public class PaiementService {
                 }
             }
             case BONUS, INDEMNITE, PRIME -> {
-                // 
+                //
             }
         }
         return paiementRepository.insert(paiement);

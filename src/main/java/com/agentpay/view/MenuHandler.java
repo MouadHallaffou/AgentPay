@@ -1,6 +1,7 @@
 package main.java.com.agentpay.view;
 
 import main.java.com.agentpay.controller.ControllerHandler;
+import main.java.com.agentpay.model.Paiement;
 
 public class MenuHandler {
     private final ControllerHandler controller;
@@ -132,7 +133,7 @@ public class MenuHandler {
         int subChoice = AgentView.getChoice();
         switch (subChoice) {
             case 1 -> controller.handleViewAllAgents();
-            case 2 -> controller.handleSearchAgentById();
+            case 2 -> controller.handleSearchAgent();
             case 3 -> controller.handleFilterAgentsByDepartment();
             case 4 -> controller.handleFilterAgentsByRole();
             case 0 -> {

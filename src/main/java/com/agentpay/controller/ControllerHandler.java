@@ -9,13 +9,16 @@ import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.service.AuthService;
 import main.java.com.agentpay.service.AgentService;
+import main.java.com.agentpay.service.PaiementService;
 import main.java.com.agentpay.view.Menu;
 import main.java.com.agentpay.view.AgentView;
 import main.java.com.agentpay.view.MenuHandler;
 import main.java.com.agentpay.repository.interfacesImp.AgentRepositoryImp;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
+import main.java.com.agentpay.repository.interfacesImp.PaiementRepositoryImp;
 import main.java.com.agentpay.service.DepartementService;
 import main.java.com.agentpay.utils.Validation;
+import main.java.com.agentpay.exceptions.PaiementValidationException;
 
 public class ControllerHandler {
     private final AuthService authService;
@@ -23,14 +26,16 @@ public class ControllerHandler {
     private final AgentView agentView;
     private final DepartementService departementService;
     private final MenuHandler menuHandler;
+    private final PaiementService paiementService;
 
     public ControllerHandler(AuthService authService) {
         this.authService = authService;
         this.agentService = new AgentService(new AgentRepositoryImp());
-        this.agentView = new AgentView();
+        this.agentView = new AgentView(agentService);
         this.departementService = new DepartementService(
                 new DepartementRepositoryImp(ConfigConnection.getConnection()));
         this.menuHandler = new MenuHandler(this);
+        this.paiementService = new PaiementService(new PaiementRepositoryImp(null, null));
     }
 
     // AUTHENTIFICATION
@@ -225,7 +230,7 @@ public class ControllerHandler {
     }
 
     public void handleDeleteResponsable() {
-         try {
+        try {
             int id = Integer.parseInt(agentView.getInput("ID du Responsable a supprimer"));
             boolean success = agentService.deleteAgent(id);
             if (success) {
@@ -264,20 +269,20 @@ public class ControllerHandler {
     }
 
     public void handleViewAllResponsables() {
-        try{
+        try {
             var responsables = agentService.getAllAgents();
             if (responsables.isEmpty()) {
                 agentView.showMessage("Aucun responsable trouvé.");
             } else {
                 int index = 1;
-                for(Agent res : responsables) {
-                    if (res.getTypeAgent()==TypeAgent.RESPONSABLE) {
+                for (Agent res : responsables) {
+                    if (res.getTypeAgent() == TypeAgent.RESPONSABLE) {
                         System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
                         index++;
                     }
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
@@ -343,7 +348,7 @@ public class ControllerHandler {
         try {
             int id = Integer.parseInt(agentView.getInput("ID de l'agent à modifier"));
             Optional<Agent> existingAgent = agentService.getAgentById(id);
-            if (!existingAgent.isPresent() || existingAgent.get().getTypeAgent() == TypeAgent.RESPONSABLE ) {
+            if (!existingAgent.isPresent() || existingAgent.get().getTypeAgent() == TypeAgent.RESPONSABLE) {
                 System.out.println("il faut selectionne un exist agent");
                 return;
             }
@@ -380,36 +385,69 @@ public class ControllerHandler {
     }
 
     public void handleViewDepartmentAgents() {
-        try{
+        try {
             String departementName = agentView.getInput("le name du de partement");
             List<Agent> agents = agentService.finAgentByDepartement(departementName.trim().toUpperCase());
             if (agents == null || agents.isEmpty()) {
                 agentView.showMessage("Aucun agent trouvé.");
             } else {
                 int index = 1;
-                for(Agent res : agents) {
-                    if (res.getTypeAgent()==TypeAgent.OUVRIER || res.getTypeAgent()==TypeAgent.STAGIAIRE) {
+                for (Agent res : agents) {
+                    if (res.getTypeAgent() == TypeAgent.OUVRIER || res.getTypeAgent() == TypeAgent.STAGIAIRE) {
                         System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
                         index++;
                     }
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     public void handleSearchAgent() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            String agentFullName = agentView.getInput("Entrez le nom complet de l'agent");
+            Agent agent = agentService.getAgentByFullName(agentFullName);
+            if (agent != null) {
+                agentView.displayAgent(agent);
+            } else {
+                agentView.showMessage("Aucun agent trouvé avec ce nom.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            agentView.showMessage("Erreur lors de la recherche de l'agent.");
+        }
     }
 
     // MÉTHODES PAIEMENTS (Responsable)
     public void handleAddSalary() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput());
+            if (success) {
+                agentView.showMessage("Paiement enregistré avec succès !");
+            } else {
+                agentView.showMessage("Erreur lors de l'enregistrement du paiement.");
+            }
+        } catch (PaiementValidationException e) {
+            agentView.showMessage("Erreur de validation : " + e.getMessage());
+        } catch (Exception e) {
+            agentView.showMessage("Erreur : " + e.getMessage());
+        }
     }
 
     public void handleAddPrime() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInputPrime());
+            if (success) {
+                agentView.showMessage("Paiement enregistré avec succès !");
+            } else {
+                agentView.showMessage("Erreur lors de l'enregistrement du paiement.");
+            }
+        } catch (PaiementValidationException e) {
+            agentView.showMessage("Erreur de validation : " + e.getMessage());
+        } catch (Exception e) {
+            agentView.showMessage("Erreur : " + e.getMessage());
+        }
     }
 
     public void handleAddBonus() {

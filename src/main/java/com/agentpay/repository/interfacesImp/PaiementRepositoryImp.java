@@ -10,7 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,25 +21,28 @@ public class PaiementRepositoryImp implements PaiementRepository {
 
     public PaiementRepositoryImp(Connection connection,
             AgentRepository agentRepository) {
-        this.connection = connection;
+        this.connection = ConfigConnection.getConnection();
         this.agentRepository = agentRepository;
     }
 
     @Override
     public boolean insert(Paiement entity) {
+//        System.out.println("Date format: " +  new SimpleDateFormat("yyyy-MM-dd H:m:s").format(entity.getDatePaiement()));
         try {
             PreparedStatement statement = connection.prepareStatement(SQLQueries.insertInto(
                     "paiements", "type_paiement", "montant", "datePaiement", "motif", "agentID"));
             statement.setString(1, entity.getTypePaiement().name());
             statement.setDouble(2, entity.getMontant());
-            statement.setDate(3, new java.sql.Date(entity.getDatePaiement().getTime()));
+            statement.setString(3, new SimpleDateFormat("yyyy-MM-dd H:m:s").format(entity.getDatePaiement()));
             statement.setString(4, entity.getMotif());
             statement.setInt(5, entity.getAgent().getUserID());
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
-            System.out.println("Erreur lors de l'insertion du paiement: " + e.getMessage());
+            System.out.println("Error:" + e.getMessage());
+//            System.out.println("Erreur lors de l'insertion du paiement: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -58,7 +62,8 @@ public class PaiementRepositoryImp implements PaiementRepository {
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (Exception e) {
-            System.out.println("Erreur lors de la mise à jour du paiement: " + e.getMessage());
+//            System.out.println("Erreur lors de la mise à jour du paiement: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
@@ -137,7 +142,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
 
         paiement.setTypePaiement(TypePaiement.SALAIRE);
         paiement.setMontant(12000);
-        paiement.setDatePaiement(new Date());
+//        paiement.setDatePaiement(new Date());
         paiement.setMotif("test1");
         paiement.setAgent(agentRepositoryImp.findById(1).get());
         // paiementRepositoryImp.insert(paiement);

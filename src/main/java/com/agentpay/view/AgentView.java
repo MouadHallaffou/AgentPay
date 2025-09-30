@@ -1,12 +1,24 @@
 package main.java.com.agentpay.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
 import java.util.Scanner;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
+import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
+import main.java.com.agentpay.model.enums.TypePaiement;
+import main.java.com.agentpay.service.AgentService;
 
 public class AgentView {
     private static final Scanner scanner = new Scanner(System.in);
+    private final AgentService agentService;
+
+    public AgentView(AgentService agentService){
+        this.agentService = agentService;
+    }
 
     public String getInput(String message) {
         System.out.print(message + ": ");
@@ -58,11 +70,6 @@ public class AgentView {
         Departement departement = new Departement();
         departement.setDepartementID(departementID);
         agent.setDepartement(departement);
-
-        // System.out.println("Création agent: " + agent.getFirstName() + " " +
-        // agent.getLastName() + " "
-        // + agent.getTypeAgent() + " depID=" +
-        // agent.getDepartement().getDepartementID());
 
         return agent;
     }
@@ -124,6 +131,111 @@ public class AgentView {
         departement.setDepartementID(departementID);
         agent.setDepartement(departement);
         return agent;
+    }
+
+    // CREER UN PAIEMENT
+    public Paiement getPaiementInput() {
+        System.out.println("=== Create New Payment ===");
+
+        double montant = Double.parseDouble(getInput("Montant"));
+        String dateStr = getInput("Date (YYYY-MM-DD HH:MM:SS)");
+//
+//        System.out.println("Type de paiement:");
+//        System.out.println("1. SALAIRE");
+//        System.out.println("2. PRIME");
+//        System.out.print("Choose type (1-2): ");
+//        int typeChoice = Integer.parseInt(scanner.nextLine());
+
+//        TypePaiement typePaiement;
+//        switch (typeChoice) {
+//            case 1: typePaiement = TypePaiement.SALAIRE; break;
+//            case 2: typePaiement = TypePaiement.PRIME; break;
+//            default: typePaiement = TypePaiement.SALAIRE; break;
+//        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            System.out.println("Invalid date format. Setting date to today.");
+            date = new Date();
+        }
+        String motif = getInput("motiif");
+        int id = Integer.parseInt(getInput("user"));
+        Paiement paiement = new Paiement();
+        paiement.setMontant(montant);
+        paiement.setDatePaiement(date);
+        paiement.setTypePaiement(TypePaiement.SALAIRE);
+        paiement.setMotif(motif);
+        Optional<Agent> agent = agentService.getAgentById(id);
+        agent.orElseThrow(() -> new RuntimeException("l'agent assigne n'existe pas!"));
+        paiement.setAgent(agent.get());
+//        if (!agent.isPresent()){
+//            System.out.println("not disponible");
+//        }
+//        else {
+//            paiement.setAgent(agent.get());
+//        }
+//        agent.ifPresentOrElse(
+//                paiement::setAgent,
+//                () -> System.out.println("No value")
+//                );
+//        System.out.println(paiement);
+        return paiement;
+    }
+
+    public void displayAgent(Agent agent) {
+        System.out.println("agent:" +agent.getFirstName() + " " + agent.getLastName() + " exist");
+    }
+
+    public Paiement getPaiementInputPrime() {
+        System.out.println("=== Create New Payment ===");
+
+        double montant = Double.parseDouble(getInput("Montant"));
+        String dateStr = getInput("Date (YYYY-MM-DD HH:MM:SS)");
+//
+//        System.out.println("Type de paiement:");
+//        System.out.println("1. SALAIRE");
+//        System.out.println("2. PRIME");
+//        System.out.print("Choose type (1-2): ");
+//        int typeChoice = Integer.parseInt(scanner.nextLine());
+
+//        TypePaiement typePaiement;
+//        switch (typeChoice) {
+//            case 1: typePaiement = TypePaiement.SALAIRE; break;
+//            case 2: typePaiement = TypePaiement.PRIME; break;
+//            default: typePaiement = TypePaiement.SALAIRE; break;
+//        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            System.out.println("Invalid date format. Setting date to today.");
+            date = new Date();
+        }
+        String motif = getInput("motiif");
+        int id = Integer.parseInt(getInput("user"));
+        Paiement paiement = new Paiement();
+        paiement.setMontant(montant);
+        paiement.setDatePaiement(date);
+        paiement.setTypePaiement(TypePaiement.PRIME);
+        paiement.setMotif(motif);
+        Optional<Agent> agent = agentService.getAgentById(id);
+        agent.orElseThrow(() -> new RuntimeException("l'agent assigne n'existe pas!"));
+        paiement.setAgent(agent.get());
+//        if (!agent.isPresent()){
+//            System.out.println("not disponible");
+//        }
+//        else {
+//            paiement.setAgent(agent.get());
+//        }
+//        agent.ifPresentOrElse(
+//                paiement::setAgent,
+//                () -> System.out.println("No value")
+//                );
+//        System.out.println(paiement);
+        return paiement;
     }
 
 }
