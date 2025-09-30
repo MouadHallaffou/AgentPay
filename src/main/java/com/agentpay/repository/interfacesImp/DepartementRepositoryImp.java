@@ -116,35 +116,5 @@ public class DepartementRepositoryImp implements DepartementRepository {
         }
         return false;
     }
-
-    // public static void main(String[] args) throws SQLException {
-    // try {
-    // ConfigConnection.getInstance();
-    // Connection connection = ConfigConnection.getConnection();
-    // System.out.println("Connected to the database successfully!");
-    // } catch (SQLException e) {
-    // System.out.println("Database connection failed: " + e.getMessage());
-    // } catch (Exception e) {
-    // System.out.println("An error occurred: " + e.getMessage());
-    // }
-    // DepartementRepositoryImp departementRepositoryImp = new
-    // DepartementRepositoryImp();
-    // Departement departement = new Departement();
-    // departement.setName("Informatique");
-    // departementRepositoryImp.insert(departement);
-    // System.out.println("Departement created successfully");
-    // System.out.println(departementRepositoryImp.findAll());
-    // System.out.println(departementRepositoryImp.findById(3));
-    // if(departementRepositoryImp.findByName("hello")){
-    // System.out.println(" existe ");
-    // }else {
-    // System.out.println("nout exist");
-    // }
-    // Optional<Departement> departement1 = departementRepositoryImp.findById(2);
-    // departement1.ifPresent(d -> {
-    // d.setName("test");
-    // System.out.println("ok");
-    // });
-    // }
-
+    
 }

@@ -128,8 +128,6 @@ public class PaiementRepositoryImp implements PaiementRepository {
         try {
             ConfigConnection.getInstance();
             System.out.println("Connected to the database successfully!");
-        } catch (SQLException e) {
-            System.out.println("Database connection failed: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
