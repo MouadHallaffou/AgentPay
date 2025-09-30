@@ -1,21 +1,24 @@
 package main.java.com.agentpay.service.interfaces;
 
+import java.util.List;
+import java.util.Optional;
+import main.java.com.agentpay.model.Agent;
+
 public interface AgentService {
-    void createAgent();
+    boolean createAgent(Agent agent);
 
-    void updateAgent();
+    boolean updateAgent(Agent agent);
 
-    void deleteAgent();
+    boolean deleteAgent(int agentId);
 
-    java.util.List<Object> getAllAgents();
+    List<Agent> getAllAgents();
 
-    Object getAgentById(Long id);
+    Optional<Agent> getAgentById(int id);
 
-    void setAgentAccountStatus(Long agentId, boolean status);
+    boolean setAgentAccountStatus(int userID);
 
-    java.util.List<Object> finAgentByDepartement(String departement);
+    List<Agent> finAgentByDepartement(String departementName);
 
-    java.util.List<Object> getAgentByFullName(String fullName);
+    Agent getAgentByFullName(String name);
 
-    boolean isValidAgent(Long agentId);
 }

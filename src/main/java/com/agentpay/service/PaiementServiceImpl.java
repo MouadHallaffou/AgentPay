@@ -3,18 +3,18 @@ package main.java.com.agentpay.service;
 import main.java.com.agentpay.exceptions.PaiementDatabaseException;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
+import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.utils.Validation;
-
 import java.util.Optional;
 
-public class PaiementServiceImp {
+public class PaiementServiceImpl implements PaiementService{
     private final PaiementRepository paiementRepository;
 
-    public PaiementServiceImp(PaiementRepository paiementRepository) {
+    public PaiementServiceImpl(PaiementRepository paiementRepository) {
         this.paiementRepository = paiementRepository;
     }
 
-    // Enregistrer un paiement
+    // Enregistrer
     public boolean enregistrerPaiement(Paiement paiement) throws PaiementDatabaseException {
         if (paiement.getTypePaiement() == null) {
             throw new IllegalArgumentException("Type de paiement obligatoire");
@@ -35,14 +35,14 @@ public class PaiementServiceImp {
         return paiementRepository.insert(paiement);
     }
 
-    // Obtenir un paiement par ID
+    // getByID
     public Optional<Paiement> obtenirPaiement(int id) {
         if (id <= 0)
             throw new IllegalArgumentException("ID de paiement invalide");
         return paiementRepository.findById(id);
     }
 
-    // Modifier un paiement
+    // Modifier::
     public boolean modifierPaiement(Paiement paiement) {
         if (paiement.getPaiementID() <= 0) {
             throw new IllegalArgumentException("ID de paiement invalide");
@@ -67,11 +67,11 @@ public class PaiementServiceImp {
         return paiementRepository.update(paiement);
     }
 
+    // delete::
     public boolean supprimerPaiement(int id) {
         if (id <= 0)
             throw new IllegalArgumentException("ID de paiement invalide");
         return paiementRepository.delete(id);
     }
-
 
 }

@@ -9,34 +9,34 @@ import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.AuthService;
-import main.java.com.agentpay.service.AgentServiceImp;
-import main.java.com.agentpay.service.PaiementServiceImp;
+import main.java.com.agentpay.service.AgentServiceImpl;
+import main.java.com.agentpay.service.PaiementServiceImpl;
 import main.java.com.agentpay.view.Menu;
 import main.java.com.agentpay.view.AgentView;
 import main.java.com.agentpay.view.MenuHandler;
 import main.java.com.agentpay.repository.interfacesImp.AgentRepositoryImp;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
 import main.java.com.agentpay.repository.interfacesImp.PaiementRepositoryImp;
-import main.java.com.agentpay.service.DepartementServiceImp;
+import main.java.com.agentpay.service.DepartementServiceImpl;
 import main.java.com.agentpay.utils.Validation;
 import main.java.com.agentpay.exceptions.PaiementValidationException;
 
 public class ControllerHandler {
     private final AuthService authService;
-    private final AgentServiceImp agentService;
+    private final AgentServiceImpl agentService;
     private final AgentView agentView;
-    private final DepartementServiceImp departementService;
+    private final DepartementServiceImpl departementService;
     private final MenuHandler menuHandler;
-    private final PaiementServiceImp paiementService;
+    private final PaiementServiceImpl paiementService;
 
     public ControllerHandler(AuthService authService) {
         this.authService = authService;
-        this.agentService = new AgentServiceImp(new AgentRepositoryImp());
+        this.agentService = new AgentServiceImpl(new AgentRepositoryImp());
         this.agentView = new AgentView(agentService);
-        this.departementService = new DepartementServiceImp(
+        this.departementService = new DepartementServiceImpl(
                 new DepartementRepositoryImp(ConfigConnection.getConnection()));
         this.menuHandler = new MenuHandler(this);
-        this.paiementService = new PaiementServiceImp(new PaiementRepositoryImp(null, null));
+        this.paiementService = new PaiementServiceImpl(new PaiementRepositoryImp(null, null));
     }
 
     // AUTHENTIFICATION

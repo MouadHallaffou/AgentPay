@@ -10,13 +10,13 @@ import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
-import main.java.com.agentpay.service.AgentServiceImp;
+import main.java.com.agentpay.service.AgentServiceImpl;
 
 public class AgentView {
     private static final Scanner scanner = new Scanner(System.in);
-    private final AgentServiceImp agentService;
+    private final AgentServiceImpl agentService;
 
-    public AgentView(AgentServiceImp agentService) {
+    public AgentView(AgentServiceImpl agentService) {
         this.agentService = agentService;
     }
 
@@ -133,7 +133,7 @@ public class AgentView {
         return agent;
     }
 
-    // Optimized: CREER UN PAIEMENT (générique pour tous types)
+    // Optimized: CREER UN PAIEMENT
     public Paiement getPaiementInput(TypePaiement typePaiement) {
         System.out.println("=== Create New Payment (" + typePaiement + ") ===");
 

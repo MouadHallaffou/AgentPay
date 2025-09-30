@@ -1,5 +1,14 @@
 package main.java.com.agentpay.service.interfaces;
 
-public interface PaiementService {
+import java.util.Optional;
+import main.java.com.agentpay.model.Paiement;
 
+public interface PaiementService {
+    public boolean enregistrerPaiement(Paiement paiement);
+
+    public Optional<Paiement> obtenirPaiement(int id);
+
+    public boolean modifierPaiement(Paiement paiement);
+
+    public boolean supprimerPaiement(int id);
 }

@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
 
-public class AgentServiceImp implements AgentService{
+public class AgentServiceImpl implements AgentService{
     private final AgentRepository agentRepository;
 
-    public AgentServiceImp(AgentRepository agentRepository) {
+    public AgentServiceImpl(AgentRepository agentRepository) {
         this.agentRepository = agentRepository;
     }
 

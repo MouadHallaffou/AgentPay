@@ -5,14 +5,16 @@ import java.util.Optional;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.repository.interfaces.DepartementRepository;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
+import main.java.com.agentpay.service.interfaces.DepartementService;
 
-public class DepartementServiceImp {
+public class DepartementServiceImpl implements DepartementService{
     private final DepartementRepository departementRepository;
 
-    public DepartementServiceImp(DepartementRepository departementRepository) {
+    public DepartementServiceImpl(DepartementRepository departementRepository) {
         this.departementRepository = departementRepository;
     }
 
+    // create
     public boolean createDepartement(Departement departement) {
         try {
             boolean departementExists = departementRepository.findByName(departement.getName());
@@ -26,6 +28,7 @@ public class DepartementServiceImp {
         }
     }
 
+    // update
     public boolean updateDepartement(Departement departement) {
         try {
             Optional<Departement> existingDepartement = departementRepository.findById(departement.getDepartementID());
@@ -39,6 +42,7 @@ public class DepartementServiceImp {
         }
     }
 
+    // delete
     public boolean deleteDepartement(int departementID) {
         try {
             DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
@@ -54,6 +58,7 @@ public class DepartementServiceImp {
         }
     }
 
+    // findbyID
     public Optional<Departement> findDepartementById(int departementID) {
         try {
             return departementRepository.findById(departementID);
@@ -63,6 +68,7 @@ public class DepartementServiceImp {
         }
     }
 
+    // getAll
     public List<Departement> getAllDepartements(){
         List<Departement> allDepartements = new ArrayList<>();
         try {
@@ -74,6 +80,5 @@ public class DepartementServiceImp {
             return Collections.emptyList();
         }
     }
-
 
 }
