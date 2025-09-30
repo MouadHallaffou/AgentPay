@@ -17,6 +17,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // CRÉER UN AGENT
+    @Override
     public boolean createAgent(Agent agent) {
         try {
             if (!isValidAgent(agent)) {
@@ -35,6 +36,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // update
+    @Override
     public boolean updateAgent(Agent agent) {
         try {
             if (!isValidAgent(agent)) {
@@ -52,6 +54,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // delete agent
+    @Override
     public boolean deleteAgent(int agentId) {
         try {
             Optional<Agent> existingAgent = agentRepository.findById(agentId);
@@ -66,6 +69,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // RÉCUPÉRER TOUS LES AGENTS
+    @Override
     public List<Agent> getAllAgents() {
         try {
             return agentRepository.findAll();
@@ -76,6 +80,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // RÉCUPÉRER UN AGENT PAR ID
+    @Override
     public Optional<Agent> getAgentById(int id) {
         try {
             return agentRepository.findById(id);
@@ -86,6 +91,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // descative a compte responsbale
+    @Override
     public boolean setAgentAccountStatus(int userID){
         try {
             Optional<Agent> agent = getAgentById(userID);
@@ -100,6 +106,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // fin agents by department:
+    @Override
     public List<Agent> finAgentByDepartement(String departementName) {
         try {
             List<Agent> agents = agentRepository.findByDepartement(departementName);
@@ -113,6 +120,7 @@ public class AgentServiceImpl implements AgentService{
     }
 
     // Get agent by full full_name
+    @Override
     public Agent getAgentByFullName(String name) {
         try {
             List<Agent> agents = agentRepository.findAll();

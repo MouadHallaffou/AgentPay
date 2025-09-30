@@ -12,6 +12,9 @@ import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.AuthService;
 import main.java.com.agentpay.service.AgentServiceImpl;
 import main.java.com.agentpay.service.PaiementServiceImpl;
+import main.java.com.agentpay.service.interfaces.AgentService;
+import main.java.com.agentpay.service.interfaces.DepartementService;
+import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.view.Menu;
 import main.java.com.agentpay.view.AgentView;
 import main.java.com.agentpay.view.MenuHandler;
@@ -23,11 +26,11 @@ import main.java.com.agentpay.utils.Validation;
 
 public class ControllerHandler {
     private final AuthService authService;
-    private final AgentServiceImpl agentService;
+    private final AgentService agentService;
     private final AgentView agentView;
-    private final DepartementServiceImpl departementService;
+    private final DepartementService departementService;
     private final MenuHandler menuHandler;
-    private final PaiementServiceImpl paiementService;
+    private final PaiementService paiementService;
 
     public ControllerHandler(AuthService authService) {
         this.authService = authService;

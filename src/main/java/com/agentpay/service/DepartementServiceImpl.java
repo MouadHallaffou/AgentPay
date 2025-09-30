@@ -7,7 +7,7 @@ import main.java.com.agentpay.repository.interfaces.DepartementRepository;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
 import main.java.com.agentpay.service.interfaces.DepartementService;
 
-public class DepartementServiceImpl implements DepartementService{
+public class DepartementServiceImpl implements DepartementService {
     private final DepartementRepository departementRepository;
 
     public DepartementServiceImpl(DepartementRepository departementRepository) {
@@ -15,6 +15,7 @@ public class DepartementServiceImpl implements DepartementService{
     }
 
     // create
+    @Override
     public boolean createDepartement(Departement departement) {
         try {
             boolean departementExists = departementRepository.findByName(departement.getName());
@@ -29,6 +30,7 @@ public class DepartementServiceImpl implements DepartementService{
     }
 
     // update
+    @Override
     public boolean updateDepartement(Departement departement) {
         try {
             Optional<Departement> existingDepartement = departementRepository.findById(departement.getDepartementID());
@@ -43,6 +45,7 @@ public class DepartementServiceImpl implements DepartementService{
     }
 
     // delete
+    @Override
     public boolean deleteDepartement(int departementID) {
         try {
             DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
@@ -59,6 +62,7 @@ public class DepartementServiceImpl implements DepartementService{
     }
 
     // findbyID
+    @Override
     public Optional<Departement> findDepartementById(int departementID) {
         try {
             return departementRepository.findById(departementID);
@@ -69,13 +73,14 @@ public class DepartementServiceImpl implements DepartementService{
     }
 
     // getAll
-    public List<Departement> getAllDepartements(){
+    @Override
+    public List<Departement> getAllDepartements() {
         List<Departement> allDepartements = new ArrayList<>();
         try {
             DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
             allDepartements.addAll(departementRepositoryImp.findAll());
             return allDepartements;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Collections.emptyList();
         }
