@@ -133,7 +133,7 @@ public class AgentView {
         return agent;
     }
 
-    // Optimized: CREER UN PAIEMENT
+    // CREER UN PAIEMENT
     public Paiement getPaiementInput(TypePaiement typePaiement) {
         System.out.println("=== Create New Payment (" + typePaiement + ") ===");
 
@@ -144,7 +144,7 @@ public class AgentView {
         try {
             date = simpleDateFormat.parse(dateStr);
         } catch (ParseException e) {
-            System.out.println("Invalid date format. Setting date to today.");
+            System.out.println("Invalid date format.");
             date = new Date();
         }
         String motif = getInput("motif");

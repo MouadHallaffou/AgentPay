@@ -17,17 +17,18 @@ public class AppConfig {
     public AppConfig() {
         AgentRepository agentRepo = new AgentRepositoryImp();
         DepartementRepository depRepo = new DepartementRepositoryImp(ConfigConnection.getConnection());
-        PaiementRepository paiementRepo = new PaiementRepositoryImp(ConfigConnection.getConnection(), agentRepo);
+        PaiementRepository paiementRepository = new PaiementRepositoryImp(ConfigConnection.getConnection(), agentRepo);
 
         AgentService agentService = new AgentServiceImpl(agentRepo);
         DepartementService departementService = new DepartementServiceImpl(depRepo);
-        PaiementService paiementService = new PaiementServiceImpl(paiementRepo);
+        PaiementService paiementService = new PaiementServiceImpl(paiementRepository);
         AuthServiceImpl authServiceImpl = new AuthServiceImpl(agentService);
 
         AgentView agentView = new AgentView(agentService);
+        DepartementView departementView = new DepartementView(departementService);
 
         this.agentController = new AgentController(agentService, agentView, departementService);
-        this.departementController = new DepartementController(departementService, agentView);
+        this.departementController = new DepartementController(departementService, departementView);
         this.paiementController = new PaiementController(paiementService, agentView, agentService);
         this.authController = new AuthController(authServiceImpl, agentController, departementController, paiementController);
     }

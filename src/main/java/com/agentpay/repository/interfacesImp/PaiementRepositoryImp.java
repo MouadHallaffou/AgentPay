@@ -123,28 +123,4 @@ public class PaiementRepositoryImp implements PaiementRepository {
         return java.util.Collections.emptyList();
     }
 
-    public static void main(String[] args) {
-        try {
-            ConfigConnection.getInstance();
-            System.out.println("Connected to the database successfully!");
-        } catch (Exception e) {
-            System.out.println("An error occurred: " + e.getMessage());
-        }
-
-        Paiement paiement = new Paiement();
-        Connection connection = ConfigConnection.getConnection();
-        AgentRepositoryImp agentRepositoryImp = new AgentRepositoryImp();
-        PaiementRepositoryImp paiementRepositoryImp = new PaiementRepositoryImp(connection, agentRepositoryImp);
-
-        paiement.setTypePaiement(TypePaiement.SALAIRE);
-        paiement.setMontant(12000);
-//        paiement.setDatePaiement(new Date());
-        paiement.setMotif("test1");
-        paiement.setAgent(agentRepositoryImp.findById(1).get());
-        // paiementRepositoryImp.insert(paiement);
-        // System.out.println("ok");
-
-        List<Paiement> paiements = paiementRepositoryImp.findAll();
-        paiements.forEach(paiement1 -> System.out.println(paiement1.getPaiementID()));
-    }
 }

@@ -33,16 +33,7 @@ public class SQLQueries {
     }
 
     public static String selectAllDepartements() {
-        return "SELECT " +
-                "d.departementID AS departementID, " + 
-                "d.name AS nom_departement, " +
-                "r.firstName AS prenom_responsable, " +
-                "r.lastName AS nom_responsable, " +
-                "COUNT(a.agentID) AS total_agents " +
-                "FROM departements d " +
-                "JOIN agents r ON r.departementID = d.departementID AND r.type_agent = 'RESPONSABLE' " +
-                "JOIN agents a ON a.departementID = d.departementID " +
-                "GROUP BY d.departementID, r.firstName, r.lastName;";
+        return "SELECT d.departementID AS departementID, d.name AS nom_departement,COUNT(a.departementID) AS total_agents FROM departements d JOIN agents a ON a.departementID = d.departementID GROUP BY d.departementID;";
     }
 
 }

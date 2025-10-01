@@ -1,13 +1,17 @@
 package main.java.com.agentpay.model;
 
-
 public class Departement {
     private int departementID;
     private String name;
-    // private Agent responsable;
-    // private ArrayList<Agent> agents;
-    private String responsable;
     private int totalAgents;
+    private String responsableName;
+    public int getTotalAgents() {
+        return totalAgents;
+    }
+
+    public void setTotalAgents(int totalAgents) {
+        this.totalAgents = totalAgents;
+    }
 
     public Departement() {
     }
@@ -33,20 +37,12 @@ public class Departement {
         this.name = name;
     }
 
-    public String getResponsable() {
-        return responsable;
+    public String getResponsableName() {
+        return responsableName;
     }
 
-    public void setResponsable(String responsable) {
-        this.responsable = responsable;
-    }
-
-    public int getTotalAgents() {
-        return totalAgents;
-    }
-
-    public void setTotalAgents(int totalAgents) {
-        this.totalAgents = totalAgents;
+    public void setResponsableName(String responsableName) {
+        this.responsableName = responsableName;
     }
 
     @Override

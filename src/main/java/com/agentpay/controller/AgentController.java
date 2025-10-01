@@ -207,7 +207,7 @@ public class AgentController {
 
     // Méthodes de consultation 
     public void handleViewAllAgents() {
-        agentView.showMessage("Fonctionnalité en développement");
+
     }
 
     public void handleSearchAgentById() {

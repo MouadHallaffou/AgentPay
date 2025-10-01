@@ -2,6 +2,8 @@ package main.java.com.agentpay.service;
 
 import java.util.*;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.repository.interfaces.DepartementRepository;
 import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
@@ -48,10 +50,9 @@ public class DepartementServiceImpl implements DepartementService {
     @Override
     public boolean deleteDepartement(int departementID) {
         try {
-            DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
-            Optional<Departement> existingDepartement = departementRepositoryImp.findById(departementID);
+            Optional<Departement> existingDepartement = departementRepository.findById(departementID);
             if (existingDepartement.isPresent()) {
-                return departementRepositoryImp.delete(departementID);
+                return departementRepository.delete(departementID);
             } else {
                 return false;
             }
@@ -77,8 +78,7 @@ public class DepartementServiceImpl implements DepartementService {
     public List<Departement> getAllDepartements() {
         List<Departement> allDepartements = new ArrayList<>();
         try {
-            DepartementRepositoryImp departementRepositoryImp = new DepartementRepositoryImp();
-            allDepartements.addAll(departementRepositoryImp.findAll());
+            allDepartements.addAll(departementRepository.findAll());
             return allDepartements;
         } catch (Exception e) {
             e.printStackTrace();

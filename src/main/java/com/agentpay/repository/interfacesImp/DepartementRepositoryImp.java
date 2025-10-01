@@ -92,6 +92,7 @@ public class DepartementRepositoryImp implements DepartementRepository {
                 Departement departement = new Departement();
                 departement.setDepartementID(resultSet.getInt("departementID"));
                 departement.setName(resultSet.getString("nom_departement"));
+                departement.setTotalAgents(resultSet.getInt("total_agents"));
                 departementList.add(departement);
             }
         } catch (Exception e) {
