@@ -1,6 +1,7 @@
 package main.java.com.agentpay.service;
 
 import main.java.com.agentpay.model.Agent;
+import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.utils.Validation;
@@ -135,6 +136,23 @@ public class AgentServiceImpl implements AgentService{
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Paiement> getPaiementsByEmail(String email) {
+        List<Paiement> listPaiements = new ArrayList<>();
+        try {
+            Optional<Agent> agentOpt = agentRepository.findByEmail(email);
+            if (agentOpt.isPresent()) {
+                Agent agent = agentOpt.get();
+                listPaiements = agentRepository.findPaiementsByEmail(agent.getEmail());
+            } else {
+                System.out.println("Aucun agent trouvé avec l'email: " + email);
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la récupération des paiements: " + e.getMessage());
+        }
+        return listPaiements;
     }
 
     // findByEmail

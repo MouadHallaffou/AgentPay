@@ -1,9 +1,11 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.model.Agent;
+import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.utils.SQLQueries;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import main.java.com.agentpay.config.ConfigConnection;
 
 public class AgentRepositoryImp implements AgentRepository {
@@ -45,8 +48,7 @@ public class AgentRepositoryImp implements AgentRepository {
 
     @Override
     public boolean insert(Agent agent) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                SQLQueries.insertInto("agents", "firstName", "lastName", "email", "password", "type_agent", "departementID"))) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQLQueries.insertInto("agents", "firstName", "lastName", "email", "password", "type_agent", "departementID"))) {
             preparedStatement.setString(1, agent.getFirstName());
             preparedStatement.setString(2, agent.getLastName());
             preparedStatement.setString(3, agent.getEmail());
@@ -108,7 +110,7 @@ public class AgentRepositoryImp implements AgentRepository {
     public boolean delete(int agentID) {
         String query = SQLQueries.deleteById("agents", "agentID");
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1,agentID);
+            statement.setInt(1, agentID);
             int rowsAffected = statement.executeUpdate();
             // System.out.println("Agent deleted successfully");
             return rowsAffected > 0;
@@ -143,9 +145,7 @@ public class AgentRepositoryImp implements AgentRepository {
     @Override
     public List<Agent> findByDepartement(String departementName) {
         List<Agent> agents = new ArrayList<>();
-        String query = "SELECT a.agentID, a.firstName, a.lastName, a.email, a.password, a.type_agent " +
-                "FROM agents a JOIN departements d ON a.departementID = d.departementID " +
-                "WHERE d.name = ?";
+        String query = "SELECT a.agentID, a.firstName, a.lastName, a.email, a.password, a.type_agent " + "FROM agents a JOIN departements d ON a.departementID = d.departementID " + "WHERE d.name = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, departementName.toLowerCase());
@@ -181,6 +181,29 @@ public class AgentRepositoryImp implements AgentRepository {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Paiement> findPaiementsByEmail(String email) throws SQLException {
+        List<Paiement> paiements = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.historiquePaiementAgents(email))) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Paiement paiement = new Paiement();
+                paiement.setPaiementID(resultSet.getInt("paiementID"));
+                paiement.setMontant(resultSet.getDouble("montant"));
+                paiement.setDatePaiement(resultSet.getDate("datePaiement"));
+                Agent agent = new Agent();
+                agent.setFirstName(resultSet.getString("firstName"));
+                agent.setLastName(resultSet.getString("lastName"));
+                paiement.setAgent(agent);
+                paiements.add(paiement);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return paiements;
     }
 
 }

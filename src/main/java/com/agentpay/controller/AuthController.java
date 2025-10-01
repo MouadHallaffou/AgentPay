@@ -282,16 +282,16 @@ public class AuthController {
             case 2:
                 paiementController.handleAddPrime();
                 break;
+//            case 3:
+//                paiementController.handleAddBonus();
+//                break;
+//            case 4:
+//                paiementController.handleAddIndemnity();
+//                break;
             case 3:
-                paiementController.handleAddBonus();
-                break;
-            case 4:
-                paiementController.handleAddIndemnity();
-                break;
-            case 5:
                 paiementController.handleViewAgentPayments();
                 break;
-            case 6:
+            case 4:
                 paiementController.handleFilterPayments();
                 break;
             case 0:

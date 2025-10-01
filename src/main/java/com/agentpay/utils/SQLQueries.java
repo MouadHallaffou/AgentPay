@@ -36,4 +36,15 @@ public class SQLQueries {
         return "SELECT d.departementID AS departementID, d.name AS nom_departement,COUNT(a.departementID) AS total_agents FROM departements d JOIN agents a ON a.departementID = d.departementID GROUP BY d.departementID;";
     }
 
+    public static String historiquePaiementAgents(String email) {
+        return "SELECT \n" +
+                "    p.*, \n" +
+                "    a.agentID, \n" +
+                "    a.firstName, \n" +
+                "    a.lastName \n" +
+                "FROM paiements p\n" +
+                "JOIN agents a ON a.agentID = p.agentID\n" +
+                "WHERE a.email = ?;";
+    }
+
 }

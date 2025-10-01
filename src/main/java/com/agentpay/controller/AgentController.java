@@ -3,6 +3,7 @@ package main.java.com.agentpay.controller;
 import java.util.List;
 import java.util.Optional;
 import main.java.com.agentpay.model.Agent;
+import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.service.interfaces.DepartementService;
@@ -180,6 +181,7 @@ public class AgentController {
                 int index = 1;
                 for (Agent res : agents) {
                     if (res.getTypeAgent() == TypeAgent.OUVRIER || res.getTypeAgent() == TypeAgent.STAGIAIRE) {
+                        System.out.println("----------------------------------");
                         System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
                         index++;
                     }
@@ -248,12 +250,59 @@ public class AgentController {
     }
 
     public void handleViewAgentInfo() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            String email = agentView.getInput("Entrez votre email");
+            Optional<Agent> optionalAgent = agentService.findByEmail(email);
+
+            if (optionalAgent.isPresent()) {
+                Agent agent = optionalAgent.get();
+                System.out.println("----------------------------------");
+                System.out.println("Vos informations personnelles :");
+                System.out.println("Nom: " + agent.getLastName());
+                System.out.println("Prenom : " + agent.getFirstName());
+                System.out.println("Email : " + agent.getEmail());
+                System.out.println("Type : " + agent.getTypeAgent());
+                System.out.println("Département : " + agent.getDepartement());
+                System.out.println("-----------------------------------");
+            } else {
+                System.out.println("Aucun agent trouvé avec cet email.");
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la récupération des informations : " + e.getMessage());
+        }
     }
 
-    public void handleViewPaymentHistory() {agentView.showMessage("Fonctionnalité en développement");
+    public void handleViewPaymentHistory() {
+        try {
+            String email = agentView.getInput("Entrez votre email");
+            List<Paiement> paiements = agentService.getPaiementsByEmail(email);
+
+            if (paiements.isEmpty()) {
+                System.out.println("Aucun paiement trouvé pour cet email.");
+            } else {
+                System.out.println("Historique des paiements :");
+                System.out.println("----------------------------------");
+                for (Paiement paiement : paiements) {
+                    System.out.println("ID: " + paiement.getPaiementID() + ", Montant: " + paiement.getMontant() + ", Date: " + paiement.getDatePaiement());
+                    System.out.println("----------------------------------");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la récupération de l'historique des paiements : " + e.getMessage());
+        }
     }
 
-    public void handleViewTotalPayments() {agentView.showMessage("Fonctionnalité en développement");
+    public void handleViewTotalPayments() {
+        try {
+            String email = agentView.getInput("Entrez votre email");
+            List<Paiement> paiements = agentService.getPaiementsByEmail(email);
+
+            double total = paiements.stream().mapToDouble(Paiement::getMontant).sum();
+            System.out.println("----------------------------------");
+            System.out.println("Total des paiements pour " + email + ": " + total);
+            System.out.println("----------------------------------");
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la récupération du total des paiements : " + e.getMessage());
+        }
     }
 }
