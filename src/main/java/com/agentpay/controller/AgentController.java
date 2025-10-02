@@ -183,6 +183,7 @@ public class AgentController {
                     if (res.getTypeAgent() == TypeAgent.OUVRIER || res.getTypeAgent() == TypeAgent.STAGIAIRE) {
                         System.out.println("----------------------------------");
                         System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
+                        System.out.println("----------------------------------");
                         index++;
                     }
                 }

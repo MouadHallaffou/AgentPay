@@ -1,10 +1,14 @@
 package main.java.com.agentpay.controller;
 
 import main.java.com.agentpay.exceptions.PaiementInvalideException;
+import main.java.com.agentpay.model.Agent;
+import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.view.AgentView;
+
+import java.util.List;
 
 public class PaiementController {
     private final PaiementService paiementService;
@@ -65,7 +69,25 @@ public class PaiementController {
     }
 
     public void handleDepartmentAgentsCount() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            String departementName = agentView.getInput("le name du de partement");
+            List<Agent> agents = agentService.finAgentByDepartement(departementName.trim().toUpperCase());
+            if (agents == null || agents.isEmpty()) {
+                agentView.showMessage("Aucun agent trouvé.");
+            } else {
+                int index = 1;
+                for (Agent res : agents) {
+                    if (res.getTypeAgent() == TypeAgent.OUVRIER || res.getTypeAgent() == TypeAgent.STAGIAIRE) {
+                        System.out.println("----------------------------------");
+                        System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
+                        System.out.println("-----------------------------------");
+                        index++;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void handleDepartmentTotalPayments() {
