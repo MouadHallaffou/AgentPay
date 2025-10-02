@@ -1,11 +1,15 @@
 package main.java.com.agentpay.service;
 
+import main.java.com.agentpay.exceptions.AgentIntrouvableException;
+import main.java.com.agentpay.exceptions.EmailDejaUtiliseException;
+import main.java.com.agentpay.exceptions.ValidationException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.utils.Validation;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.List;
@@ -19,18 +23,18 @@ public class AgentServiceImpl implements AgentService{
 
     // CRÉER UN AGENT
     @Override
-    public boolean createAgent(Agent agent) {
+    public boolean createAgent(Agent agent) throws EmailDejaUtiliseException{
         try {
             if (!isValidAgent(agent)) {
                 return false;
             }
             Optional<Agent> existingAgent = agentRepository.findByEmail(agent.getEmail());
             if (existingAgent.isPresent()) {
-                throw new RuntimeException("Un agent avec cet email existe déjà!");
+                throw new EmailDejaUtiliseException("Un agent avec cet email existe déjà!");
             }
             return agentRepository.insert(agent);
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la création de l'agent: " + e.getMessage());
             return false;
         }
@@ -38,17 +42,17 @@ public class AgentServiceImpl implements AgentService{
 
     // update
     @Override
-    public boolean updateAgent(Agent agent) {
+    public boolean updateAgent(Agent agent) throws AgentIntrouvableException{
         try {
             if (!isValidAgent(agent)) {
                 return false;
             }
             Optional<Agent> existingAgent = agentRepository.findById(agent.getUserID());
             if (existingAgent.isEmpty()) {
-                throw new RuntimeException("Agent non trouvé!");
+                throw new AgentIntrouvableException("Agent non trouvé!");
             }
             return agentRepository.update(agent);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la mise à jour de l'agent: " + e.getMessage());
             return false;
         }
@@ -56,14 +60,14 @@ public class AgentServiceImpl implements AgentService{
 
     // delete agent
     @Override
-    public boolean deleteAgent(int agentId) {
+    public boolean deleteAgent(int agentId) throws AgentIntrouvableException {
         try {
             Optional<Agent> existingAgent = agentRepository.findById(agentId);
             if (existingAgent.isEmpty()) {
-                throw new RuntimeException("Agent non trouvé!");
+                throw new AgentIntrouvableException("Agent non trouvé!");
             }
             return agentRepository.delete(agentId);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la suppression de l'agent: " + e.getMessage());
             return false;
         }
@@ -74,7 +78,7 @@ public class AgentServiceImpl implements AgentService{
     public List<Agent> getAllAgents() {
         try {
             return agentRepository.findAll();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la récupération des agents: " + e.getMessage());
             return new ArrayList<>();
         }
@@ -82,18 +86,18 @@ public class AgentServiceImpl implements AgentService{
 
     // RÉCUPÉRER UN AGENT PAR ID
     @Override
-    public Optional<Agent> getAgentById(int id) {
+    public Optional<Agent> getAgentById(int id) throws AgentIntrouvableException {
         try {
             return agentRepository.findById(id);
-        } catch (Exception e) {
-            System.out.println("Erreur lors de la récupération de l'agent: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la récupération de l'agent avec l'ID " + id + ": " + e.getMessage());
             return Optional.empty();
         }
     }
 
     // descative a compte responsbale
     @Override
-    public boolean setAgentAccountStatus(int userID){
+    public boolean setAgentAccountStatus(int userID) {
         try {
             Optional<Agent> agent = getAgentById(userID);
             if (agent.isPresent()) {

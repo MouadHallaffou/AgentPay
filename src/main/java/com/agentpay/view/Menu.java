@@ -111,8 +111,19 @@ public class Menu {
         System.out.println("2.➤ Par montant");
         System.out.println("3.➤ Par date");
         System.out.println("0.➤ Retour");
+        System.out.print("Votre choix: ");
     }
 
+    public static void afficherMenuTypePaiement() {
+        System.out.println("=== Choisir le type de paiement ===");
+        System.out.println("1.➤ Add un Salaire");
+        System.out.println("2.➤ Add une Prime");
+        System.out.println("3.➤ Add un Bonus");
+        System.out.println("4.➤ Add une Indemnité");
+        System.out.println("0.➤ Retour");
+        System.out.print("Votre choix: ");
+    }
+    
     public static void logout() {
         System.out.println("Déconnexion...");
     }

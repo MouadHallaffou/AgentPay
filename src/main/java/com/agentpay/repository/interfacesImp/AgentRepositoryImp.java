@@ -40,7 +40,7 @@ public class AgentRepositoryImp implements AgentRepository {
             } else {
                 return Optional.empty();
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return Optional.empty();
         }
@@ -58,7 +58,7 @@ public class AgentRepositoryImp implements AgentRepository {
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Agent inserted successfully");
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -81,7 +81,7 @@ public class AgentRepositoryImp implements AgentRepository {
             } else {
                 return Optional.empty();
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return Optional.empty();
         }
@@ -100,7 +100,7 @@ public class AgentRepositoryImp implements AgentRepository {
             int rowsAffected = preparedStatement.executeUpdate();
             System.out.println("Agent updated successfully");
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -136,7 +136,7 @@ public class AgentRepositoryImp implements AgentRepository {
                 agent.setTypeAgent(TypeAgent.valueOf(rs.getString("type_agent")));
                 agents.add(agent);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return agents;
@@ -146,11 +146,9 @@ public class AgentRepositoryImp implements AgentRepository {
     public List<Agent> findByDepartement(String departementName) {
         List<Agent> agents = new ArrayList<>();
         String query = "SELECT a.agentID, a.firstName, a.lastName, a.email, a.password, a.type_agent " + "FROM agents a JOIN departements d ON a.departementID = d.departementID " + "WHERE d.name = ?";
-
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, departementName.toLowerCase());
             ResultSet rs = statement.executeQuery();
-
             while (rs.next()) {
                 Agent agent = new Agent();
                 agent.setUserID(rs.getInt("agentID"));
@@ -165,7 +163,6 @@ public class AgentRepositoryImp implements AgentRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return agents;
     }
 

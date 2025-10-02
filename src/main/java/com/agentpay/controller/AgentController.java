@@ -218,13 +218,15 @@ public class AgentController {
     public void handleViewAllAgents() {
         try {
             List<Agent> agents = agentService.getAllAgents();
-            for (Agent agent : agents){
                 int index = 1;
-                System.out.println("-----------------------------------");
-                System.out.println( "- " + index + ": " + agent.getFirstName() + agent.getLastName() + agent.getTypeAgent());
-                System.out.println("------------------------------------");
-                index++;
-            }
+                System.out.println("=========== Liste des Agents ===========");
+                for (Agent agent : agents) {
+                    String nomComplet = agent.getFirstName() + " " + agent.getLastName();
+                    String type = agent.getTypeAgent().name();
+                    System.out.printf("- %d: %-25s | Type: %s%n", index, nomComplet, type);
+                    index++;
+                }
+                System.out.println("========================================");
         } catch (Exception e) {
             e.printStackTrace();
         }

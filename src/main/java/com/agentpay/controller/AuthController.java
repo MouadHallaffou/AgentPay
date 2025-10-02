@@ -187,7 +187,27 @@ public class AuthController {
                 agentController.handleViewAllResponsables();
                 break;
             case 6:
-                agentController.handleManageResponsablePayments();
+                Menu.afficherMenuTypePaiement();
+                int typePaiementChoice = AgentView.getChoice();
+                switch (typePaiementChoice) {
+                    case 1:
+                        paiementController.handleAddSalary();
+                        break;
+                    case 2:
+                        paiementController.handleAddPrime();
+                        break;
+                    case 3:
+                        paiementController.handleAddBonus();
+                        break;
+                    case 4:
+                        paiementController.handleAddIndemnity();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        Menu.invalidChoice();
+                        break;
+                }
                 break;
             case 0:
                 return true;

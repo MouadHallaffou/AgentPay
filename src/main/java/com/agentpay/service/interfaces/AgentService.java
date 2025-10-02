@@ -3,13 +3,14 @@ package main.java.com.agentpay.service.interfaces;
 import java.util.List;
 import java.util.Optional;
 
+import main.java.com.agentpay.exceptions.EmailDejaUtiliseException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Paiement;
 
-public interface AgentService {
-    boolean createAgent(Agent agent);
+public interface AgentService{
+    boolean createAgent(Agent agent) throws EmailDejaUtiliseException;
 
-    boolean updateAgent(Agent agent);
+    boolean updateAgent(Agent agent) ;
 
     boolean deleteAgent(int agentId);
 

@@ -1,6 +1,7 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.config.ConfigConnection;
+import main.java.com.agentpay.exceptions.DepartementIntrouvableException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.Paiement;
@@ -8,8 +9,6 @@ import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
-import main.java.com.agentpay.service.AgentServiceImpl;
-import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.utils.SQLQueries;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -67,7 +66,6 @@ public class PaiementRepositoryImp implements PaiementRepository {
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-//            System.out.println("Erreur lors de la mise à jour du paiement: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -110,7 +108,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
     }
 
     @Override
-    public List<Paiement> findAll() {
+    public List<Paiement> findAll() throws SQLException {
         try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectAll("paiements"));) {
             ResultSet resultSet = statement.executeQuery();
             var paiements = new ArrayList<Paiement>();
@@ -132,7 +130,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
     }
 
     @Override
-    public List<Paiement> getPaiementByDepartement() {
+    public List<Paiement> getPaiementByDepartement() throws SQLException{
         List<Paiement> paiementList = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectPaiementByDepartement())) {
             ResultSet resultSet = statement.executeQuery();

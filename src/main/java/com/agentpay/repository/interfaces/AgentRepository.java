@@ -8,8 +8,8 @@ import main.java.com.agentpay.model.Paiement;
 
 public interface AgentRepository extends GenericRepository<Agent> {
     // Hérite des méthodes génériques: insert, update, delete, findById, findAll
-    Optional<Agent> findByEmail(String email);
-    List<Agent> findByDepartement(String  departementName);
-    boolean setAgentAccountStatus(int agentID);
+    Optional<Agent> findByEmail(String email) throws SQLException;
+    List<Agent> findByDepartement(String  departementName) throws SQLException;
+    boolean setAgentAccountStatus(int agentID) throws SQLException;
     List<Paiement> findPaiementsByEmail(String email) throws SQLException;
 }
