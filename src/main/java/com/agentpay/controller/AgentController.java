@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
-import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.service.interfaces.DepartementService;
 import main.java.com.agentpay.service.interfaces.PaiementService;
@@ -19,14 +18,15 @@ public class AgentController {
     private final DepartementService departementService;
     private final PaiementService paiementService;
 
-    public AgentController(AgentService agentService, AgentView agentView, DepartementService departementService, PaiementService paiementService) {
+    public AgentController(AgentService agentService, AgentView agentView, DepartementService departementService,
+            PaiementService paiementService) {
         this.agentService = agentService;
         this.agentView = agentView;
         this.departementService = departementService;
         this.paiementService = paiementService;
     }
 
-    // Méthodes pour Directeur 
+    // Méthodes pour Directeur
     public void handleCreateResponsable() {
         try {
             Agent newResponsable = agentView.getAgentInput();
@@ -122,7 +122,7 @@ public class AgentController {
         }
     }
 
-    // Méthodes pour Responsable 
+    // Méthodes pour Responsable
     public void handleCreateAgent() {
         try {
             Agent newAgent = agentView.getAgentInput();
@@ -214,30 +214,47 @@ public class AgentController {
         }
     }
 
-    // Méthodes de consultation 
+    // Méthodes de consultation
     public void handleViewAllAgents() {
         try {
             List<Agent> agents = agentService.getAllAgents();
-                int index = 1;
-                System.out.println("=========== Liste des Agents ===========");
-                for (Agent agent : agents) {
-                    String nomComplet = agent.getFirstName() + " " + agent.getLastName();
-                    String type = agent.getTypeAgent().name();
-                    System.out.printf("- %d: %-25s | Type: %s%n", index, nomComplet, type);
-                    index++;
-                }
-                System.out.println("========================================");
+            int index = 1;
+            System.out.println("=========== Liste des Agents ===========");
+            for (Agent agent : agents) {
+                String nomComplet = agent.getFirstName() + " " + agent.getLastName();
+                String type = agent.getTypeAgent().name();
+                System.out.printf("- %d: %-25s | Type: %s%n", index, nomComplet, type);
+                index++;
+            }
+            System.out.println("========================================");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void handleSearchAgentById() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            int id = Integer.parseInt(agentView.getInput("entre l'id de l'agent"));
+            Optional<Agent> agentOptional = agentService.getAgentById(id);
+            if (agentOptional.isPresent()) {
+                System.out.println("l'agent avec l'id " + id +
+                        " est bien exist sous le nom et prenom: " +
+                        agentOptional.get().getFirstName() + " " + agentOptional.get().getLastName());
+            } else {
+                System.out.println("aucun agent trouve");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleFilterAgentsByDepartment() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            String departmentName = agentView.getInput("Entrez le nom du département");
+            
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     public void handleFilterAgentsByRole() {
@@ -248,7 +265,7 @@ public class AgentController {
         agentView.showMessage("Fonctionnalité en développement");
     }
 
-    // Méthodes statistiques 
+    // Méthodes statistiques
     public void handleAgentsCountByRole() {
         try {
             List<Agent> agents = agentService.getAllAgents();
@@ -277,14 +294,12 @@ public class AgentController {
             Map<String, Double> totalPaiementParDepartement = paiementList.stream()
                     .collect(Collectors.groupingBy(
                             paiement -> paiement.getAgent().getDepartement().getName(),
-                            Collectors.summingDouble(Paiement::getMontant)
-                    ));
+                            Collectors.summingDouble(Paiement::getMontant)));
 
             System.out.printf("%-20s || %-15s%n", "Département", "Total Paiement");
 
-            totalPaiementParDepartement.forEach((departement, total) ->
-                    System.out.printf("%-20s || %-15.2f%n", departement, total)
-            );
+            totalPaiementParDepartement
+                    .forEach((departement, total) -> System.out.printf("%-20s || %-15.2f%n", departement, total));
 
         } catch (RuntimeException e) {
             System.out.println("Erreur : " + e.getMessage());
@@ -295,13 +310,11 @@ public class AgentController {
         try {
             List<Paiement> paiementList = paiementService.getAllPaiement();
             Map<String, Double> moyennePaiementParType = paiementList.stream()
-                            .collect(Collectors.groupingBy(paiement -> paiement.getTypePaiement().name(),
-                                    Collectors.averagingDouble(Paiement::getMontant)));
+                    .collect(Collectors.groupingBy(paiement -> paiement.getTypePaiement().name(),
+                            Collectors.averagingDouble(Paiement::getMontant)));
 
             System.out.printf("%-20s || %-15s%n", "Type de Paiement", "Moyenne");
-            moyennePaiementParType.forEach((type, avg) ->
-                    System.out.printf("%-20s || %-15.2f%n", type, avg)
-            );
+            moyennePaiementParType.forEach((type, avg) -> System.out.printf("%-20s || %-15.2f%n", type, avg));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -355,7 +368,8 @@ public class AgentController {
                 System.out.println("Historique des paiements :");
                 System.out.println("----------------------------------");
                 for (Paiement paiement : paiements) {
-                    System.out.println("ID: " + paiement.getPaiementID() + ", Montant: " + paiement.getMontant() + ", Date: " + paiement.getDatePaiement());
+                    System.out.println("ID: " + paiement.getPaiementID() + ", Montant: " + paiement.getMontant()
+                            + ", Date: " + paiement.getDatePaiement());
                     System.out.println("----------------------------------");
                 }
             }

@@ -2,13 +2,11 @@ package main.java.com.agentpay.service;
 
 import main.java.com.agentpay.exceptions.AgentIntrouvableException;
 import main.java.com.agentpay.exceptions.EmailDejaUtiliseException;
-import main.java.com.agentpay.exceptions.ValidationException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.utils.Validation;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;

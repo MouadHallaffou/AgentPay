@@ -1,12 +1,11 @@
 package main.java.com.agentpay.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.repository.interfaces.DepartementRepository;
-import main.java.com.agentpay.repository.interfacesImp.DepartementRepositoryImp;
 import main.java.com.agentpay.service.interfaces.DepartementService;
 
 public class DepartementServiceImpl implements DepartementService {
