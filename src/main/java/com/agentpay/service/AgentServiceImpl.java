@@ -76,7 +76,7 @@ public class AgentServiceImpl implements AgentService{
             return agentRepository.findAll();
         } catch (Exception e) {
             System.out.println("Erreur lors de la récupération des agents: " + e.getMessage());
-            return new java.util.ArrayList<>();
+            return new ArrayList<>();
         }
     }
 

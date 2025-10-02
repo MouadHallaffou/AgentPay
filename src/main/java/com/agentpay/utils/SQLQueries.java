@@ -47,4 +47,7 @@ public class SQLQueries {
                 "WHERE a.email = ?;";
     }
 
+    public static String selectPaiementByDepartement() {
+        return "SELECT * FROM departements d JOIN agents a ON a.departementID = d.departementID JOIN paiements p ON p.agentID = a.agentID;";
+    }
 }

@@ -1,23 +1,29 @@
 package main.java.com.agentpay.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
+import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.service.interfaces.DepartementService;
+import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.view.AgentView;
 
 public class AgentController {
     private final AgentService agentService;
     private final AgentView agentView;
     private final DepartementService departementService;
+    private final PaiementService paiementService;
 
-    public AgentController(AgentService agentService, AgentView agentView, DepartementService departementService) {
+    public AgentController(AgentService agentService, AgentView agentView, DepartementService departementService, PaiementService paiementService) {
         this.agentService = agentService;
         this.agentView = agentView;
         this.departementService = departementService;
+        this.paiementService = paiementService;
     }
 
     // Méthodes pour Directeur 
@@ -210,7 +216,18 @@ public class AgentController {
 
     // Méthodes de consultation 
     public void handleViewAllAgents() {
-
+        try {
+            List<Agent> agents = agentService.getAllAgents();
+            for (Agent agent : agents){
+                int index = 1;
+                System.out.println("-----------------------------------");
+                System.out.println( "- " + index + ": " + agent.getFirstName() + agent.getLastName() + agent.getTypeAgent());
+                System.out.println("------------------------------------");
+                index++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleSearchAgentById() {
@@ -231,23 +248,75 @@ public class AgentController {
 
     // Méthodes statistiques 
     public void handleAgentsCountByRole() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            List<Agent> agents = agentService.getAllAgents();
+
+            long totalAgents = agents.size();
+
+            Map<TypeAgent, Long> countByRole = agents.stream()
+                    .collect(Collectors.groupingBy(Agent::getTypeAgent, Collectors.counting()));
+
+            System.out.printf("%-20s || %-15s || %-10s%n", "Rôle", "Nombre d'agents", "Pourcentage");
+
+            countByRole.forEach((role, count) -> {
+                double percentage = (count * 100.0) / totalAgents;
+                System.out.printf("%-20s || %-15d || %-9.2f%%%n", role, count, percentage);
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handleTotalPaymentsByDepartment() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            List<Paiement> paiementList = paiementService.getPaiementTotalByDepartement();
+
+            Map<String, Double> totalPaiementParDepartement = paiementList.stream()
+                    .collect(Collectors.groupingBy(
+                            paiement -> paiement.getAgent().getDepartement().getName(),
+                            Collectors.summingDouble(Paiement::getMontant)
+                    ));
+
+            System.out.printf("%-20s || %-15s%n", "Département", "Total Paiement");
+
+            totalPaiementParDepartement.forEach((departement, total) ->
+                    System.out.printf("%-20s || %-15.2f%n", departement, total)
+            );
+
+        } catch (RuntimeException e) {
+            System.out.println("Erreur : " + e.getMessage());
+        }
     }
 
     public void handleAveragePaymentsByType() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            List<Paiement> paiementList = paiementService.getAllPaiement();
+            Map<String, Double> moyennePaiementParType = paiementList.stream()
+                            .collect(Collectors.groupingBy(paiement -> paiement.getTypePaiement().name(),
+                                    Collectors.averagingDouble(Paiement::getMontant)));
+
+            System.out.printf("%-20s || %-15s%n", "Type de Paiement", "Moyenne");
+            moyennePaiementParType.forEach((type, avg) ->
+                    System.out.printf("%-20s || %-15.2f%n", type, avg)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void handlePaymentHistory() {
-        agentView.showMessage("Fonctionnalité en développement");
-    }
+        List<Paiement> historiquePaiement = paiementService.getAllPaiement();
 
-    public void handleIdentifyUnusualPayments() {
-        agentView.showMessage("Fonctionnalité en développement");
+        System.out.printf("%-25s | %-15s | %-10s%n", "Agent", "Date de Paiement", "Montant");
+        System.out.println("---------------------------------------------------------------");
+        historiquePaiement.forEach(paiement -> {
+            String nomComplet = paiement.getAgent().getFirstName() + " " + paiement.getAgent().getLastName();
+            String date = paiement.getDatePaiement().toString();
+            double montant = paiement.getMontant();
+            System.out.printf("%-25s | %-15s | %-10.2f%n", nomComplet, date, montant);
+        });
+        System.out.println("---------------------------------------------------------------");
     }
 
     public void handleViewAgentInfo() {
@@ -305,5 +374,9 @@ public class AgentController {
         } catch (Exception e) {
             System.out.println("Erreur lors de la récupération du total des paiements : " + e.getMessage());
         }
+    }
+
+    public void handleIdentifyUnusualPayments() {
+        agentView.showMessage("Fonctionnalité en développement");
     }
 }

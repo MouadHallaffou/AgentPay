@@ -1,12 +1,16 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.config.ConfigConnection;
+import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
+import main.java.com.agentpay.model.Paiement;
+import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.repository.interfaces.DepartementRepository;
 import main.java.com.agentpay.utils.SQLQueries;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -117,5 +121,4 @@ public class DepartementRepositoryImp implements DepartementRepository {
         }
         return false;
     }
-    
 }
