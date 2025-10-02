@@ -1,15 +1,22 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.config.ConfigConnection;
+import main.java.com.agentpay.model.Agent;
+import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.Paiement;
+import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
+import main.java.com.agentpay.service.AgentServiceImpl;
+import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.utils.SQLQueries;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +44,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Error:" + e.getMessage());
 //            System.out.println("Erreur lors de l'insertion du paiement: " + e.getMessage());
             e.printStackTrace();
@@ -59,7 +66,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
 //            System.out.println("Erreur lors de la mise à jour du paiement: " + e.getMessage());
             e.printStackTrace();
             return false;
@@ -73,7 +80,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
             statement.setInt(1, id);
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la suppression du paiement: " + e.getMessage());
             return false;
         }
@@ -96,7 +103,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
                 paiement.setAgent(agentRepository.findById(resultSet.getInt("agentID")).orElse(null));
                 return Optional.of(paiement);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la recherche du paiement par ID: " + e.getMessage());
         }
         return Optional.empty();
@@ -106,21 +113,61 @@ public class PaiementRepositoryImp implements PaiementRepository {
     public List<Paiement> findAll() {
         try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectAll("paiements"));) {
             ResultSet resultSet = statement.executeQuery();
-            var paiements = new java.util.ArrayList<Paiement>();
+            var paiements = new ArrayList<Paiement>();
             while (resultSet.next()) {
                 Paiement paiement = new Paiement();
                 paiement.setPaiementID(resultSet.getInt("paiementID"));
                 paiement.setTypePaiement(TypePaiement.valueOf(resultSet.getString("type_paiement")));
                 paiement.setDatePaiement(resultSet.getDate("datePaiement"));
+                paiement.setMontant(resultSet.getDouble("montant"));
                 paiement.setMotif(resultSet.getString("motif"));
                 paiement.setAgent(agentRepository.findById(resultSet.getInt("agentID")).orElse(null));
                 paiements.add(paiement);
             }
             return paiements;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("Erreur lors de la récupération des paiements: " + e.getMessage());
         }
         return java.util.Collections.emptyList();
     }
+
+    @Override
+    public List<Paiement> getPaiementByDepartement() {
+        List<Paiement> paiementList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(SQLQueries.selectPaiementByDepartement())) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Departement departement = new Departement();
+                departement.setDepartementID(resultSet.getInt("departementID"));
+                departement.setName(resultSet.getString(2));
+
+                Agent agent = new Agent();
+                agent.setUserID(resultSet.getInt("agentID"));
+                agent.setFirstName(resultSet.getString("firstName"));
+                agent.setLastName(resultSet.getString("lastName"));
+                agent.setTypeAgent(TypeAgent.valueOf(resultSet.getString("type_agent")));
+                agent.setDepartement(departement);
+
+                Paiement paiement = new Paiement();
+                paiement.setPaiementID(resultSet.getInt("paiementID"));
+                paiement.setMontant(resultSet.getDouble("montant"));
+                paiement.setDatePaiement(resultSet.getDate("datePaiement"));
+                paiement.setAgent(agent);
+
+                paiementList.add(paiement);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return paiementList;
+    }
+
+//    public static void main(String[] args) {
+//        Connection connection1 = ConfigConnection.getConnection();
+//        AgentRepository agentRepository1=new AgentRepositoryImp();
+//        PaiementRepositoryImp paiementRepositoryim = new PaiementRepositoryImp(ConfigConnection.getConnection(),agentRepository1 );
+//        paiementRepositoryim.findAll().forEach(System.out::println);
+//        paiementRepositoryim.getPaiementByDepartement().forEach(System.out::println);
+//    }
 
 }

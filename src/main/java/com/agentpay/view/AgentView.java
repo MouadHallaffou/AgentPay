@@ -161,6 +161,7 @@ public class AgentView {
     }
 
     public void displayAgent(Agent agent) {
-        System.out.println("agent:" + agent.getFirstName() + " " + agent.getLastName() + " exist");
+        String status = agent.getIsActive() ? "active" : "susepnd";
+        System.out.println("agent:" + agent.getFirstName().toUpperCase() + " " + agent.getLastName().toUpperCase() + " est:" + status + ", leur role: " + agent.getTypeAgent());
     }
 }

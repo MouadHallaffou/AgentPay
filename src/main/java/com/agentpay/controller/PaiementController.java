@@ -51,23 +51,6 @@ public class PaiementController {
         }
     }
 
-    // Méthodes à implémenter
-    public void handleAddBonus() {
-        agentView.showMessage("Fonctionnalité en développement");
-    }
-
-    public void handleAddIndemnity() {
-        agentView.showMessage("Fonctionnalité en développement");
-    }
-
-    public void handleViewAgentPayments() {
-        agentView.showMessage("Fonctionnalité en développement");
-    }
-
-    public void handleFilterPayments() {
-        agentView.showMessage("Fonctionnalité en développement");
-    }
-
     public void handleDepartmentAgentsCount() {
         try {
             String departementName = agentView.getInput("le name du de partement");
@@ -88,6 +71,22 @@ public class PaiementController {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void handleAddBonus() {
+        agentView.showMessage("Fonctionnalité en développement");
+    }
+
+    public void handleAddIndemnity() {
+        agentView.showMessage("Fonctionnalité en développement");
+    }
+
+    public void handleViewAgentPayments() {
+        agentView.showMessage("Fonctionnalité en développement");
+    }
+
+    public void handleFilterPayments() {
+        agentView.showMessage("Fonctionnalité en développement");
     }
 
     public void handleDepartmentTotalPayments() {

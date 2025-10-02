@@ -37,10 +37,11 @@ public class Menu {
     public static void afficherMenuAllAgents() {
         System.out.println("=== Consultation des Agents ===");
         System.out.println("1.➤ Voir tous les agents");
-        System.out.println("2.➤ Rechercher un agent par ID");
+        System.out.println("2.➤ Rechercher un agent par name");
         System.out.println("3.➤ Filtrer par département");
         System.out.println("4.➤ Filtrer par rôle");
         System.out.println("0.➤ Retour");
+        System.out.print("Votre choix: ");
     }
 
     public static void afficherMenuStatistiquesDirecteur() {
@@ -51,6 +52,7 @@ public class Menu {
         System.out.println("4.➤ Historique des paiements");
         System.out.println("5.➤ Identifier paiements inhabituels");
         System.out.println("0.➤ Retour");
+        System.out.print("Votre choix: ");
     }
 
     // Menu pour les responsables
