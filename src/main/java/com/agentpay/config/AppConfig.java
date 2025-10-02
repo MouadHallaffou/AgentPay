@@ -25,10 +25,9 @@ public class AppConfig {
         AuthServiceImpl authServiceImpl = new AuthServiceImpl(agentService);
 
         AgentView agentView = new AgentView(agentService);
-        DepartementView departementView = new DepartementView(departementService);
 
         this.agentController = new AgentController(agentService, agentView, departementService, paiementService);
-        this.departementController = new DepartementController(departementService, departementView);
+        this.departementController = new DepartementController(departementService, agentView);
         this.paiementController = new PaiementController(paiementService, agentView, agentService);
         this.authController = new AuthController(authServiceImpl, agentController, departementController, paiementController);
     }

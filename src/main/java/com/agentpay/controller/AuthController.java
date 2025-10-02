@@ -13,8 +13,8 @@ public class AuthController {
     private final DepartementController departementController;
     private final PaiementController paiementController;
 
-    public AuthController(AuthServiceImpl authService, AgentController agentController, 
-                         DepartementController departementController, PaiementController paiementController) {
+    public AuthController(AuthServiceImpl authService, AgentController agentController,
+            DepartementController departementController, PaiementController paiementController) {
         this.authService = authService;
         this.agentController = agentController;
         this.departementController = departementController;
@@ -302,12 +302,6 @@ public class AuthController {
             case 2:
                 paiementController.handleAddPrime();
                 break;
-//            case 3:
-//                paiementController.handleAddBonus();
-//                break;
-//            case 4:
-//                paiementController.handleAddIndemnity();
-//                break;
             case 3:
                 paiementController.handleViewAgentPayments();
                 break;

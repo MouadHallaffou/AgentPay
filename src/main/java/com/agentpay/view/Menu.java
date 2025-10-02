@@ -4,7 +4,9 @@ public class Menu {
 
     // Méthodes d'affichage des menus
     public static void afficherMenuDirecteur() {
-        System.out.println("=== Menu Directeur ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║       Menu Directeur        ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Gestion des départements");
         System.out.println("2.➤ Gestion des responsables");
         System.out.println("3.➤ Consultation des agents");
@@ -13,7 +15,9 @@ public class Menu {
     }
 
     public static void afficherGestionDepartement() {
-        System.out.println("=== Gestion Départements ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║    Gestion Départements     ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Ajouter département");
         System.out.println("2.➤ Modifier département");
         System.out.println("3.➤ Supprimer département");
@@ -23,7 +27,9 @@ public class Menu {
     }
 
     public static void afficherMenuGestionResponsable() {
-        System.out.println("=== Gestion Responsables ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║    Gestion Responsables     ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Ajouter un responsable");
         System.out.println("2.➤ Modifier un responsable");
         System.out.println("3.➤ Supprimer un responsable");
@@ -35,7 +41,9 @@ public class Menu {
     }
 
     public static void afficherMenuAllAgents() {
-        System.out.println("=== Consultation des Agents ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║ Consultation des Agents     ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Voir tous les agents");
         System.out.println("2.➤ Rechercher un agent par name");
         System.out.println("3.➤ Filtrer par département");
@@ -45,7 +53,9 @@ public class Menu {
     }
 
     public static void afficherMenuStatistiquesDirecteur() {
-        System.out.println("=== Statistiques Globales ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║   Statistiques Globales     ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Nombre total d'agents par rôle");
         System.out.println("2.➤ Total des paiements par département");
         System.out.println("3.➤ Moyenne des paiements par type");
@@ -57,7 +67,9 @@ public class Menu {
 
     // Menu pour les responsables
     public static void afficherMenuResponsable() {
-        System.out.println("=== Menu Responsable ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║      Menu Responsable       ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Gestion des agents");
         System.out.println("2.➤ Gestion des paiements");
         System.out.println("3.➤ Statistiques du département");
@@ -65,7 +77,9 @@ public class Menu {
     }
 
     public static void afficherMenuGestionAgentsResponsable() {
-        System.out.println("=== Gestion des Agents ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║    Gestion des Agents       ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Ajouter un agent (Ouvrier/Stagiaire)");
         System.out.println("2.➤ Modifier un agent");
         System.out.println("3.➤ Supprimer un agent");
@@ -76,18 +90,20 @@ public class Menu {
     }
 
     public static void afficherMenuGestionPaiementsResponsable() {
-        System.out.println("=== Gestion des Paiements ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║   Gestion des Paiements     ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Ajouter un salaire");
         System.out.println("2.➤ Ajouter une prime");
-//        System.out.println("3.➤ Ajouter un bonus");
-//        System.out.println("4.➤ Ajouter une indemnité");
         System.out.println("3.➤ Consulter les paiements d'un agent");
         System.out.println("4.➤ Filtrer les paiements");
         System.out.println("0.➤ Retour");
     }
 
     public static void afficherMenuStatistiquesResponsable() {
-        System.out.println("=== Statistiques Département ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║ Statistiques Département    ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Total des agents du département");
         System.out.println("2.➤ Total des paiements du département");
         System.out.println("3.➤ Moyenne des paiements par agent");
@@ -97,7 +113,9 @@ public class Menu {
 
     // Menu pour les agents (ouvriers ou stagiaires)
     public static void afficherMenuAgent() {
-        System.out.println("=== Menu Agent ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║        Menu Agent           ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Consulter mes informations");
         System.out.println("2.➤ Historique de mes paiements");
         System.out.println("3.➤ Filtrer mes paiements");
@@ -106,7 +124,9 @@ public class Menu {
     }
 
     public static void afficherMenuFiltragePaiementsAgent() {
-        System.out.println("=== Filtrer mes paiements ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║   Filtrer mes paiements     ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Par type (Salaire/Prime/Bonus/Indemnité)");
         System.out.println("2.➤ Par montant");
         System.out.println("3.➤ Par date");
@@ -115,7 +135,9 @@ public class Menu {
     }
 
     public static void afficherMenuTypePaiement() {
-        System.out.println("=== Choisir le type de paiement ===");
+        System.out.println("╔═════════════════════════════╗");
+        System.out.println("║ Choisir le type de paiement ║");
+        System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Add un Salaire");
         System.out.println("2.➤ Add une Prime");
         System.out.println("3.➤ Add un Bonus");
@@ -123,7 +145,7 @@ public class Menu {
         System.out.println("0.➤ Retour");
         System.out.print("Votre choix: ");
     }
-    
+
     public static void logout() {
         System.out.println("Déconnexion...");
     }

@@ -3,45 +3,45 @@ package main.java.com.agentpay.controller;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.service.interfaces.DepartementService;
 import main.java.com.agentpay.utils.Validation;
-import main.java.com.agentpay.view.DepartementView;
+import main.java.com.agentpay.view.AgentView;
 
 public class DepartementController {
 
     private final DepartementService departementService;
-    private final DepartementView departementView;
+    private final AgentView agentView;
 
-    public DepartementController(DepartementService departementService, DepartementView departementView) {
+    public DepartementController(DepartementService departementService, AgentView agentView) {
         this.departementService = departementService;
-        this.departementView = departementView;
+        this.agentView = agentView;
     }
 
     // MÉTHODES DÉPARTEMENTS (Directeur)
     public void handleCreateDepartement() {
         try {
-            String nomDepartement = departementView.getInput("Nom du département");
+            String nomDepartement = agentView.getInput("Nom du département");
             if (!Validation.isValideName(nomDepartement)) {
-                departementView.showMessage("Le nom du département ne peut pas être vide!");
+                agentView.showMessage("Le nom du département ne peut pas être vide!");
                 return;
             }
             Departement newDepartement = new Departement();
             newDepartement.setName(nomDepartement);
             boolean success = departementService.createDepartement(newDepartement);
             if (success) {
-                departementView.showMessage("Département '" + nomDepartement + "' créé avec succès!");
+                agentView.showMessage("Département '" + nomDepartement + "' créé avec succès!");
             } else {
-                departementView.showMessage("Erreur lors de la création du département.");
+                agentView.showMessage("Erreur lors de la création du département.");
             }
         } catch (Exception e) {
-            departementView.showMessage("Erreur: " + e.getMessage());
+            agentView.showMessage("Erreur: " + e.getMessage());
         }
     }
 
     public void handleUpdateDepartement() {
         try {
-            int id = Integer.parseInt(departementView.getInput("ID du département à modifier"));
-            String newName = departementView.getInput("Nouveau nom du département");
+            int id = Integer.parseInt(agentView.getInput("ID du département à modifier"));
+            String newName = agentView.getInput("Nouveau nom du département");
             if (!Validation.isValideName(newName)) {
-                departementView.showMessage("Le nom du département ne pas valide!");
+                agentView.showMessage("Le nom du département ne pas valide!");
                 return;
             }
             Departement updatedepatement = new Departement();
@@ -49,46 +49,46 @@ public class DepartementController {
             updatedepatement.setName(newName);
             boolean success = departementService.updateDepartement(updatedepatement);
             if (success) {
-                departementView.showMessage("Département mis à jour avec succès!");
+                agentView.showMessage("Département mis à jour avec succès!");
             } else {
-                departementView.showMessage("Erreur lors de la mise à jour du département.");
+                agentView.showMessage("Erreur lors de la mise à jour du département.");
             }
         } catch (NumberFormatException e) {
-            departementView.showMessage("ID invalide. Veuillez entrer un nombre.");
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
         } catch (Exception e) {
-            departementView.showMessage("Erreur: " + e.getMessage());
+            agentView.showMessage("Erreur: " + e.getMessage());
         }
     }
 
     public void handleDeleteDepartement() {
         try {
-            int id = Integer.parseInt(departementView.getInput("ID du département à supprimer"));
+            int id = Integer.parseInt(agentView.getInput("ID du département à supprimer"));
             boolean success = departementService.deleteDepartement(id);
             if (success) {
-                departementView.showMessage("Département supprimé avec succès!");
+                agentView.showMessage("Département supprimé avec succès!");
             } else {
-                departementView.showMessage("Erreur lors de la suppression du département.");
+                agentView.showMessage("Erreur lors de la suppression du département.");
             }
         } catch (NumberFormatException e) {
-            departementView.showMessage("ID invalide. Veuillez entrer un nombre.");
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
         } catch (Exception e) {
-            departementView.showMessage("Erreur: " + e.getMessage());
+            agentView.showMessage("Erreur: " + e.getMessage());
         }
     }
 
     public void handleGetDepartementById() {
         try {
-            int id = Integer.parseInt(departementView.getInput("ID du département à consulter"));
+            int id = Integer.parseInt(agentView.getInput("ID du département à consulter"));
             var departementOpt = departementService.findDepartementById(id);
             if (departementOpt.isPresent()) {
-                departementView.showMessage(departementOpt.get().toString());
+                agentView.showMessage(departementOpt.get().toString());
             } else {
-                departementView.showMessage("Département non trouvé.");
+                agentView.showMessage("Département non trouvé.");
             }
         } catch (NumberFormatException e) {
-            departementView.showMessage("ID invalide. Veuillez entrer un nombre.");
+            agentView.showMessage("ID invalide. Veuillez entrer un nombre.");
         } catch (Exception e) {
-            departementView.showMessage("Erreur: " + e.getMessage());
+            agentView.showMessage("Erreur: " + e.getMessage());
         }
     }
 
@@ -96,9 +96,9 @@ public class DepartementController {
         try {
             var departements = departementService.getAllDepartements();
             if (departements.isEmpty()) {
-                departementView.showMessage("Aucun département trouvé.");
+                agentView.showMessage("Aucun département trouvé.");
             } else {
-                departementView.showMessage("Liste des départements:");
+                agentView.showMessage("Liste des départements:");
                 System.out.printf("%-25s %-2s %-15s%n", "Département", "||", "Total Agents");
 //                System.out.println(departements);
                 for (var dep : departements) {
@@ -107,7 +107,7 @@ public class DepartementController {
                 }
             }
         } catch (Exception e) {
-            departementView.showMessage("Erreur: " + e.getMessage());
+            agentView.showMessage("Erreur: " + e.getMessage());
         }
     }
 }
