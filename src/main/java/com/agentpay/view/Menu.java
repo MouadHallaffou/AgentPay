@@ -77,10 +77,10 @@ public class Menu {
         System.out.println("=== Gestion des Paiements ===");
         System.out.println("1.➤ Ajouter un salaire");
         System.out.println("2.➤ Ajouter une prime");
-        System.out.println("3.➤ Ajouter un bonus");
-        System.out.println("4.➤ Ajouter une indemnité");
-        System.out.println("5.➤ Consulter les paiements d'un agent");
-        System.out.println("6.➤ Filtrer les paiements");
+//        System.out.println("3.➤ Ajouter un bonus");
+//        System.out.println("4.➤ Ajouter une indemnité");
+        System.out.println("3.➤ Consulter les paiements d'un agent");
+        System.out.println("4.➤ Filtrer les paiements");
         System.out.println("0.➤ Retour");
     }
 
@@ -96,7 +96,7 @@ public class Menu {
     // Menu pour les agents (ouvriers ou stagiaires)
     public static void afficherMenuAgent() {
         System.out.println("=== Menu Agent ===");
-        System.out.println("1.➤ Consulter mes informations personnelles");
+        System.out.println("1.➤ Consulter mes informations");
         System.out.println("2.➤ Historique de mes paiements");
         System.out.println("3.➤ Filtrer mes paiements");
         System.out.println("4.➤ Total de mes paiements");

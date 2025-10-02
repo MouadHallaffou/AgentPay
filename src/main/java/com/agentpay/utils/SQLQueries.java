@@ -33,16 +33,18 @@ public class SQLQueries {
     }
 
     public static String selectAllDepartements() {
-        return "SELECT " +
-                "d.departementID AS departementID, " + 
-                "d.name AS nom_departement, " +
-                "r.firstName AS prenom_responsable, " +
-                "r.lastName AS nom_responsable, " +
-                "COUNT(a.agentID) AS total_agents " +
-                "FROM departements d " +
-                "JOIN agents r ON r.departementID = d.departementID AND r.type_agent = 'RESPONSABLE' " +
-                "JOIN agents a ON a.departementID = d.departementID " +
-                "GROUP BY d.departementID, r.firstName, r.lastName;";
+        return "SELECT d.departementID AS departementID, d.name AS nom_departement,COUNT(a.departementID) AS total_agents FROM departements d JOIN agents a ON a.departementID = d.departementID GROUP BY d.departementID;";
+    }
+
+    public static String historiquePaiementAgents(String email) {
+        return "SELECT \n" +
+                "    p.*, \n" +
+                "    a.agentID, \n" +
+                "    a.firstName, \n" +
+                "    a.lastName \n" +
+                "FROM paiements p\n" +
+                "JOIN agents a ON a.agentID = p.agentID\n" +
+                "WHERE a.email = ?;";
     }
 
 }
