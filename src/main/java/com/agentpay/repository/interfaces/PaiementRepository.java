@@ -2,6 +2,9 @@ package main.java.com.agentpay.repository.interfaces;
 
 import main.java.com.agentpay.model.Paiement;
 
+import java.util.List;
+
 public interface PaiementRepository extends GenericRepository<Paiement> {
-    // Hérite des méthodes génériques: insert, update, delete, findById, findAll    
+    // Hérite des méthodes génériques: insert, update, delete, findById, findAll
+    List<Paiement> getPaiementByDepartement();
 }

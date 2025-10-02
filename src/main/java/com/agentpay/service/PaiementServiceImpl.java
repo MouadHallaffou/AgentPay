@@ -5,6 +5,9 @@ import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
 import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.utils.Validation;
+
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class PaiementServiceImpl implements PaiementService{
@@ -53,7 +56,6 @@ public class PaiementServiceImpl implements PaiementService{
         if (paiement.getMontant() <= 0) {
             throw new IllegalArgumentException("Le montant doit être positif");
         }
-        // Validation métier selon le type
         switch (paiement.getTypePaiement()) {
             case SALAIRE -> {
                 if (!Validation.salaireValide(paiement.getMontant())) {
@@ -72,6 +74,24 @@ public class PaiementServiceImpl implements PaiementService{
         if (id <= 0)
             throw new IllegalArgumentException("ID de paiement invalide");
         return paiementRepository.delete(id);
+    }
+
+    @Override
+    public List<Paiement> getPaiementTotalByDepartement() {
+        List<Paiement> paiements = paiementRepository.getPaiementByDepartement();
+        if (paiements.isEmpty()){
+            throw new RuntimeException();
+        }
+        return paiements;
+    }
+
+    @Override
+    public List<Paiement> getAllPaiement() {
+        List<Paiement> paiements = paiementRepository.findAll();
+        if (paiements.isEmpty()){
+            throw new RuntimeException();
+        }
+        return paiements;
     }
 
 }
