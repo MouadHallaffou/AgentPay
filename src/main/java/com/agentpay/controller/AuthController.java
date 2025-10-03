@@ -79,16 +79,12 @@ public class AuthController {
     private boolean handleDirecteurChoice(int choice) {
         switch (choice) {
             case 1:
-                Menu.afficherGestionDepartement();
                 return handleGestionDepartement();
             case 2:
-                Menu.afficherMenuGestionResponsable();
                 return handleGestionResponsable();
             case 3:
-                Menu.afficherMenuAllAgents();
                 return handleConsultationAgents();
             case 4:
-                Menu.afficherMenuStatistiquesDirecteur();
                 return handleStatistiquesDirecteur();
             case 0:
                 Menu.logout();
@@ -103,13 +99,10 @@ public class AuthController {
     private boolean handleResponsableChoice(int choice) {
         switch (choice) {
             case 1:
-                Menu.afficherMenuGestionAgentsResponsable();
                 return handleGestionAgentsResponsable();
             case 2:
-                Menu.afficherMenuGestionPaiementsResponsable();
                 return handleGestionPaiementsResponsable();
             case 3:
-                Menu.afficherMenuStatistiquesResponsable();
                 return handleStatistiquesResponsable();
             case 0:
                 Menu.logout();
@@ -130,7 +123,6 @@ public class AuthController {
                 agentController.handleViewPaymentHistory();
                 return true;
             case 3:
-                Menu.afficherMenuFiltragePaiementsAgent();
                 return handleFiltragePaiementsAgent();
             case 4:
                 agentController.handleViewTotalPayments();
@@ -144,218 +136,266 @@ public class AuthController {
         }
     }
 
-    // Sous-menus du directeur
+    // Sous-menus du directeur 
     private boolean handleGestionDepartement() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                departementController.handleCreateDepartement();
-                break;
-            case 2:
-                departementController.handleUpdateDepartement();
-                break;
-            case 3:
-                departementController.handleDeleteDepartement();
-                break;
-            case 4:
-                departementController.handleViewAllDepartements();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherGestionDepartement();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    departementController.handleCreateDepartement();
+                    break;
+                case 2:
+                    departementController.handleUpdateDepartement();
+                    break;
+                case 3:
+                    departementController.handleDeleteDepartement();
+                    break;
+                case 4:
+                    departementController.handleViewAllDepartements();
+                    break;
+                case 0:
+                    stayInMenu = false; 
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
-        return true;
+        return true; 
     }
 
     private boolean handleGestionResponsable() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                agentController.handleCreateResponsable();
-                break;
-            case 2:
-                agentController.handleUpdateResponsable();
-                break;
-            case 3:
-                agentController.handleDeleteResponsable();
-                break;
-            case 4:
-                agentController.handleDesactiveResponsableCompte();
-                break;
-            case 5:
-                agentController.handleViewAllResponsables();
-                break;
-            case 6:
-                Menu.afficherMenuTypePaiement();
-                int typePaiementChoice = AgentView.getChoice();
-                switch (typePaiementChoice) {
-                    case 1:
-                        paiementController.handleAddSalary();
-                        break;
-                    case 2:
-                        paiementController.handleAddPrime();
-                        break;
-                    case 3:
-                        paiementController.handleAddBonus();
-                        break;
-                    case 4:
-                        paiementController.handleAddIndemnity();
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        Menu.invalidChoice();
-                        break;
-                }
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuGestionResponsable();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    agentController.handleCreateResponsable();
+                    break;
+                case 2:
+                    agentController.handleUpdateResponsable();
+                    break;
+                case 3:
+                    agentController.handleDeleteResponsable();
+                    break;
+                case 4:
+                    agentController.handleDesactiveResponsableCompte();
+                    break;
+                case 5:
+                    agentController.handleViewAllResponsables();
+                    break;
+                case 6:
+                    handleGestionPaiementsResponsableDirecteur();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }
 
+    // Sous-menu spécifique pour la gestion des paiements des responsables (Directeur)
+    private void handleGestionPaiementsResponsableDirecteur() {
+        boolean stayInSubMenu = true;
+        while (stayInSubMenu) {
+            Menu.afficherMenuTypePaiement();
+            int typePaiementChoice = AgentView.getChoice();
+            switch (typePaiementChoice) {
+                case 1:
+                    paiementController.handleAddSalary();
+                    break;
+                case 2:
+                    paiementController.handleAddPrime();
+                    break;
+                case 3:
+                    paiementController.handleAddBonus();
+                    break;
+                case 4:
+                    paiementController.handleAddIndemnity();
+                    break;
+                case 0:
+                    stayInSubMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
+        }
+    }
+
     private boolean handleConsultationAgents() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                agentController.handleViewAllAgents();
-                break;
-            case 2:
-                agentController.handleSearchAgent();
-                break;
-            case 3:
-                agentController.handleFilterAgentsByDepartment();
-                break;
-            case 4:
-                agentController.handleFilterAgentsByRole();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuAllAgents();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    agentController.handleViewAllAgents();
+                    break;
+                case 2:
+                    agentController.handleSearchAgent();
+                    break;
+                case 3:
+                    agentController.handleFilterAgentsByDepartment();
+                    break;
+                case 4:
+                    agentController.handleFilterAgentsByRole();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }
 
     private boolean handleStatistiquesDirecteur() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                agentController.handleAgentsCountByRole();
-                break;
-            case 2:
-                agentController.handleTotalPaymentsByDepartment();
-                break;
-            case 3:
-                agentController.handleAveragePaymentsByType();
-                break;
-            case 4:
-                agentController.handlePaymentHistory();
-                break;
-            case 5:
-                agentController.handleIdentifyUnusualPayments();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuStatistiquesDirecteur();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    agentController.handleAgentsCountByRole();
+                    break;
+                case 2:
+                    agentController.handleTotalPaymentsByDepartment();
+                    break;
+                case 3:
+                    agentController.handleAveragePaymentsByType();
+                    break;
+                case 4:
+                    agentController.handlePaymentHistory();
+                    break;
+                case 5:
+                    agentController.handleIdentifyUnusualPayments();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }
 
-    // Sous-menus du responsable
+    // Sous-menus du responsable 
     private boolean handleGestionAgentsResponsable() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                agentController.handleCreateAgent();
-                break;
-            case 2:
-                agentController.handleUpdateAgent();
-                break;
-            case 3:
-                agentController.handleDeleteAgent();
-                break;
-            case 4:
-                agentController.handleViewDepartmentAgents();
-                break;
-            case 5:
-                agentController.handleSearchAgent();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuGestionAgentsResponsable();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    agentController.handleCreateAgent();
+                    break;
+                case 2:
+                    agentController.handleUpdateAgent();
+                    break;
+                case 3:
+                    agentController.handleDeleteAgent();
+                    break;
+                case 4:
+                    agentController.handleViewDepartmentAgents();
+                    break;
+                case 5:
+                    agentController.handleSearchAgent();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }
 
     private boolean handleGestionPaiementsResponsable() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                paiementController.handleAddSalary();
-                break;
-            case 2:
-                paiementController.handleAddPrime();
-                break;
-            case 3:
-                paiementController.handleViewAgentPayments();
-                break;
-            case 4:
-                paiementController.handleFilterPayments();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuGestionPaiementsResponsable();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    paiementController.handleAddSalary();
+                    break;
+                case 2:
+                    paiementController.handleAddPrime();
+                    break;
+                case 3:
+                    paiementController.handleViewAgentPayments();
+                    break;
+                case 4:
+                    paiementController.handleFilterPayments();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }
 
     private boolean handleStatistiquesResponsable() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                paiementController.handleDepartmentAgentsCount();
-                break;
-            case 2:
-                paiementController.handleDepartmentTotalPayments();
-                break;
-            case 3:
-                paiementController.handleAveragePaymentsPerAgent();
-                break;
-            case 4:
-                paiementController.handleDepartmentPaymentHistory();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuStatistiquesResponsable();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    paiementController.handleDepartmentAgentsCount();
+                    break;
+                case 2:
+                    paiementController.handleDepartmentTotalPayments();
+                    break;
+                case 3:
+                    paiementController.handleAveragePaymentsPerAgent();
+                    break;
+                case 4:
+                    paiementController.handleDepartmentPaymentHistory();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }
 
-    // Sous-menus de l'agent
+    // Sous-menus de l'agent 
     private boolean handleFiltragePaiementsAgent() {
-        int subChoice = AgentView.getChoice();
-        switch (subChoice) {
-            case 1:
-                paiementController.handleFilterPaymentsByType();
-                break;
-            case 2:
-                paiementController.handleFilterPaymentsByAmount();
-                break;
-            case 3:
-                paiementController.handleFilterPaymentsByDate();
-                break;
-            case 0:
-                return true;
-            default:
-                Menu.invalidChoice();
+        boolean stayInMenu = true;
+        while (stayInMenu) {
+            Menu.afficherMenuFiltragePaiementsAgent();
+            int subChoice = AgentView.getChoice();
+            switch (subChoice) {
+                case 1:
+                    paiementController.handleFilterPaymentsByType();
+                    break;
+                case 2:
+                    paiementController.handleFilterPaymentsByAmount();
+                    break;
+                case 3:
+                    paiementController.handleFilterPaymentsByDate();
+                    break;
+                case 0:
+                    stayInMenu = false;
+                    break;
+                default:
+                    Menu.invalidChoice();
+            }
         }
         return true;
     }

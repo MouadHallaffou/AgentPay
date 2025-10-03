@@ -189,7 +189,6 @@ public class AgentController {
                     if (res.getTypeAgent() == TypeAgent.OUVRIER || res.getTypeAgent() == TypeAgent.STAGIAIRE) {
                         System.out.println("----------------------------------");
                         System.out.println(index + ". " + res.getFirstName() + " " + res.getLastName());
-                        System.out.println("----------------------------------");
                         index++;
                     }
                 }
@@ -209,7 +208,7 @@ public class AgentController {
                 agentView.showMessage("Aucun agent trouvé avec ce nom.");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             agentView.showMessage("Erreur lors de la recherche de l'agent.");
         }
     }
@@ -228,7 +227,7 @@ public class AgentController {
             }
             System.out.println("========================================");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -244,25 +243,52 @@ public class AgentController {
                 System.out.println("aucun agent trouve");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
     public void handleFilterAgentsByDepartment() {
         try {
             String departmentName = agentView.getInput("Entrez le nom du département");
-            
+            List<Agent> agentsByDepartementName = agentService.finAgentByDepartement(departmentName);
+            Map<String, List<Agent>> agentsByDepartment = agentsByDepartementName.stream()
+                    .collect(Collectors.groupingBy(agent -> agent.getDepartement().getName()));
+            agentsByDepartment.forEach((deptName, agents) -> {
+                System.out.println("Département : " + deptName);
+                System.out.println("----------------------------------------");
+                int index = 1;
+                for (Agent agent : agents) {
+                    System.out.printf("%d. %s %s%n", index, agent.getFirstName(), agent.getLastName());
+                    index++;
+                }
+                System.out.println("----------------------------------------");
+            });
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
         }
     }
 
     public void handleFilterAgentsByRole() {
-        agentView.showMessage("Fonctionnalité en développement");
-    }
-
-    public void handleManageResponsablePayments() {
-        agentView.showMessage("Fonctionnalité en développement");
+        try {
+            String departementFilter = agentView.getInput("departemnt name:");
+            List<Agent> agents = agentService.getAllAgents();
+            Map<String, List<Agent>> filterAgentsByRole = agents.stream()
+                    .filter(agent -> agent.getDepartement() != null
+                            && agent.getDepartement().getName().equalsIgnoreCase(departementFilter))
+                    .collect(Collectors.groupingBy(agent -> agent.getTypeAgent().name()));
+            filterAgentsByRole.forEach((role, agentsInRole) -> {
+                System.out.println("Rôle : " + role);
+                System.out.println("----------------------------------------");
+                int index = 1;
+                for (Agent agent : agentsInRole) {
+                    System.out.printf("%d. %s %s%n", index, agent.getFirstName(), agent.getLastName());
+                    index++;
+                }
+                System.out.println("----------------------------------------");
+            });
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     // Méthodes statistiques
@@ -283,7 +309,7 @@ public class AgentController {
             });
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -314,9 +340,10 @@ public class AgentController {
                             Collectors.averagingDouble(Paiement::getMontant)));
 
             System.out.printf("%-20s || %-15s%n", "Type de Paiement", "Moyenne");
+            System.out.println("---------------------------------------------------------------");
             moyennePaiementParType.forEach((type, avg) -> System.out.printf("%-20s || %-15.2f%n", type, avg));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -393,6 +420,10 @@ public class AgentController {
     }
 
     public void handleIdentifyUnusualPayments() {
+        agentView.showMessage("Fonctionnalité en développement");
+    }
+
+    public void handleManageResponsablePayments() {
         agentView.showMessage("Fonctionnalité en développement");
     }
 }
