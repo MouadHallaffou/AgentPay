@@ -3,14 +3,16 @@ package main.java.com.agentpay.service;
 import main.java.com.agentpay.exceptions.PaiementInvalideException;
 import main.java.com.agentpay.exceptions.ValidationException;
 import main.java.com.agentpay.model.Paiement;
+import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
 import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.utils.Validation;
+
 import java.util.List;
 import java.util.Optional;
 import java.sql.SQLException;
 
-public class PaiementServiceImpl implements PaiementService{
+public class PaiementServiceImpl implements PaiementService {
     private final PaiementRepository paiementRepository;
 
     public PaiementServiceImpl(PaiementRepository paiementRepository) {
@@ -18,6 +20,7 @@ public class PaiementServiceImpl implements PaiementService{
     }
 
     // Enregistrer
+    @Override
     public boolean enregistrerPaiement(Paiement paiement) throws ValidationException {
         if (paiement.getTypePaiement() == null) {
             throw new IllegalArgumentException("Type de paiement obligatoire");
@@ -31,8 +34,16 @@ public class PaiementServiceImpl implements PaiementService{
                     throw new IllegalArgumentException("Montant de salaire invalide");
                 }
             }
-            case BONUS, INDEMNITE, PRIME -> {
-                //
+            case PRIME -> {
+                if (!Validation.salaireValide(paiement.getMontant())) {
+                    throw new ValidationException("Montant de prime invalide");
+                }
+            }
+            case BONUS, INDEMNITE -> {
+                if (paiement.getAgent().getTypeAgent() != TypeAgent.RESPONSABLE ||
+                        paiement.getAgent().getTypeAgent() != TypeAgent.DIRECTEUR) {
+                    throw new ValidationException("Le type Bonus and indemnite valablepour les responsable et directeurs selment!");
+                }
             }
         }
         try {
@@ -43,7 +54,8 @@ public class PaiementServiceImpl implements PaiementService{
     }
 
     // getByID
-    public Optional<Paiement> obtenirPaiement(int id) throws PaiementInvalideException {
+    @Override
+    public Optional<Paiement> getPaiementById(int id) throws PaiementInvalideException {
         if (id <= 0)
             throw new PaiementInvalideException("ID de paiement invalide");
         try {
@@ -54,6 +66,7 @@ public class PaiementServiceImpl implements PaiementService{
     }
 
     // Modifier::
+    @Override
     public boolean modifierPaiement(Paiement paiement) throws ValidationException {
         if (paiement.getPaiementID() <= 0) {
             throw new PaiementInvalideException("ID de paiement invalide");
@@ -67,11 +80,19 @@ public class PaiementServiceImpl implements PaiementService{
         switch (paiement.getTypePaiement()) {
             case SALAIRE -> {
                 if (!Validation.salaireValide(paiement.getMontant())) {
-                    throw new PaiementInvalideException("Montant de salaire invalide");
-                 }
-            } 
-            case BONUS, INDEMNITE, PRIME -> {
-                //   
+                    throw new IllegalArgumentException("Montant de salaire invalide");
+                }
+            }
+            case PRIME -> {
+                if (!Validation.salaireValide(paiement.getMontant())) {
+                    throw new ValidationException("Montant de prime invalide");
+                }
+            }
+            case BONUS, INDEMNITE -> {
+                if (paiement.getAgent().getTypeAgent() != TypeAgent.RESPONSABLE ||
+                        paiement.getAgent().getTypeAgent() != TypeAgent.DIRECTEUR) {
+                    throw new ValidationException("Le type Bonus and indemnite valablepour les responsable et directeurs selment!");
+                }
             }
         }
         try {
@@ -82,6 +103,7 @@ public class PaiementServiceImpl implements PaiementService{
     }
 
     // delete::
+    @Override
     public boolean supprimerPaiement(int id) throws PaiementInvalideException {
         if (id <= 0)
             throw new PaiementInvalideException("ID de paiement invalide");
@@ -96,7 +118,7 @@ public class PaiementServiceImpl implements PaiementService{
     public List<Paiement> getPaiementTotalByDepartement() throws PaiementInvalideException {
         try {
             List<Paiement> paiements = paiementRepository.getPaiementByDepartement();
-            if (paiements.isEmpty()){
+            if (paiements.isEmpty()) {
                 throw new PaiementInvalideException("Aucun paiement trouvé pour ce département");
             }
             return paiements;
@@ -109,7 +131,7 @@ public class PaiementServiceImpl implements PaiementService{
     public List<Paiement> getAllPaiement() throws PaiementInvalideException {
         try {
             List<Paiement> paiements = paiementRepository.findAll();
-            if (paiements.isEmpty()){
+            if (paiements.isEmpty()) {
                 throw new PaiementInvalideException("Aucun paiement trouvé");
             }
             return paiements;

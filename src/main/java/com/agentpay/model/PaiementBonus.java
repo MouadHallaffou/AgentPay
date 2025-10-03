@@ -1,18 +1,22 @@
 package main.java.com.agentpay.model;
 
-public class PaiementBonus {
-    private boolean conditionvalide;
+import main.java.com.agentpay.model.enums.TypePaiement;
 
-    public PaiementBonus(boolean conditionvalide) {
-        this.conditionvalide = conditionvalide;
+public class PaiementBonus extends Paiement{
+    private Paiement paiement;
+    public PaiementBonus() {
     }
 
-    public void setConditionvalide(boolean conditionvalide) {
-        this.conditionvalide = conditionvalide;
+    public PaiementBonus(int paiementID, TypePaiement typePaiement, String motif, Agent agent) {
+        super(paiementID, typePaiement, motif, agent);
     }
 
-    public boolean isConditionvalide() {
-        return conditionvalide;
+    public void setPaiement(Paiement paiement) {
+        this.paiement = paiement;
+    }
+
+    public Paiement getPaiement() {
+        return paiement;
     }
 
 }

@@ -10,6 +10,9 @@ public class Paiement {
     private Date datePaiement;
     private String motif;
     private Agent agent;
+    private boolean conditionvalide;
+    private PaiementBonus paiementBonus;
+    private PaiementIndemenite paiementIndemenite;
 
     public Paiement() {
     }
@@ -20,6 +23,7 @@ public class Paiement {
         this.datePaiement = new Date();
         this.motif = motif;
         this.agent = agent;
+        this.conditionvalide = true;
     }
 
     public int getPaiementID() {
@@ -70,6 +74,29 @@ public class Paiement {
         this.agent = agent;
     }
 
+    public boolean isConditionvalide() {
+        return conditionvalide;
+    }
+
+    public void setConditionvalide(boolean conditionvalide) {
+        this.conditionvalide = true;
+    }
+
+    public PaiementBonus getPaiementBonus() {
+        return paiementBonus;
+    }
+
+    public PaiementIndemenite getPaiementIndemenite() {
+        return paiementIndemenite;
+    }
+
+    public void setPaiementIndemenite(PaiementIndemenite paiementIndemenite) {
+        this.paiementIndemenite = paiementIndemenite;
+    }
+
+    public void setPaiementBonus(PaiementBonus paiementBonus) {
+    }
+
     @Override
     public String toString() {
         return "Paiement{" +
@@ -79,6 +106,8 @@ public class Paiement {
                 ", datePaiement=" + datePaiement +
                 ", motif='" + motif + '\'' +
                 ", agent=" + agent +
+                ", conditionvalide=" + conditionvalide +
                 '}';
     }
+
 }

@@ -1,7 +1,6 @@
 package main.java.com.agentpay.repository.interfacesImp;
 
 import main.java.com.agentpay.config.ConfigConnection;
-import main.java.com.agentpay.exceptions.DepartementIntrouvableException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Departement;
 import main.java.com.agentpay.model.Paiement;
@@ -10,10 +9,8 @@ import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.repository.interfaces.AgentRepository;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
 import main.java.com.agentpay.utils.SQLQueries;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,21 +28,21 @@ public class PaiementRepositoryImp implements PaiementRepository {
 
     @Override
     public boolean insert(Paiement entity) {
-//        System.out.println("Date format: " +  new SimpleDateFormat("yyyy-MM-dd H:m:s").format(entity.getDatePaiement()));
         try {
             PreparedStatement statement = connection.prepareStatement(SQLQueries.insertInto(
-                    "paiements", "type_paiement", "montant", "datePaiement", "motif", "agentID"));
+                    "paiements", "type_paiement", "montant", "datePaiement", "condition_validee", "motif", "agentID"));
+
             statement.setString(1, entity.getTypePaiement().name());
             statement.setDouble(2, entity.getMontant());
-            statement.setString(3, new SimpleDateFormat("yyyy-MM-dd H:m:s").format(entity.getDatePaiement()));
-            statement.setString(4, entity.getMotif());
-            statement.setInt(5, entity.getAgent().getUserID());
+            statement.setString(3, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entity.getDatePaiement()));
+            statement.setBoolean(4, entity.isConditionvalide());
+            statement.setString(5, entity.getMotif());
+            statement.setInt(6, entity.getAgent().getUserID());
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
             System.out.println("Error:" + e.getMessage());
-//            System.out.println("Erreur lors de l'insertion du paiement: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -57,7 +54,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
             PreparedStatement statement = connection.prepareStatement(SQLQueries.updateQuery(
                     "paiements", "paiementID", "type_paiement", "datePaiement", "motif", "montant", "agentID"));
             statement.setString(1, entity.getTypePaiement().name());
-            statement.setDate(2, new java.sql.Date(entity.getDatePaiement().getTime()));
+            statement.setDate(2, new Date(entity.getDatePaiement().getTime()));
             statement.setString(3, entity.getMotif());
             statement.setDouble(4, entity.getMontant());
             statement.setInt(5, entity.getAgent().getUserID());
@@ -159,13 +156,4 @@ public class PaiementRepositoryImp implements PaiementRepository {
         }
         return paiementList;
     }
-
-//    public static void main(String[] args) {
-//        Connection connection1 = ConfigConnection.getConnection();
-//        AgentRepository agentRepository1=new AgentRepositoryImp();
-//        PaiementRepositoryImp paiementRepositoryim = new PaiementRepositoryImp(ConfigConnection.getConnection(),agentRepository1 );
-//        paiementRepositoryim.findAll().forEach(System.out::println);
-//        paiementRepositoryim.getPaiementByDepartement().forEach(System.out::println);
-//    }
-
 }

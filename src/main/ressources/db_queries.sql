@@ -41,7 +41,7 @@ CREATE TABLE paiements (
     montant DECIMAL(12, 2) NOT NULL CHECK (montant >= 0),
     datePaiement DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     motif VARCHAR(255),
-    condition_validee BOOLEAN,
+    condition_validee BOOLEAN DEFAULT TRUE,
     agentID BIGINT NOT NULL,
     CONSTRAINT fk_agent FOREIGN KEY (agentID) REFERENCES agents (agentID) ON DELETE CASCADE ON UPDATE CASCADE,
     createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

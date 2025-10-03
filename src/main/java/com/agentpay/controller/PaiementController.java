@@ -256,4 +256,18 @@ public class PaiementController {
             System.out.println(e.getMessage());
         }
     }
+
+    public void handleEditSalary() {
+
+    }
+
+    public void handleEditPrime() {
+
+    }
+
+    public void handleVerifieBonus() {
+    }
+
+    public void handleVerifieIndemnity() {
+    }
 }
