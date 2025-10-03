@@ -4,10 +4,10 @@ import main.java.com.agentpay.exceptions.PaiementInvalideException;
 import main.java.com.agentpay.exceptions.ValidationException;
 import main.java.com.agentpay.model.Paiement;
 import main.java.com.agentpay.model.enums.TypeAgent;
+import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.repository.interfaces.PaiementRepository;
 import main.java.com.agentpay.service.interfaces.PaiementService;
 import main.java.com.agentpay.utils.Validation;
-
 import java.util.List;
 import java.util.Optional;
 import java.sql.SQLException;
@@ -42,7 +42,7 @@ public class PaiementServiceImpl implements PaiementService {
             case BONUS, INDEMNITE -> {
                 if (paiement.getAgent().getTypeAgent() != TypeAgent.RESPONSABLE ||
                         paiement.getAgent().getTypeAgent() != TypeAgent.DIRECTEUR) {
-                    throw new ValidationException("Le type Bonus and indemnite valablepour les responsable et directeurs selment!");
+                    throw new ValidationException("Le type Bonus et indemnité est valable pour les responsables et directeurs seulement!");
                 }
             }
         }
@@ -91,7 +91,7 @@ public class PaiementServiceImpl implements PaiementService {
             case BONUS, INDEMNITE -> {
                 if (paiement.getAgent().getTypeAgent() != TypeAgent.RESPONSABLE ||
                         paiement.getAgent().getTypeAgent() != TypeAgent.DIRECTEUR) {
-                    throw new ValidationException("Le type Bonus and indemnite valablepour les responsable et directeurs selment!");
+                    throw new ValidationException("Le type Bonus and indemnite valable pour les responsable et directeurs selment!");
                 }
             }
         }
@@ -140,4 +140,24 @@ public class PaiementServiceImpl implements PaiementService {
         }
     }
 
+    @Override
+    public boolean validerConditionService(Paiement paiement) throws Exception {
+        try {
+            if (paiement.getTypePaiement() == null) {
+                throw new IllegalArgumentException("Type de paiement obligatoire");
+            }
+            if (paiement.getTypePaiement() == TypePaiement.BONUS ||
+                    paiement.getTypePaiement() == TypePaiement.INDEMNITE) {
+                System.out.println(paiement.getAgent());
+                if (paiement.getAgent().getTypeAgent() != TypeAgent.RESPONSABLE &&
+                        paiement.getAgent().getTypeAgent() != TypeAgent.DIRECTEUR) {
+                    throw new ValidationException("Le type Bonus et indemnité est valable pour les responsables et directeurs seulement !");
+                }
+            }
+            paiementRepository.updateConditionValidee(paiement);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

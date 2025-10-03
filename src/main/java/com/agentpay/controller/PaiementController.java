@@ -1,5 +1,6 @@
 package main.java.com.agentpay.controller;
 
+import com.sun.net.httpserver.Authenticator;
 import main.java.com.agentpay.exceptions.PaiementInvalideException;
 import main.java.com.agentpay.model.Agent;
 import main.java.com.agentpay.model.Paiement;
@@ -10,6 +11,7 @@ import main.java.com.agentpay.service.interfaces.AgentService;
 import main.java.com.agentpay.view.AgentView;
 
 import java.util.List;
+import java.util.Optional;
 
 public class PaiementController {
     private final PaiementService paiementService;
@@ -24,7 +26,8 @@ public class PaiementController {
 
     public void handleAddSalary() {
         try {
-            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput(TypePaiement.SALAIRE));
+            boolean success = paiementService
+                    .enregistrerPaiement(agentView.getCreatePaiementInput(TypePaiement.SALAIRE));
             if (success) {
                 agentView.showMessage("Paiement enregistré avec succès !");
             } else {
@@ -39,7 +42,7 @@ public class PaiementController {
 
     public void handleAddPrime() {
         try {
-            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput(TypePaiement.PRIME));
+            boolean success = paiementService.enregistrerPaiement(agentView.getCreatePaiementInput(TypePaiement.PRIME));
             if (success) {
                 agentView.showMessage("Paiement enregistré avec succès !");
             } else {
@@ -51,10 +54,10 @@ public class PaiementController {
             agentView.showMessage("Erreur : " + e.getMessage());
         }
     }
- 
+
     public void handleAddBonus() {
         try {
-            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput(TypePaiement.BONUS));
+            boolean success = paiementService.enregistrerPaiement(agentView.getCreatePaiementInput(TypePaiement.BONUS));
             if (success) {
                 agentView.showMessage("Paiement enregistré avec succès !");
             } else {
@@ -66,10 +69,11 @@ public class PaiementController {
             agentView.showMessage("Erreur : " + e.getMessage());
         }
     }
-    
+
     public void handleAddIndemnity() {
         try {
-            boolean success = paiementService.enregistrerPaiement(agentView.getPaiementInput(TypePaiement.INDEMNITE));
+            boolean success = paiementService
+                    .enregistrerPaiement(agentView.getCreatePaiementInput(TypePaiement.INDEMNITE));
             if (success) {
                 agentView.showMessage("Paiement enregistré avec succès !");
             } else {
@@ -110,7 +114,8 @@ public class PaiementController {
             if (paiements == null || paiements.isEmpty()) {
                 agentView.showMessage("Aucun paiement trouvé pour cet agent.");
             } else {
-                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date", "Agent Email");
+                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date",
+                        "Agent Email");
                 System.out.println("-------------------------------------------------------------------------------");
                 for (Paiement paiement : paiements) {
                     System.out.printf("%-5d || %-10.2f || %-15s || %-10s || %-20s%n",
@@ -167,7 +172,8 @@ public class PaiementController {
             if (paiements.isEmpty()) {
                 agentView.showMessage("Aucun paiement trouvé pour le type: " + typePaiement);
             } else {
-                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date", "Agent Email");
+                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date",
+                        "Agent Email");
                 System.out.println("-------------------------------------------------------------------------------");
                 for (Paiement paiement : paiements) {
                     System.out.printf("%-5d || %-10.2f || %-15s || %-10s || %-20s%n",
@@ -193,7 +199,8 @@ public class PaiementController {
             if (paiements.isEmpty()) {
                 agentView.showMessage("Aucun paiement trouvé pour le montant spécifié.");
             } else {
-                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date", "Agent Email");
+                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date",
+                        "Agent Email");
                 System.out.println("-------------------------------------------------------------------------------");
                 for (Paiement paiement : paiements) {
                     System.out.printf("%-5d || %-10.2f || %-15s || %-10s || %-20s%n",
@@ -208,6 +215,7 @@ public class PaiementController {
             System.out.println(e.getMessage());
         }
     }
+
     public void handleSortPaymentsByAmount() {
         try {
             List<Paiement> paiements = paiementService.getAllPaiement().stream()
@@ -216,7 +224,8 @@ public class PaiementController {
             if (paiements.isEmpty()) {
                 agentView.showMessage("Aucun paiement trouvé.");
             } else {
-                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date", "Agent Email");
+                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date",
+                        "Agent Email");
                 System.out.println("-------------------------------------------------------------------------------");
                 for (Paiement paiement : paiements) {
                     System.out.printf("%-5d || %-10.2f || %-15s || %-10s || %-20s%n",
@@ -241,7 +250,8 @@ public class PaiementController {
             if (paiements.isEmpty()) {
                 agentView.showMessage("Aucun paiement trouvé pour la date: " + dateStr);
             } else {
-                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date", "Agent Email");
+                System.out.printf("%-5s || %-10s || %-15s || %-10s || %-20s%n", "ID", "Montant", "Type", "Date",
+                        "Agent Email");
                 System.out.println("-------------------------------------------------------------------------------");
                 for (Paiement paiement : paiements) {
                     System.out.printf("%-5d || %-10.2f || %-15s || %-10s || %-20s%n",
@@ -258,16 +268,120 @@ public class PaiementController {
     }
 
     public void handleEditSalary() {
+        try {
+            int paiementID = Integer.parseInt(agentView.getInput("paiement ID"));
+            Optional<Paiement> paiementOptional = paiementService.getPaiementById(paiementID);
 
+            if (paiementOptional.isPresent()) {
+                Paiement paiement = paiementOptional.get();
+
+                Paiement updatedPaiement = agentView.getEditPaiementInput(TypePaiement.SALAIRE);
+                updatedPaiement.setPaiementID(paiementID);
+
+                boolean success = paiementService.modifierPaiement(updatedPaiement);
+
+                if (success) {
+                    agentView.showMessage("Le paiement a été modifié avec succès.");
+                } else {
+                    agentView.showMessage("Échec de la modification du paiement.");
+                }
+            } else {
+                agentView.showMessage("Aucun paiement trouvé avec l'ID fourni.");
+            }
+
+        } catch (NumberFormatException e) {
+            agentView.showMessage("L'ID du paiement doit être un nombre valide.");
+        } catch (RuntimeException e) {
+            agentView.showMessage("Erreur lors de la modification du paiement : " + e.getMessage());
+        }
     }
 
     public void handleEditPrime() {
+        try {
+            int paiementID = Integer.parseInt(agentView.getInput("paiement ID"));
+            Optional<Paiement> paiementOptional = paiementService.getPaiementById(paiementID);
 
+            if (paiementOptional.isPresent()) {
+                Paiement paiement = paiementOptional.get();
+
+                Paiement updatedPaiement = agentView.getEditPaiementInput(TypePaiement.PRIME);
+                updatedPaiement.setPaiementID(paiementID);
+
+                boolean success = paiementService.modifierPaiement(updatedPaiement);
+
+                if (success) {
+                    agentView.showMessage("Le paiement a été modifié avec succès.");
+                } else {
+                    agentView.showMessage("Échec de la modification du paiement.");
+                }
+            } else {
+                agentView.showMessage("Aucun paiement trouvé avec l'ID fourni.");
+            }
+
+        } catch (NumberFormatException e) {
+            agentView.showMessage("L'ID du paiement doit être un nombre valide.");
+        } catch (RuntimeException e) {
+            agentView.showMessage("Erreur lors de la modification du paiement : " + e.getMessage());
+        }
     }
 
     public void handleVerifieBonus() {
+        try {
+            int paiementID = Integer.parseInt(agentView.getInput("Bonuss ID"));
+            Optional<Paiement> paiementOptional = paiementService.getPaiementById(paiementID);
+            if (paiementOptional.isPresent()) {
+                Paiement paiement = paiementOptional.get();
+//                System.out.println(paiement);
+                if (paiement.getTypePaiement() == TypePaiement.BONUS) {
+                    paiement.setConditionvalide(true);
+                    boolean success = paiementService.validerConditionService(paiement);
+//                    System.out.println(success);
+                    if (success) {
+                        agentView.showMessage("Le paiement du type bonus validé avec succès.");
+                    } else {
+                        agentView.showMessage("Échec de la modification du paiement.");
+                    }
+                } else {
+                    agentView.showMessage("Le paiement trouvé n'est pas de type BONUS.");
+                }
+            } else {
+                agentView.showMessage("Aucun paiement trouvé avec l'ID fourni.");
+            }
+
+        } catch (NumberFormatException e) {
+            agentView.showMessage("L'ID du paiement doit être un nombre valide.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur lors de la vérification du paiement : " + e.getMessage());
+        }
     }
 
     public void handleVerifieIndemnity() {
+        try {
+            int paiementID = Integer.parseInt(agentView.getInput("Indimenite ID"));
+            Optional<Paiement> paiementOptional = paiementService.getPaiementById(paiementID);
+
+            if (paiementOptional.isPresent()) {
+                Paiement paiement = paiementOptional.get();
+                if (paiement.getTypePaiement() == TypePaiement.INDEMNITE) {
+                    paiement.setConditionvalide(true);
+                    boolean success = paiementService.validerConditionService(paiement);
+                    if (success) {
+                        agentView.showMessage("Le paiement avec le type indemnite validé avec succès.");
+                    } else {
+                        agentView.showMessage("Échec de la modification du paiement.");
+                    }
+                } else {
+                    agentView.showMessage("Le paiement trouvé n'est pas de type INDEMNITE.");
+                }
+            } else {
+                agentView.showMessage("Aucun paiement trouvé avec l'ID fourni.");
+            }
+
+        } catch (NumberFormatException e) {
+            agentView.showMessage("L'ID du paiement doit être un nombre valide.");
+        } catch (Exception e) {
+            agentView.showMessage("Erreur lors de la vérification du paiement : " + e.getMessage());
+        }
     }
+
 }

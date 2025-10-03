@@ -18,4 +18,6 @@ public interface PaiementService {
     List<Paiement> getPaiementTotalByDepartement();
 
     List<Paiement> getAllPaiement();
+
+    boolean validerConditionService(Paiement paiement)throws Exception;
 }

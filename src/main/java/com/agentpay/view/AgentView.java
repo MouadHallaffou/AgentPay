@@ -15,6 +15,10 @@ public class AgentView {
     private static final Scanner scanner = new Scanner(System.in);
     private final AgentService agentService;
 
+    Paiement paiement = new Paiement();
+    PaiementBonus paiementBonus = new PaiementBonus();
+    PaiementIndemenite paiementIndemenite = new PaiementIndemenite();
+
     public AgentView(AgentService agentService) {
         this.agentService = agentService;
     }
@@ -73,18 +77,6 @@ public class AgentView {
         return agent;
     }
 
-    private String generatePassword(String firstName) {
-        return firstName.toLowerCase() + "123";
-    }
-
-    public static int getChoice() {
-        try {
-            return Integer.parseInt(scanner.nextLine());
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-    }
-
     // update agent
     public Agent getUpdateAgentInput(int userID) {
         System.out.println("=== Update Agent ===");
@@ -132,12 +124,21 @@ public class AgentView {
         return agent;
     }
 
+    private String generatePassword(String firstName) {
+        return firstName.toLowerCase() + "123";
+    }
+
+    public static int getChoice() {
+        try {
+            return Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
     // CREER UN PAIEMENT
-    public Paiement getPaiementInput(TypePaiement typePaiement) {
+    public Paiement getCreatePaiementInput(TypePaiement typePaiement) {
         System.out.println("=== Create New Payment (" + typePaiement + ") ===");
-        Paiement paiement = new Paiement();
-        PaiementBonus paiementBonus = new PaiementBonus();
-        PaiementIndemenite paiementIndemenite = new PaiementIndemenite();
 
         double montant = Double.parseDouble(getInput("Montant"));
         String dateStr = getInput("Date (YYYY-MM-DD HH:MM:SS)");
@@ -156,19 +157,67 @@ public class AgentView {
         paiement.setTypePaiement(typePaiement);
         paiement.setMotif(motif);
 
-        if (typePaiement.equals(TypePaiement.BONUS)) {
-            paiementBonus.setConditionvalide(false);
-            paiementBonus.setPaiement(paiement);
-            paiement.setPaiementBonus(paiementBonus);
-        } else if (typePaiement.equals(TypePaiement.INDEMNITE)) {
-            paiementIndemenite.setConditionvalide(false);
-            paiementIndemenite.setPaiement(paiement);
-            paiement.setPaiementIndemenite(paiementIndemenite);
+        switch (typePaiement) {
+            case BONUS:
+                paiementBonus.setConditionvalide(false);
+                paiementBonus.setPaiement(paiement);
+                paiement.setPaiementBonus(paiementBonus);
+                break;
+
+            case INDEMNITE:
+                paiementIndemenite.setConditionvalide(false);
+                paiementIndemenite.setPaiement(paiement);
+                paiement.setPaiementIndemenite(paiementIndemenite);
+                break;
+            default:
+                break;
         }
 
         Optional<Agent> agent = agentService.getAgentById(id);
         agent.orElseThrow(() -> new RuntimeException("l'agent assigne n'existe pas!"));
         paiement.setAgent(agent.get());
+        return paiement;
+    }
+
+    public Paiement getEditPaiementInput(TypePaiement typePaiement) {
+        System.out.println("=== Update du paiement (" + typePaiement + ") ===");
+
+        double montant = Double.parseDouble(getInput("Montant"));
+        String dateStr = getInput("Date (YYYY-MM-DD HH:MM:SS)");
+        String motif = getInput("Motif");
+//        int agentId = Integer.parseInt(getInput("ID de l'agent"));
+
+        Date date;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            date = new Date();
+            System.out.println("Format de date invalide. Date enregistre est : " + date);
+        }
+
+        Paiement paiement = new Paiement();
+        paiement.setMontant(montant);
+        paiement.setDatePaiement(date);
+        paiement.setTypePaiement(typePaiement);
+        paiement.setMotif(motif);
+
+        switch (typePaiement) {
+            case BONUS:
+                paiementBonus.setConditionvalide(true);
+                paiementBonus.setPaiement(paiement);
+                paiement.setPaiementBonus(paiementBonus);
+                break;
+
+            case INDEMNITE:
+                paiementIndemenite.setConditionvalide(true);
+                paiementIndemenite.setPaiement(paiement);
+                paiement.setPaiementIndemenite(paiementIndemenite);
+                break;
+            default:
+                break;
+        }
+
         return paiement;
     }
 

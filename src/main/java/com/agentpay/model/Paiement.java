@@ -79,7 +79,7 @@ public class Paiement {
     }
 
     public void setConditionvalide(boolean conditionvalide) {
-        this.conditionvalide = true;
+        this.conditionvalide = conditionvalide;
     }
 
     public PaiementBonus getPaiementBonus() {

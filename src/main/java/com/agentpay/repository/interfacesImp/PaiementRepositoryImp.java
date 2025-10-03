@@ -13,6 +13,7 @@ import main.java.com.agentpay.utils.SQLQueries;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,13 +53,13 @@ public class PaiementRepositoryImp implements PaiementRepository {
     public boolean update(Paiement entity) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQLQueries.updateQuery(
-                    "paiements", "paiementID", "type_paiement", "datePaiement", "motif", "montant", "agentID"));
+                    "paiements", "paiementID", "type_paiement", "datePaiement", "motif", "montant" ,"condition_validee"));
             statement.setString(1, entity.getTypePaiement().name());
             statement.setDate(2, new Date(entity.getDatePaiement().getTime()));
             statement.setString(3, entity.getMotif());
             statement.setDouble(4, entity.getMontant());
-            statement.setInt(5, entity.getAgent().getUserID());
-            statement.setInt(6, entity.getPaiementID());
+            statement.setInt(5, entity.getPaiementID());
+            statement.setBoolean(6, entity.isConditionvalide());
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0;
@@ -123,7 +124,7 @@ public class PaiementRepositoryImp implements PaiementRepository {
         } catch (SQLException e) {
             System.out.println("Erreur lors de la récupération des paiements: " + e.getMessage());
         }
-        return java.util.Collections.emptyList();
+        return Collections.emptyList();
     }
 
     @Override
@@ -156,4 +157,21 @@ public class PaiementRepositoryImp implements PaiementRepository {
         }
         return paiementList;
     }
+
+     @Override
+    public boolean updateConditionValidee(Paiement paiement) {
+        try {
+            System.out.println("hello");
+            PreparedStatement statement = connection.prepareStatement(SQLQueries.updateQuery(
+                    "paiements", "paiementID", "condition_validee"));
+            statement.setBoolean(1, paiement.isConditionvalide());
+            statement.setInt(2, paiement.getPaiementID());
+            int rowsAffected = statement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

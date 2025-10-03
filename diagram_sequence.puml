@@ -1,0 +1,16 @@
+@startuml
+actor Responsable
+participant Controller
+participant PaymentService
+participant PaymentRepository
+database db
+
+
+Responsable -> Controller : Ajouter un paiement
+Controller -> PaymentService : ajout
+PaymentService -> PaymentRepository : addPayment()
+PaymentRepository -> db : save()
+
+
+
+@enduml

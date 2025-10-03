@@ -7,4 +7,5 @@ import java.util.List;
 public interface PaiementRepository extends GenericRepository<Paiement> {
     // Hérite des méthodes génériques: insert, update, delete, findById, findAll
     List<Paiement> getPaiementByDepartement() throws SQLException;
+    boolean updateConditionValidee(Paiement entity);
 }

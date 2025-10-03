@@ -225,10 +225,10 @@ public class AuthController {
                     paiementController.handleVerifieBonus();
                     break;
                 case 7:
-                    paiementController.handleVerifieIndemnity();
+                    paiementController.handleAddIndemnity();
                     break;
                 case 8:
-                    paiementController.handleAddIndemnity();
+                    paiementController.handleVerifieIndemnity();
                     break;
                 case 0:
                     stayInSubMenu = false;
