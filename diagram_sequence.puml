@@ -1,16 +1,39 @@
 @startuml
-actor Responsable
-participant Controller
-participant PaymentService
-participant PaymentRepository
-database db
+title Processus "Erreur d'enregistrement de Paiement"
 
+actor "Directeur" as U
 
-Responsable -> Controller : Ajouter un paiement
-Controller -> PaymentService : ajout
-PaymentService -> PaymentRepository : addPayment()
-PaymentRepository -> db : save()
+U -> VIEW : Saisir Paiement (type, montant, agent)
+VIEW -> CONTROLLER : transmettre Paiement
+CONTROLLER -> SERVICE : enregistrerPaiement(paiement)
 
+alt Validation Générale
+    SERVICE -> SERVICE : Vérif typePaiement != null\nVérif montant > 0
+end
 
+alt Validation Spécifique
+    SERVICE -> SERVICE : Vérif règles métier selon type\n(SALAIRE, PRIME, BONUS, INDEMNITÉ)
+end
 
+alt Erreur Validation
+    SERVICE --> CONTROLLER : throw ValidationException / IllegalArgumentException
+    CONTROLLER --> VIEW : transmettre message erreur
+    VIEW --> U : Affichage "Erreur de validation"
+else Validation OK
+    SERVICE -> REPOSITORY : insert(paiement)
+    REPOSITORY -> DATABASE : INSERT paiement
+    alt Erreur SQL
+        DATABASE --> REPOSITORY : SQLException
+        REPOSITORY --> SERVICE : SQLException
+        SERVICE --> CONTROLLER : RuntimeException
+        CONTROLLER --> VIEW : transmettre message erreur technique
+        VIEW --> U : Affichage "Erreur système"
+    else Insertion OK
+        DATABASE --> REPOSITORY : Succès
+        REPOSITORY --> SERVICE : true
+        SERVICE --> CONTROLLER : true
+        CONTROLLER --> VIEW : Message succès
+        VIEW --> U : "Paiement enregistré avec succès ✅"
+    end
+end
 @enduml
