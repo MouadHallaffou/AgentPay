@@ -5,9 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Scanner;
-import main.java.com.agentpay.model.Agent;
-import main.java.com.agentpay.model.Departement;
-import main.java.com.agentpay.model.Paiement;
+
+import main.java.com.agentpay.model.*;
 import main.java.com.agentpay.model.enums.TypeAgent;
 import main.java.com.agentpay.model.enums.TypePaiement;
 import main.java.com.agentpay.service.interfaces.AgentService;
@@ -136,24 +135,37 @@ public class AgentView {
     // CREER UN PAIEMENT
     public Paiement getPaiementInput(TypePaiement typePaiement) {
         System.out.println("=== Create New Payment (" + typePaiement + ") ===");
+        Paiement paiement = new Paiement();
+        PaiementBonus paiementBonus = new PaiementBonus();
+        PaiementIndemenite paiementIndemenite = new PaiementIndemenite();
 
         double montant = Double.parseDouble(getInput("Montant"));
-        String dateStr = getInput("Date (YYYY-MM-DD HH:MM:SS)");        
+        String dateStr = getInput("Date (YYYY-MM-DD HH:MM:SS)");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd H:m:s");
         Date date;
         try {
             date = simpleDateFormat.parse(dateStr);
         } catch (ParseException e) {
-            System.out.println("Invalid date format.");
             date = new Date();
+            System.out.println("Invalid date format. la date enregistre est : " + date);
         }
         String motif = getInput("motif");
         int id = Integer.parseInt(getInput("user"));
-        Paiement paiement = new Paiement();
         paiement.setMontant(montant);
         paiement.setDatePaiement(date);
         paiement.setTypePaiement(typePaiement);
         paiement.setMotif(motif);
+
+        if (typePaiement.equals(TypePaiement.BONUS)) {
+            paiementBonus.setConditionvalide(false);
+            paiementBonus.setPaiement(paiement);
+            paiement.setPaiementBonus(paiementBonus);
+        } else if (typePaiement.equals(TypePaiement.INDEMNITE)) {
+            paiementIndemenite.setConditionvalide(false);
+            paiementIndemenite.setPaiement(paiement);
+            paiement.setPaiementIndemenite(paiementIndemenite);
+        }
+
         Optional<Agent> agent = agentService.getAgentById(id);
         agent.orElseThrow(() -> new RuntimeException("l'agent assigne n'existe pas!"));
         paiement.setAgent(agent.get());

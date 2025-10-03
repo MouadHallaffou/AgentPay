@@ -74,6 +74,7 @@ public class Menu {
         System.out.println("2.➤ Gestion des paiements");
         System.out.println("3.➤ Statistiques du département");
         System.out.println("0.➤ Déconnexion");
+        System.out.print("Votre choix: ");
     }
 
     public static void afficherMenuGestionAgentsResponsable() {
@@ -94,9 +95,11 @@ public class Menu {
         System.out.println("║   Gestion des Paiements     ║");
         System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Ajouter un salaire");
-        System.out.println("2.➤ Ajouter une prime");
-        System.out.println("3.➤ Consulter les paiements d'un agent");
-        System.out.println("4.➤ Filtrer les paiements");
+        System.out.println("2.➤ Modifier un salaire");
+        System.out.println("3.➤ Ajouter une prime");
+        System.out.println("4.➤ Modifier une prime");
+        System.out.println("5.➤ Consulter les paiements d'un agent");
+        System.out.println("6.➤ Filtrer les paiements");
         System.out.println("0.➤ Retour");
     }
 
@@ -139,9 +142,13 @@ public class Menu {
         System.out.println("║ Choisir le type de paiement ║");
         System.out.println("╚═════════════════════════════╝");
         System.out.println("1.➤ Add un Salaire");
-        System.out.println("2.➤ Add une Prime");
-        System.out.println("3.➤ Add un Bonus");
-        System.out.println("4.➤ Add une Indemnité");
+        System.out.println("2.➤ Edit un Salaire");
+        System.out.println("3.➤ Add une Prime");
+        System.out.println("4.➤ Edit une Prime");
+        System.out.println("5.➤ Add un Bonus");
+        System.out.println("6.➤ Virifie un Bonus");
+        System.out.println("7.➤ Add une Indemnité");
+        System.out.println("8.➤ Verifie une Indemnité");
         System.out.println("0.➤ Retour");
         System.out.print("Votre choix: ");
     }

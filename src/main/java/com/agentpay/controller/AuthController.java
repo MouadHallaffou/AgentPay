@@ -210,12 +210,24 @@ public class AuthController {
                     paiementController.handleAddSalary();
                     break;
                 case 2:
-                    paiementController.handleAddPrime();
+                    paiementController.handleEditSalary();
                     break;
                 case 3:
-                    paiementController.handleAddBonus();
+                    paiementController.handleAddPrime();
                     break;
                 case 4:
+                    paiementController.handleEditPrime();
+                    break;
+                case 5:
+                    paiementController.handleAddBonus();
+                    break;
+                case 6:
+                    paiementController.handleVerifieBonus();
+                    break;
+                case 7:
+                    paiementController.handleVerifieIndemnity();
+                    break;
+                case 8:
                     paiementController.handleAddIndemnity();
                     break;
                 case 0:
@@ -328,12 +340,18 @@ public class AuthController {
                     paiementController.handleAddSalary();
                     break;
                 case 2:
-                    paiementController.handleAddPrime();
+                    paiementController.handleEditSalary();
                     break;
                 case 3:
-                    paiementController.handleViewAgentPayments();
+                    paiementController.handleAddPrime();
                     break;
                 case 4:
+                    paiementController.handleEditPrime();
+                    break;
+                case 5:
+                    paiementController.handleViewAgentPayments();
+                    break;
+                case 6:
                     paiementController.handleFilterPayments();
                     break;
                 case 0:

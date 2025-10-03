@@ -1,18 +1,23 @@
 package main.java.com.agentpay.model;
 
-public class PaiementIndemenite {
-    private boolean conditionvalide;
 
-    public void setConditionvalide(boolean conditionvalide) {
-        this.conditionvalide = conditionvalide;
+import main.java.com.agentpay.model.enums.TypePaiement;
+
+public class PaiementIndemenite extends Paiement{
+    private Paiement paiement;
+    public PaiementIndemenite() {
     }
 
-    public PaiementIndemenite(boolean conditionvalide) {
-        this.conditionvalide = conditionvalide;
+    public PaiementIndemenite(int paiementID, TypePaiement typePaiement, String motif, Agent agent) {
+        super(paiementID, typePaiement, motif, agent);
     }
 
-    public boolean isConditionvalide() {
-        return conditionvalide;
+    public void setPaiement(Paiement paiement) {
+        this.paiement = paiement;
+    }
+
+    public Paiement getPaiement() {
+        return paiement;
     }
 
 }

@@ -9,9 +9,9 @@ public class Console {
     public static void start() {
         try {
             ConfigConnection.getInstance();
-            System.out.println("╔═══════════════════════════════════════════╗");
-            System.out.println("║   Welcome to AgentPay Management System   ║");
-            System.out.println("╚═══════════════════════════════════════════╝");
+            System.out.println("╔═════════════════════════════╗");
+            System.out.println("║    Welcome to AgentPay MS   ║");
+            System.out.println("╚═════════════════════════════╝");
         } catch (DatabaseConnectionException e) {
             System.err.println("Database connection failed: " + e.getMessage());
             return;
